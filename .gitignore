@@ -1,0 +1,9 @@
+# temp files #
+##############
+*.swp
+*.pyc
+*~
+
+# Node #
+########
+*/node_modules/
