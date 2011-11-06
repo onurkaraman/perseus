@@ -3,17 +3,29 @@ var parser = (function(){
 undefined
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"hex_strings":3,"HEX":4,"$accept":0,"$end":1},
-terminals_: {2:"error",4:"HEX"},
-productions_: [0,[3,2],[3,1]],
+symbols_: {"error":2,"file":3,"tokens":4,"EOF":5,"array":6,"[":7,"elementlist":8,"]":9,",":10,"number":11,"NUMBER":12,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",7:"[",9:"]",10:",",12:"NUMBER"},
+productions_: [0,[3,2],[4,1],[6,3],[8,3],[8,1],[11,1]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
 switch (yystate) {
+case 1:return $$[$0-1];
+break;
+case 2:this.$ = $$[$0];
+break;
+case 3:this.$ = $$[$0-1];
+break;
+case 4:this.$ = $$[$0-2]; $$[$0-2].push($$[$0]);
+break;
+case 5:this.$ = [$$[$0]];
+break;
+case 6:this.$ = Number(yytext);
+break;
 }
 },
-table: [{3:1,4:[1,2]},{1:[3],4:[1,3]},{1:[2,2],4:[2,2]},{1:[2,1],4:[2,1]}],
-defaultActions: {},
+table: [{3:1,4:2,6:3,7:[1,4]},{1:[3]},{5:[1,5]},{5:[2,2]},{8:6,11:7,12:[1,8]},{1:[2,1]},{9:[1,9],10:[1,10]},{9:[2,5],10:[2,5]},{9:[2,6],10:[2,6]},{5:[2,3]},{11:11,12:[1,8]},{9:[2,4],10:[2,4]}],
+defaultActions: {3:[2,2],5:[2,1],9:[2,3]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
 },
@@ -320,12 +332,20 @@ var YYSTATE=YY_START
 switch($avoiding_name_collisions) {
 case 0:/* skip whitespace */
 break;
-case 1:return 4;
+case 1:return 12;
+break;
+case 2:return 10;
+break;
+case 3:return 7;
+break;
+case 4:return 9;
+break;
+case 5:return 5;
 break;
 }
 };
-lexer.rules = [/^\s+/,/^[a-f0-9]+/];
-lexer.conditions = {"INITIAL":{"rules":[0,1],"inclusive":true}};return lexer;})()
+lexer.rules = [/^\s+/,/^[0-9]+(?:\.[0-9]+)?\b/,/^,/,/^\[/,/^\]/,/^$/];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5],"inclusive":true}};return lexer;})()
 parser.lexer = lexer;
 return parser;
 })();

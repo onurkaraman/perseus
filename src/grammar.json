@@ -1,13 +1,31 @@
 {
 	"lex": {
 		"rules": [
-		   ["\\s+", "/* skip whitespace */"],
-		   ["[a-f0-9]+", "return 'HEX';"]
+			["\\s+",					"/* skip whitespace */"],
+			["[0-9]+(?:\\.[0-9]+)?\\b",	"return 'NUMBER';"],
+			[",",						"return ',';"],
+			["\\[",						"return '[';"],
+			["\\]",						"return ']';"],
+			["$",						"return 'EOF';"]
 		]
 	},
 
 	"bnf": {
-		"hex_strings" :[ "hex_strings HEX",
-						 "HEX" ]
+		"file": [
+			["tokens EOF",			"return $1;"]
+		],
+		"tokens": [
+			["array",				"$$ = $1;"]
+		],
+		"array": [
+			["[ elementlist ]",	"$$ = $2;"]
+		],
+		"elementlist": [
+			["elementlist , number",	"$$ = $1; $1.push($3);"],
+			["number",						"$$ = [$1];"]
+		],
+		"number": [
+			["NUMBER", 						"$$ = Number(yytext);"]
+		]
 	}
 }
