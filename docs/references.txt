@@ -1,3 +1,4 @@
 http://www.stanford.edu/class/cs143/lectures/
 http://docs.python.org/reference/lexical_analysis.html
 http://jashkenas.github.com/coffee-script/documentation/docs/grammar.html
+http://docs.python.org/reference/grammar.html
