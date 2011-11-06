@@ -3,9 +3,9 @@ var parser = (function(){
 undefined
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"file":3,"tokens":4,"EOF":5,"array":6,"[":7,"elementlist":8,"]":9,",":10,"number":11,"NUMBER":12,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",7:"[",9:"]",10:",",12:"NUMBER"},
-productions_: [0,[3,2],[4,1],[6,3],[8,3],[8,1],[11,1]],
+symbols_: {"error":2,"file":3,"tokens":4,"EOF":5,"array":6,"[":7,"elementlist":8,"]":9,",":10,"element":11,"number":12,"string":13,"NUMBER":14,"STRING":15,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",7:"[",9:"]",10:",",14:"NUMBER",15:"STRING"},
+productions_: [0,[3,2],[4,1],[6,3],[8,3],[8,1],[11,1],[11,1],[12,1],[13,1]],
 performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
 
 var $0 = $$.length - 1;
@@ -20,12 +20,18 @@ case 4:this.$ = $$[$0-2]; $$[$0-2].push($$[$0]);
 break;
 case 5:this.$ = [$$[$0]];
 break;
-case 6:this.$ = Number(yytext);
+case 6:this.$ = $$[$0];
+break;
+case 7:this.$ = $$[$0];
+break;
+case 8:this.$ = Number(yytext);
+break;
+case 9:this.$ = yytext;
 break;
 }
 },
-table: [{3:1,4:2,6:3,7:[1,4]},{1:[3]},{5:[1,5]},{5:[2,2]},{8:6,11:7,12:[1,8]},{1:[2,1]},{9:[1,9],10:[1,10]},{9:[2,5],10:[2,5]},{9:[2,6],10:[2,6]},{5:[2,3]},{11:11,12:[1,8]},{9:[2,4],10:[2,4]}],
-defaultActions: {3:[2,2],5:[2,1],9:[2,3]},
+table: [{3:1,4:2,6:3,7:[1,4]},{1:[3]},{5:[1,5]},{5:[2,2]},{8:6,11:7,12:8,13:9,14:[1,10],15:[1,11]},{1:[2,1]},{9:[1,12],10:[1,13]},{9:[2,5],10:[2,5]},{9:[2,6],10:[2,6]},{9:[2,7],10:[2,7]},{9:[2,8],10:[2,8]},{9:[2,9],10:[2,9]},{5:[2,3]},{11:14,12:8,13:9,14:[1,10],15:[1,11]},{9:[2,4],10:[2,4]}],
+defaultActions: {3:[2,2],5:[2,1],12:[2,3]},
 parseError: function parseError(str, hash) {
     throw new Error(str);
 },
@@ -332,20 +338,22 @@ var YYSTATE=YY_START
 switch($avoiding_name_collisions) {
 case 0:/* skip whitespace */
 break;
-case 1:return 12;
+case 1:return 14;
 break;
-case 2:return 10;
+case 2:yy_.yytext = yy_.yytext.substr(1,yy_.yyleng-2); return 15;
 break;
-case 3:return 7;
+case 3:return 10;
 break;
-case 4:return 9;
+case 4:return 7;
 break;
-case 5:return 5;
+case 5:return 9;
+break;
+case 6:return 5;
 break;
 }
 };
-lexer.rules = [/^\s+/,/^[0-9]+(?:\.[0-9]+)?\b/,/^,/,/^\[/,/^\]/,/^$/];
-lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5],"inclusive":true}};return lexer;})()
+lexer.rules = [/^\s+/,/^[0-9]+(?:\.[0-9]+)?\b/,/^"(?:\\["bfnrt/\\]|\\u[a-fA-F0-9]{4}|[^"\\])*"/,/^,/,/^\[/,/^\]/,/^$/];
+lexer.conditions = {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}};return lexer;})()
 parser.lexer = lexer;
 return parser;
 })();

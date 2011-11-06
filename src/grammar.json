@@ -1,8 +1,17 @@
 {
+	"comment": "Heavily referenced https://github.com/zaach/jison/blob/master/examples/json_ast.js",
 	"lex": {
+		"macros": {
+			"digit": "[0-9]",
+			"esc": "\\\\",
+			"int": "-?(?:[0-9]|[1-9][0-9]+)",
+			"exp": "(?:[eE][-+]?[0-9]+)",
+			"frac": "(?:\\.[0-9]+)"
+		},
 		"rules": [
 			["\\s+",					"/* skip whitespace */"],
-			["[0-9]+(?:\\.[0-9]+)?\\b",	"return 'NUMBER';"],
+			["[0-9]+(?:\\.[0-9]+)?\\b",			"return 'NUMBER';"],
+			["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}])*\"", "yytext = yytext.substr(1,yyleng-2); return 'STRING';"],
 			[",",						"return ',';"],
 			["\\[",						"return '[';"],
 			["\\]",						"return ']';"],
@@ -12,20 +21,27 @@
 
 	"bnf": {
 		"file": [
-			["tokens EOF",			"return $1;"]
+			["tokens EOF",					"return $1;"]
 		],
 		"tokens": [
-			["array",				"$$ = $1;"]
+			["array",					"$$ = $1;"]
 		],
 		"array": [
-			["[ elementlist ]",	"$$ = $2;"]
+			["[ elementlist ]",				"$$ = $2;"]
 		],
 		"elementlist": [
-			["elementlist , number",	"$$ = $1; $1.push($3);"],
-			["number",						"$$ = [$1];"]
+			["elementlist , element",			"$$ = $1; $1.push($3);"],
+			["element",					"$$ = [$1];"]
+		],
+		"element": [
+			["number",					"$$ = $1;"],
+			["string",					"$$ = $1;"]
 		],
 		"number": [
-			["NUMBER", 						"$$ = Number(yytext);"]
+			["NUMBER", 					"$$ = Number(yytext);"]
+		],
+		"string": [
+			["STRING",					"$$ = yytext;"]
 		]
 	}
 }
