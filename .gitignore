@@ -7,3 +7,7 @@
 # Node #
 ########
 */node_modules/
+
+# Generated parser #
+####################
+src/parser.js

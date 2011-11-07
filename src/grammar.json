@@ -2,20 +2,64 @@
 	"comment": "Heavily referenced https://github.com/zaach/jison/blob/master/examples/json_ast.js",
 	"lex": {
 		"macros": {
-			"digit": "[0-9]",
 			"esc": "\\\\",
-			"int": "-?(?:[0-9]|[1-9][0-9]+)",
-			"exp": "(?:[eE][-+]?[0-9]+)",
-			"frac": "(?:\\.[0-9]+)"
+
+			"lowercase": "[a-z]",
+			"uppercase": "[A-Z]",
+			"letter": "{lowercase} | {uppercase}",
+			"digit": "[0-9]",
+
+			"nonzerodigit": "[1-9]",
+			"octdigit": "[0-7]",
+			"bindigit": "0 | 1",
+			"hexdigit": "{digit} | [a-f] | [A-F]"
+
 		},
 		"rules": [
-			["\\s+",					"/* skip whitespace */"],
+			["\\s+",							"/* skip whitespace */"],
+
+			["and",			"return 'AND';"],
+			["as",			"return 'AS';"],
+			["assert",		"return 'ASSERT';"],
+			["break",		"return 'BREAK';"],
+			["class",		"return 'CLASS';"],
+			["continue",	"return 'CONTINUE';"],
+			["def",			"return 'DEF';"],
+			["del",			"return 'DEL';"],
+			["elif",		"return 'ELIF';"],
+			["else",		"return 'ELSE';"],
+			["except",		"return 'EXCEPT';"],
+			["exec",		"return 'EXEC';"],
+			["finally",		"return 'FINALLY';"],
+			["for",			"return 'FOR';"],
+			["from",		"return 'FROM';"],
+			["global",		"return 'GLOBAL';"],
+			["if",			"return 'IF';"],
+			["import",		"return 'IMPORT';"],
+			["in",			"return 'IN';"],
+			["is",			"return 'IS';"],
+			["lambda",		"return 'LAMBDA';"],
+			["not",			"return 'NOT';"],
+			["or",			"return 'OR';"],
+			["pass",		"return 'PASS';"],
+			["print",		"return 'PRINT';"],
+			["raise",		"return 'RAISE';"],
+			["return",		"return 'RETURN';"],
+			["try",			"return 'TRY';"],
+			["while",		"return 'WHILE';"],
+			["with",		"return 'WITH';"],
+			["yield",		"return 'YIELD';"],
+
 			["[0-9]+(?:\\.[0-9]+)?\\b",			"return 'NUMBER';"],
 			["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}])*\"", "yytext = yytext.substr(1,yyleng-2); return 'STRING';"],
-			[",",						"return ',';"],
+
+			["({letter} | {esc}_) (letter | digit | {esc}_)*",		"return 'IDENTIFIER';"],
+
+
+			[",",							"return ',';"],
 			["\\[",						"return '[';"],
 			["\\]",						"return ']';"],
-			["$",						"return 'EOF';"]
+			["$",							"return 'EOF';"]
 		]
 	},
 
