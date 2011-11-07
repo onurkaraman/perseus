@@ -1,0 +1,147 @@
+Onur Karaman: karaman1
+Jiawei Li: li65
+
+CS242 Final Project Proposal
+
+Functionality
+	Create a Python-to-JS “compiler,” similar to CoffeeScript.
+	If time permits, implement server-side integration that would output Node.js code.
+
+Languages
+	Python, JavaScript
+
+Libraries
+	Python standard library
+	Jison compiler
+
+Platforms
+	Cross-platform
+
+Why you chose this
+	To understand compilers
+
+Who will use this
+	Anyone who wants to speed up development of client-side JavaScript or has legacy
+	Python code running on their server and wants to port it over to Node.js.
+
+Features
+	Compile any python file to javascript:
+		Built-in constants
+		Built-in exceptions
+		Built-in types
+		Built-in functions
+		Lex python code.
+		Use grammar rules to do bottom-up parsing to output JavaScript
+
+Testing
+	We will write sample Python code and will run sample inputs on that code. 
+	Then use our compiler to translate the Python code to Javascript.
+	Then run the Javascript code with the same inputs and make sure the outputs match.
+
+LEXING:
+	Types of Tokens:
+		Spacing
+			NEWLINE
+			INDENT
+			DEDENT
+		Identifiers
+		Keywords
+		Literals
+		Operators
+		Delimiters
+Timeline
+	Week 1: Lex tokens
+		Onur:
+			Spacing
+			Keywords
+			Operators
+		Jiawei:
+			Identifiers
+			Literals
+			Delimiters
+
+	Week 2: Implement grammar rules and their semantic meaning
+		Alternating based on this full grammar specification: http://docs.python.org/reference/grammar.html
+
+	Week 3: Implement library functions
+		Onur:
+			abs
+			any
+			bin
+			bytearray
+			chr
+			cmp
+			complex
+			dict
+			divmod
+			eval
+			file
+			float
+			frozenset
+			globals
+			hash
+			hex
+			input
+			isinstance
+			iter
+			list
+			long
+			max
+			min
+			object
+			open
+			pow
+			property
+			reload
+			reversed
+			slice
+			staticmethod
+			sum
+			tuple
+			unichr
+			vars
+			zip
+			apply
+			coerce
+		Jiawei:
+			all
+			basestring
+			bool
+			callable
+			classmethod
+			compile
+			delattr
+			dir
+			enumerate
+			execfile
+			filter
+			format
+			getattr
+			hasattr
+			help
+			int
+			issubclass
+			len
+			locals
+			map
+			memoryview
+			next
+			oct
+			ord
+			print
+			range
+			reduce
+			repr
+			round
+			setattr
+			sorted
+			str
+			super
+			type
+			unicode
+			xrange
+			__import__
+			buffer
+			intern
+
+	Week 4: Debug and work on Nodejs functions if we have time.
