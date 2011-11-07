@@ -6,33 +6,33 @@
 
 			"lowercase": "[a-z]",
 			"uppercase": "[A-Z]",
-			"letter": "{lowercase} | {uppercase}",
+			"letter": "{lowercase}|{uppercase}",
 			"digit": "[0-9]",
 
 			"nonzerodigit": "[1-9]",
 			"octdigit": "[0-7]",
-			"bindigit": "0 | 1",
-			"hexdigit": "{digit} | [a-f] | [A-F]",
+			"bindigit": "0|1",
+			"hexdigit": "{digit}|[a-f]|[A-F]",
 			
-			"octinteger": "0 (o | 0) {octdigit}+ | 0 {octdigit}+",
-			"hexinteger": "0 (x | X) {hexdigit}+",
-			"bininteger": "0 (b | B) {bindigit}+",
-			"decimalinteger": "{nonzerodigit} {digit}* | 0",
+			"octinteger": "0(o|0){octdigit}+|0{octdigit}+",
+			"hexinteger": "0(x|X){hexdigit}+",
+			"bininteger": "0(b|B){bindigit}+",
+			"decimalinteger": "{nonzerodigit}{digit}*|0",
 			
-			"integer": "{decimalinteger} | {octinteger} | {hexinteger} | {bininteger}",
+			"integer": "{decimalinteger}|{octinteger}|{hexinteger}|{bininteger}",
 
-			"longinteger": "{integer} (l | L)",
+			"longinteger": "{integer}(l|L)",
 
 			"intpart": "{digit}+",
-			"fraction": "{esc}. {digit}+",
-			"exponent": "(e | E) ({esc}+ | {esc}-) {digit}+",
+			"fraction": "{esc}.{digit}+",
+			"exponent": "(e|E)({esc}+|{esc}-){digit}+",
 
-			"pointfloat": "({intpart} {fraction}) | ({intpart} {esc}.)",
-			"exponentfloat": "({intpart} | {pointfloat}) {exponent}",
+			"pointfloat": "({intpart}{fraction})|({intpart}{esc}.)",
+			"exponentfloat": "({intpart}|{pointfloat}){exponent}",
 			
-			"floatnumber": "{pointfloat} | {exponentfloat}",
+			"floatnumber": "{pointfloat}|{exponentfloat}",
 
-			"imagnumber": "({floatnumber} | {intpart}) (j | J)"
+			"imagnumber": "({floatnumber}|{intpart})(j|J)"
 
 		},
 		"rules": [
@@ -72,8 +72,8 @@
 			["{esc}-",		"return '-';"],
 			["{esc}*",		"return '*';"],
 			["{esc}*{esc}*","return '**';"],
-			["/",			"return '/';"],
-			["//",			"return '//';"],
+			["{esc}/",			"return '/';"],
+			["{esc}/{esc}/",			"return '//';"],
 			["%",			"return '%';"],
 			["<<",			"return '<<';"],
 			[">>",			"return '>>';"],
@@ -105,8 +105,8 @@
 			["{esc}+=",			"return '+=';"],
 			["-=",			"return '-=';"],
 			["{esc}*=",			"return '*=';"],
-			["/=",			"return '/=';"],
-			["//=",			"return '//=';"],
+			["{esc}/=",			"return '/=';"],
+			["{esc}/{esc}/=",			"return '//=';"],
 			["%=",			"return '%=';"],
 			["&=",			"return '&=';"],
 			["|=",			"return '|=';"],
@@ -118,12 +118,11 @@
 			["#",			"return '#';"],
 			["\\\\",			"return '\\\\';"],
 
-			["{integer} | {longinteger} | {floatnumber} | {imagnumber}",			"return 'NUMBER';"],
+			["{integer}|{longinteger}|{floatnumber}|{imagnumber}",			"return 'NUMBER';"],
 
-			["({letter} | _) (letter | digit | _)*",		"return 'NAME';"],
+			["({letter}|_)({letter}|{digit}|_)*",		"return 'NAME';"],
 
 
-			[",",						"return ',';"],
 			["\\[",						"return '[';"],
 			["\\]",						"return ']';"],
 			["$",						"return 'EOF';"]
