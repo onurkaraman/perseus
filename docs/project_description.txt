@@ -38,17 +38,9 @@ Testing
 	Then use our compiler to translate the Python code to Javascript.
 	Then run the Javascript code with the same inputs and make sure the outputs match.
 
-LEXING:
-	Types of Tokens:
-		Spacing
-			NEWLINE
-			INDENT
-			DEDENT
-		Identifiers
-		Keywords
-		Literals
-		Operators
-		Delimiters
+
+
+
 Timeline
 	Week 1: Lex tokens
 		Onur:
@@ -61,7 +53,8 @@ Timeline
 			Delimiters
 
 	Week 2: Implement grammar rules and their semantic meaning
-		Alternating based on this full grammar specification: http://docs.python.org/reference/grammar.html
+		Alternating based on full grammar specification:
+			http://docs.python.org/reference/grammar.html
 
 	Week 3: Implement library functions
 		Onur:
