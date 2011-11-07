@@ -2,7 +2,7 @@
 	"comment": "Heavily referenced https://github.com/zaach/jison/blob/master/examples/json_ast.js",
 	"lex": {
 		"macros": {
-			"esc": "\\\\",
+			"esc": "\\",
 
 			"lowercase": "[a-z]",
 			"uppercase": "[A-Z]",
@@ -89,10 +89,38 @@
 			["!=",			"return '!=';"],
 			["<>",			"return '<>';"],
 
-			["{integer} | {longinteger} | {floatnumber} | {imagnumber}",			"return 'NUMBER';"],
-			["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}])*\"", "yytext = yytext.substr(1,yyleng-2); return 'STRING';"],
+			["{esc}(",		"return '(';"],
+			["{esc})",		"return ')';"],
+			["{esc}[",		"return '[';"],
+			["{esc}]",		"return ']';"],
+			["{esc}{",		"return '{';"],
+			["{esc}}",		"return '}';"],
+			["@",			"return '@';"],
+			[",",			"return ',';"],
+			[":",			"return ':';"],
+			[".",			"return '.';"],
+			["`",			"return '`';"],
+			["=",			"return '=';"],
+			[";",			"return ';';"],
+			["{esc}+=",			"return '+=';"],
+			["-=",			"return '-=';"],
+			["{esc}*=",			"return '*=';"],
+			["/=",			"return '/=';"],
+			["//=",			"return '//=';"],
+			["%=",			"return '%=';"],
+			["&=",			"return '&=';"],
+			["|=",			"return '|=';"],
+			["{esc}^=",			"return '^=';"],
+			[">>=",			"return '>>=';"],
+			["<<=",			"return '<<=';"],
+			["{esc}*{esc}*=",			"return '**=';"],
 
-			["({letter} | {esc}_) (letter | digit | {esc}_)*",		"return 'NAME';"],
+			["#",			"return '#';"],
+			["\\\\",			"return '\\\\';"],
+
+			["{integer} | {longinteger} | {floatnumber} | {imagnumber}",			"return 'NUMBER';"],
+
+			["({letter} | _) (letter | digit | _)*",		"return 'NAME';"],
 
 
 			[",",						"return ',';"],
