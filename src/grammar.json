@@ -12,7 +12,27 @@
 			"nonzerodigit": "[1-9]",
 			"octdigit": "[0-7]",
 			"bindigit": "0 | 1",
-			"hexdigit": "{digit} | [a-f] | [A-F]"
+			"hexdigit": "{digit} | [a-f] | [A-F]",
+			
+			"octinteger": "0 (o | 0) {octdigit}+ | 0 {octdigit}+",
+			"hexinteger": "0 (x | X) {hexdigit}+",
+			"bininteger": "0 (b | B) {bindigit}+",
+			"decimalinteger": "{nonzerodigit} {digit}* | 0",
+			
+			"integer": "{decimalinteger} | {octinteger} | {hexinteger} | {bininteger}",
+
+			"longinteger": "{integer} (l | L)",
+
+			"intpart": "{digit}+",
+			"fraction": "{esc}. {digit}+",
+			"exponent": "(e | E) ({esc}+ | {esc}-) {digit}+",
+
+			"pointfloat": "({intpart} {fraction}) | ({intpart} {esc}.)",
+			"exponentfloat": "({intpart} | {pointfloat}) {exponent}",
+			
+			"floatnumber": "{pointfloat} | {exponentfloat}",
+
+			"imagnumber": "({floatnumber} | {intpart}) (j | J)"
 
 		},
 		"rules": [
@@ -21,7 +41,7 @@
 			["assert",		"return 'ASSERT';"],
 			["break",		"return 'BREAK';"],
 			["class",		"return 'CLASS';"],
-			["continue",		"return 'CONTINUE';"],
+			["continue",	"return 'CONTINUE';"],
 			["def",			"return 'DEF';"],
 			["del",			"return 'DEL';"],
 			["elif",		"return 'ELIF';"],
@@ -51,7 +71,7 @@
 			["{esc}+",		"return '+';"],
 			["{esc}-",		"return '-';"],
 			["{esc}*",		"return '*';"],
-			["{esc}*{esc}*",	"return '**';"],
+			["{esc}*{esc}*","return '**';"],
 			["/",			"return '/';"],
 			["//",			"return '//';"],
 			["%",			"return '%';"],
@@ -69,31 +89,31 @@
 			["!=",			"return '!=';"],
 			["<>",			"return '<>';"],
 
-			["[0-9]+(?:\\.[0-9]+)?\\b",			"return 'NUMBER';"],
+			["{integer} | {longinteger} | {floatnumber} | {imagnumber}",			"return 'NUMBER';"],
 			["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}])*\"", "yytext = yytext.substr(1,yyleng-2); return 'STRING';"],
 
-			["({letter} | {esc}_) (letter | digit | {esc}_)*",		"return 'IDENTIFIER';"],
+			["({letter} | {esc}_) (letter | digit | {esc}_)*",		"return 'NAME';"],
 
 
-			[",",							"return ',';"],
+			[",",						"return ',';"],
 			["\\[",						"return '[';"],
 			["\\]",						"return ']';"],
-			["$",							"return 'EOF';"]
+			["$",						"return 'EOF';"]
 		]
 	},
 
 	"bnf": {
 		"file": [
-			["tokens EOF",					"return $1;"]
+			["tokens EOF",				"return $1;"]
 		],
 		"tokens": [
 			["array",					"$$ = $1;"]
 		],
 		"array": [
-			["[ elementlist ]",				"$$ = $2;"]
+			["[ elementlist ]",			"$$ = $2;"]
 		],
 		"elementlist": [
-			["elementlist , element",			"$$ = $1; $1.push($3);"],
+			["elementlist , element",	"$$ = $1; $1.push($3);"],
 			["element",					"$$ = [$1];"]
 		],
 		"element": [
