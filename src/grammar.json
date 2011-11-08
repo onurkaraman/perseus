@@ -6,7 +6,6 @@
 			"backslash": "\\\\",
 			"singlequote": "'",
 			"doublequote": "\"",
-			"newline": "{backslash}r{backslash}n|{backslash}n|{backslash}r|{backslash}f",
 
 			"lowercase": "[a-z]",
 			"uppercase": "[A-Z]",
@@ -57,7 +56,7 @@
 
 			"escapeseq": "{escasciichar}|{escoctalchar}|{escverticaltabe}|{escunicode16}|{escunicode32}|{escasciitab}|{escasciireturn}|{escasciilinefeed}|{escasciiformfeed}|{escasciibackspace}|{escasciibell}|{escdoublequote}|{escsinglequote}|{escbackslash}|{escnewline}",
 
-			"shortstringchar": "[^{backslash}{newline}{singlequote}{doublequote}]",
+			"shortstringchar": "[^{backslash}{singlequote}{doublequote}]",
 			"longstringchar": "[^{backslash}]",
 
 			"shortstringitem": "{shortstringchar}|{escapeseq}",
@@ -152,10 +151,10 @@
 			["#",			"return '#';"],
 			["\\\\",			"return '\\\\';"],
 
-			["{imagnumber}|{floatnumber}|{longinteger}|{integer}}",			"return 'NUMBER';"],
-			["{stringprefix}({shortstring}|{longstring})",					"return 'STRING';"],
+			["{imagnumber}|{floatnumber}|{longinteger}|{integer}}",				"return 'NUMBER';"],
+			["({stringprefix})?({shortstring}|{longstring})",					"return 'STRING';"],
 
-			["({letter}|_)({letter}|{digit}|_)*",		"return 'NAME';"],
+			["({letter}|_)({letter}|{digit}|_)*",								"return 'NAME';"],
 
 			["\\[",						"return '[';"],
 			["\\]",						"return ']';"],
