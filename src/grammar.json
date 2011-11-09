@@ -152,7 +152,7 @@
 			["\\\\",			"return '\\\\';"],
 
 			["{imagnumber}|{floatnumber}|{longinteger}|{integer}}",				"return 'NUMBER';"],
-			["({stringprefix})?({shortstring}|{longstring})",					"return 'STRING';"],
+			["({stringprefix})?({shortstring}|{longstring})",					"yytext = yytext.substr(1,yyleng-2); return 'STRING';"],
 
 			["({letter}|_)({letter}|{digit}|_)*",								"return 'NAME';"],
 
