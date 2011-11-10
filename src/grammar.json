@@ -69,6 +69,7 @@
 
 		},
 		"rules": [
+			["\\n",			"return 'NEWLINE';"],
 			["\\s+",		"return 'WHITESPACE';"],
 			["and",			"return 'AND';"],
 			["as",			"return 'AS';"],
@@ -168,8 +169,16 @@
 			["tokens EOF",				"return $1;"]
 		],
 		"tokens": [
-			["array",					"$$ = $1;"],
-			["whitespace array",				"$$ = $2;"]
+			["tokens token",				"$$ = $1;"],
+			["",					"return;"]
+		],
+		"token": [
+			["newline",				"$$ = $1;"],
+			["whitespace",				"$$ = $1;"],
+			["array",				"$$ = $1;"]
+		],
+		"newline": [
+			["NEWLINE",				"$$ = yytext;"]
 		],
 		"whitespace": [
 			["WHITESPACE",				"$$ = yytext;"]
@@ -179,7 +188,8 @@
 		],
 		"elementlist": [
 			["elementlist , element",	"$$ = $1; $1.push($3);"],
-			["element",					"$$ = [$1];"]
+			["element",					"$$ = [$1];"],
+			["",					"$$ = [];"]
 		],
 		"element": [
 			["number",					"$$ = $1;"],

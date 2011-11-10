@@ -54,5 +54,4 @@ parser.lexer.performAction = function(lineno, yy){
 };
 
 var input = process.argv[2];
-input = ['[1,1.2,3]', '   [5]', ' [6]'].join('\n'); //Get rid of this line when done
 console.log(parser.parse(input));
