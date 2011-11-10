@@ -22,6 +22,7 @@ parser.lexer.performAction = function(lineno, yy){
 		if(isNewline)
 		{
 			lexIndentation(yy, currentToken);
+			console.log(yy.yymatch);
 		}
 		PREVIOUS_TOKEN = currentToken;
 	}
@@ -41,14 +42,15 @@ function lexIndentation(yy, currentToken)
 	{
 		STACK.pop();
 		previousLevel = STACK[STACK.length - 1];
-		console.log("DEDENT"); 
+		yy.yymatch = 'DEDENT';
 	}
 	if(level > previousLevel)
 	{
 		STACK.push(level);
-		console.log("INDENT");
+		yy.yymatch = 'INDENT';
 	}
 }
 
 var input = process.argv[2];
+//input = "[1,1.2]\n\t[3]\n\t\t[4]\n[5]";
 console.log(parser.parse(input));
