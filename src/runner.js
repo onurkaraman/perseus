@@ -1,3 +1,7 @@
+/**
+ * HEAVILY REFERENCED https://github.com/zaach/jison/issues/47
+ */
+
 var parser = require("./parser").parser;
 
 var INDENT = 'INDENT';
@@ -5,8 +9,10 @@ var DEDENT = 'DEDENT';
 var PREVIOUS_TOKEN = null;
 var STACK = [0];
 
-// REFERENCE https://github.com/zaach/jison/issues/47
-
+/**
+ * Overwrites the lexer's default action performed so we can distinguish 
+ * whitespace as indent or dedent
+ */
 var oldAction = parser.lexer.performAction;
 parser.lexer.performAction = function(lineno, yy){
 	var ret = oldAction.apply(this, arguments);
@@ -16,10 +22,6 @@ parser.lexer.performAction = function(lineno, yy){
 		var isNewline = PREVIOUS_TOKEN == 'NEWLINE' || PREVIOUS_TOKEN == null;
 
 		console.log("matched '%s' with token '%s'", yy.match, currentToken);
-		if(yy.match != yy.yytext)
-		{
-			console.log("Replaced: '%s' with: '%s'", yy.match, yy.yytext);
-		}
 		if(isNewline)
 		{
 			lexIndentation(yy, currentToken);
@@ -33,16 +35,20 @@ parser.lexer.performAction = function(lineno, yy){
 	return ret;
 };
 
+/**
+ * Figures out whether the current line's indentation should be considered
+ * an indent or dedent, or none
+ */
 function lexIndentation(yy, currentToken)
 {
 	var isIndented = currentToken == 'WHITESPACE';
 	var level = isIndented ? yy.yytext.length : 0;
-	previousLevel = STACK[STACK.length - 1];
+	var previousLevel = STACK[STACK.length - 1];
 	while(level < previousLevel)
 	{
 		STACK.pop();
 		previousLevel = STACK[STACK.length - 1];
-		parser.lexer.yy.match = 'DEDENT';
+		parser.lexer.yy.match = 'DEDENT'; //TODO: Figure out how to apply multiple tokens during this stage
 	}
 	if(level > previousLevel)
 	{
