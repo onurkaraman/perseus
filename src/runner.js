@@ -6,6 +6,7 @@ var PREVIOUS_TOKEN = null;
 var STACK = [0];
 
 // REFERENCE https://github.com/zaach/jison/issues/47
+
 var oldAction = parser.lexer.performAction;
 parser.lexer.performAction = function(lineno, yy){
 	var ret = oldAction.apply(this, arguments);
@@ -22,7 +23,6 @@ parser.lexer.performAction = function(lineno, yy){
 		if(isNewline)
 		{
 			lexIndentation(yy, currentToken);
-			console.log(yy.yymatch);
 		}
 		PREVIOUS_TOKEN = currentToken;
 	}
@@ -42,15 +42,14 @@ function lexIndentation(yy, currentToken)
 	{
 		STACK.pop();
 		previousLevel = STACK[STACK.length - 1];
-		yy.yymatch = 'DEDENT';
+		parser.lexer.yy.match = 'DEDENT';
 	}
 	if(level > previousLevel)
 	{
 		STACK.push(level);
-		yy.yymatch = 'INDENT';
+		parser.lexer.yy.match = 'INDENT';
 	}
 }
 
 var input = process.argv[2];
-//input = "[1,1.2]\n\t[3]\n\t\t[4]\n[5]";
 console.log(parser.parse(input));

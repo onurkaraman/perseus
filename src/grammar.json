@@ -76,7 +76,7 @@
 			["assert",		"return 'ASSERT';"],
 			["break",		"return 'BREAK';"],
 			["class",		"return 'CLASS';"],
-			["continue",	"return 'CONTINUE';"],
+			["continue",		"return 'CONTINUE';"],
 			["def",			"return 'DEF';"],
 			["del",			"return 'DEL';"],
 			["elif",		"return 'ELIF';"],
@@ -106,9 +106,9 @@
 			["{esc}+",		"return '+';"],
 			["{esc}-",		"return '-';"],
 			["{esc}*",		"return '*';"],
-			["{esc}*{esc}*","return '**';"],
-			["{esc}/",			"return '/';"],
-			["{esc}/{esc}/",			"return '//';"],
+			["{esc}*{esc}*",	"return '**';"],
+			["{esc}/",		"return '/';"],
+			["{esc}/{esc}/",	"return '//';"],
 			["%",			"return '%';"],
 			["<<",			"return '<<';"],
 			[">>",			"return '>>';"],
@@ -133,34 +133,34 @@
 			["@",			"return '@';"],
 			[",",			"return ',';"],
 			[":",			"return ':';"],
-			["{esc}.",			"return '.';"],
+			["{esc}.",		"return '.';"],
 			["`",			"return '`';"],
 			["=",			"return '=';"],
 			[";",			"return ';';"],
-			["{esc}+=",			"return '+=';"],
+			["{esc}+=",		"return '+=';"],
 			["-=",			"return '-=';"],
-			["{esc}*=",			"return '*=';"],
-			["{esc}/=",			"return '/=';"],
-			["{esc}/{esc}/=",			"return '//=';"],
+			["{esc}*=",		"return '*=';"],
+			["{esc}/=",		"return '/=';"],
+			["{esc}/{esc}/=",	"return '//=';"],
 			["%=",			"return '%=';"],
 			["&=",			"return '&=';"],
-			["{esc}|=",			"return '|=';"],
-			["{esc}^=",			"return '^=';"],
+			["{esc}|=",		"return '|=';"],
+			["{esc}^=",		"return '^=';"],
 			[">>=",			"return '>>=';"],
 			["<<=",			"return '<<=';"],
-			["{esc}*{esc}*=",			"return '**=';"],
+			["{esc}*{esc}*=",	"return '**=';"],
 
 			["#",			"return '#';"],
-			["\\\\",			"return '\\\\';"],
+			["\\\\",		"return '\\\\';"],
 
 			["{imagnumber}|{floatnumber}|{longinteger}|{integer}}",				"return 'NUMBER';"],
-			["({stringprefix})?({shortstring}|{longstring})",					"yytext = yytext.substr(1,yyleng-2); return 'STRING';"],
+			["({stringprefix})?({shortstring}|{longstring})",				"yytext = yytext.substr(1,yyleng-2); return 'STRING';"],
 
-			["({letter}|_)({letter}|{digit}|_)*",								"return 'NAME';"],
+			["({letter}|_)({letter}|{digit}|_)*",						"return 'NAME';"],
 
-			["\\[",						"return '[';"],
-			["\\]",						"return ']';"],
-			["$",						"return 'EOF';"]
+			["\\[",			"return '[';"],
+			["\\]",			"return ']';"],
+			["$",			"return 'EOF';"]
 		]
 	},
 
@@ -169,7 +169,7 @@
 			["tokens EOF",				"return $1;"]
 		],
 		"tokens": [
-			["tokens token",				"$$ = $1;"],
+			["tokens token",			"$$ = $1;"],
 			["",					"return;"]
 		],
 		"token": [
@@ -181,25 +181,27 @@
 			["NEWLINE",				"$$ = yytext;"]
 		],
 		"whitespace": [
-			["WHITESPACE",				"$$ = yytext;"]
+			["INDENT",				"$$ = yytext;"],
+			["DEDENT",				"$$ = yytext;"],
+			["WHITESPACE",				"console.log(yy.match);$$ = yytext;"]
 		],
 		"array": [
 			["[ elementlist ]",			"$$ = $2;"]
 		],
 		"elementlist": [
-			["elementlist , element",	"$$ = $1; $1.push($3);"],
-			["element",					"$$ = [$1];"],
+			["elementlist , element",		"$$ = $1; $1.push($3);"],
+			["element",				"$$ = [$1];"],
 			["",					"$$ = [];"]
 		],
 		"element": [
-			["number",					"$$ = $1;"],
-			["string",					"$$ = $1;"]
+			["number",				"$$ = $1;"],
+			["string",				"$$ = $1;"]
 		],
 		"number": [
-			["NUMBER", 					"$$ = Number(yytext);"]
+			["NUMBER", 				"$$ = Number(yytext);"]
 		],
 		"string": [
-			["STRING",					"$$ = yytext;"]
+			["STRING",				"$$ = yytext;"]
 		]
 	}
 }
