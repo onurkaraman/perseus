@@ -15,7 +15,7 @@ parser.lexer.performAction = function(lineno, yy){
 		var currentToken =parser.terminals_[ret];
 		var isNewline = PREVIOUS_TOKEN == 'NEWLINE' || PREVIOUS_TOKEN == null;
 
-		console.log("matched '%s' with token '%s'", ret, currentToken);
+		console.log("matched '%s' with token '%s'", yy.match, currentToken);
 		if(yy.match != yy.yytext)
 		{
 			console.log("Replaced: '%s' with: '%s'", yy.match, yy.yytext);
