@@ -10,6 +10,7 @@ test:
 	node src/runner.js TEST '[4,5]'
 	node src/runner.js TEST '[0,1.2,"string"]'
 	node src/runner.js TEST '  	[0,1.2,"string"]'
+	node src/runner.js DEBUG 'for'
 debug:
 	make build
 	node src/runner.js DEBUG '[]'
@@ -20,6 +21,7 @@ debug:
 	node src/runner.js DEBUG '[4,5]'
 	node src/runner.js DEBUG '[0,1.2,"string"]'
 	node src/runner.js DEBUG '  	[0,1.2,"string"]'
+	node src/runner.js DEBUG 'for'
 #manually type in node src/runner.js '[1,2]
 #   [3]
 #      [4]

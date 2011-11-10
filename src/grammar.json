@@ -169,8 +169,8 @@
 			["tokens EOF",				"return $1;"]
 		],
 		"tokens": [
-			["tokens token",			"$$ = $1;"],
-			["",					"return;"]
+			["tokens token",			"$$ = $1; $1.push($2);"],
+			["",					"$$ = [];"]
 		],
 		"token": [
 			["newline",				"$$ = $1;"],
