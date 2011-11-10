@@ -69,6 +69,7 @@
 
 		},
 		"rules": [
+			["\\s+",		"return 'WHITESPACE';"],
 			["and",			"return 'AND';"],
 			["as",			"return 'AS';"],
 			["assert",		"return 'ASSERT';"],
@@ -167,7 +168,11 @@
 			["tokens EOF",				"return $1;"]
 		],
 		"tokens": [
-			["array",					"$$ = $1;"]
+			["array",					"$$ = $1;"],
+			["whitespace array",				"$$ = $2;"]
+		],
+		"whitespace": [
+			["WHITESPACE",				"$$ = yytext;"]
 		],
 		"array": [
 			["[ elementlist ]",			"$$ = $2;"]

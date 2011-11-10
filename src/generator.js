@@ -10,7 +10,7 @@ fs.readFile(grammarPath, 'utf8', function(err, result)
 {
 	if(err)
 		throw err;
-	json = JSON.parse(result);
+	var json = JSON.parse(result);
 	var parser = new Parser(json);
 	var parserSource = parser.generate();
 	var parserPath = path.join(__dirname, 'parser.js');
