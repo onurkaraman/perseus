@@ -177,7 +177,9 @@
 			["whitespace",				"$$ = $1;"],
 			["array",				"$$ = $1;"],
 			["keyword",				"$$ = $1;"],
-			["operator",			"$$ = $1;"]
+			["operator",			"$$ = $1;"],
+			["number",				"$$ = $1;"],
+			["string",				"$$ = $1;"]
 		],
 		"newline": [
 			["NEWLINE",				"$$ = yytext;"]
@@ -262,4 +264,3 @@
 		]
 	}
 }
-

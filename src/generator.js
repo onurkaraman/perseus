@@ -1,5 +1,5 @@
 /**
- * parseBuilder.js takes in grammar represented as json and generates javascript parser
+ * generator.js takes in grammar represented as json and generates javascript parser
 */
 var fs = require('fs');
 var path = require('path');
