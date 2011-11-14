@@ -67,3 +67,13 @@ exports.execute = function(input, mode)
 	MODE = mode || NORMAL;
 	return parser.parse(input);
 }
+
+/**
+ * Allow for calls through console of format node src/runner.js (TEST|DEBUG) '[4]'
+ */
+if(process.argv.length == 4)
+{
+	var mode = process.argv[2];
+	var input = process.argv[3];
+	console.log( exports.execute(input,mode) );
+}
