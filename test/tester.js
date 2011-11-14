@@ -1,5 +1,9 @@
-var RUNNER = require('/home/onur/code/pythonscript/src/runner');
+var path = require('path');
 require('should');
+
+var basePath = path.dirname(__dirname);
+var runnerPath = path.join(basePath, 'src/runner');
+var RUNNER = require(runnerPath);
 
 module.exports = {
 	"Empty Test": function(){
