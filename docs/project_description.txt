@@ -13,6 +13,9 @@ Languages
 Libraries
 	Python standard library
 	Jison compiler
+	Node.js
+	Expresso
+	Should.js
 
 Platforms
 	Cross-platform

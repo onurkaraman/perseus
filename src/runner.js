@@ -3,7 +3,9 @@
  */
 
 var parser = require("./parser").parser;
-var mode = process.argv[2];
+var NORMAL = 'NORMAL';
+var DEBUG = 'DEBUG';
+var MODE = NORMAL;
 
 var INDENT = 'INDENT';
 var DEDENT = 'DEDENT';
@@ -21,7 +23,7 @@ parser.lexer.performAction = function(lineno, yy){
 	{
 		var currentToken =parser.terminals_[ret];
 		var isNewline = PREVIOUS_TOKEN == 'NEWLINE';
-		if(mode == 'DEBUG')
+		if(MODE == DEBUG)
 		{
 			console.log("matched '%s' with token '%s'", yy.match, currentToken);
 		}
@@ -60,5 +62,8 @@ function lexIndentation(yy, currentToken)
 	}
 }
 
-var input = process.argv[3];
-console.log(parser.parse(input));
+exports.execute = function(input, mode)
+{
+	MODE = mode || NORMAL;
+	return parser.parse(input);
+}
