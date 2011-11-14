@@ -12,7 +12,7 @@ var STACK = [0];
 
 /**
  * Overwrites the lexer's default action performed so we can distinguish 
- * whitespace as indent or dedent
+ * whitespace as indent, dedent, or just whitespace
  */
 var oldAction = parser.lexer.performAction;
 parser.lexer.performAction = function(lineno, yy){
@@ -20,7 +20,7 @@ parser.lexer.performAction = function(lineno, yy){
 	if(ret != null)
 	{
 		var currentToken =parser.terminals_[ret];
-		var isNewline = PREVIOUS_TOKEN == 'NEWLINE' || PREVIOUS_TOKEN == null;
+		var isNewline = PREVIOUS_TOKEN == 'NEWLINE';
 		if(mode == 'DEBUG')
 		{
 			console.log("matched '%s' with token '%s'", yy.match, currentToken);
@@ -47,13 +47,13 @@ function lexIndentation(yy, currentToken)
 	var isIndented = currentToken == 'WHITESPACE';
 	var level = isIndented ? yy.yytext.length : 0;
 	var previousLevel = STACK[STACK.length - 1];
-	while(level < previousLevel)
+	if(level < previousLevel)
 	{
 		STACK.pop();
 		previousLevel = STACK[STACK.length - 1];
-		parser.lexer.yy.match = 'DEDENT'; //TODO: Figure out how to apply multiple tokens during this stage
+		parser.lexer.yy.match = 'DEDENT';
 	}
-	if(level > previousLevel)
+	else if(level > previousLevel)
 	{
 		STACK.push(level);
 		parser.lexer.yy.match = 'INDENT';
