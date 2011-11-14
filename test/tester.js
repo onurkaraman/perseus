@@ -121,7 +121,7 @@ module.exports = {
 	"Simple Indentation Test": function(){
 		var indentedStatement = '    [0, 1.2, "hi"]';
 		var actual = RUNNER.execute(indentedStatement);
-		var expected = [ ['    ', 0, 1.2, "hi"] ];
+		var expected = [ '    ', [ 0, 1.2, 'hi' ] ];
 		actual.should.eql(expected);
 	}
 };
