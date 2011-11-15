@@ -8,6 +8,7 @@ Jison:
 	http://librelist.com/browser//jison/2011/3/19/custom-error-handling/#50ce35ff30ae8b5773e86072f5c5e358
 
 Python Grammar:
+	http://docs.python.org/reference/introduction.html#notation
 	http://docs.python.org/reference/grammar.html
 	http://docs.python.org/reference/lexical_analysis.html
 

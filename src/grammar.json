@@ -165,5 +165,186 @@
 	},
 
 	"bnf": {
+		"single_input": [
+			["NEWLINE",			"$$ = $1;"],
+			["simple_stmt",			"$$ = $1;"],
+			["compound_stmt NEWLINE",	"$$ = $1;"]
+		],
+		"eval_input": [
+			["testlist newline_star $",	"$$ = $1;"]
+		],
+		"decorators": [
+			["decorators decorator",	"$$ = $1; $1.push($2);"],
+			["",				"$$ = [];"]
+		],
+		"funcdef": [
+			["DEF NAME parameters : suite",	"$$ = $1;/*what to do here?*/"]
+		],
+		"varargslist": [
+		],
+		"fplist": [
+			["fpdef fpdef_seq_star ,",	"$$ = $1;"],
+			["fpdef fpdef_seq_star",	"$$ = $1;"]
+		],
+		"simple_stmt": [
+			["small_stmt small_stmt_seq_star ; NEWLINE", "$$ = $1;"],
+			["small_stmt small_stmt_seq_star NEWLINE", "$$ = $1;"],
+		],
+		"expr_stmt": [
+		],
+		"print_stmt": [
+		],
+		"pass_stmt": [
+			["PASS",				"$$ = $1;"]
+		],
+		"break_stmt": [
+			["BREAK",				"$$ = $1;"]
+		],
+		"return_stmt": [
+			["RETURN testlist",			"$$ = $1; $1.push($2);"],
+			["RETURN",				"$$ = $1;"]
+		],
+		"raise_stmt": [
+			["RAISE test , test , test",		"$$ = $1;"],
+			["RAISE test , test",			"$$ = $1;"],
+			["RAISE test",				"$$ = $1;"],
+			["RAISE",				"$$ = $1;"]
+		],
+		"import_name": [
+			["IMPORT dotted_as_names",		"$$ = $1;"]
+		],
+		"import_as_name": [
+			["NAME AS NAME",			"$$ = $1;"],
+			["NAME",				"$$ = $1;"]
+		],
+		"import_as_names": [
+			["import_as_name import_as_name_seq_star ,",	"$$ = $1;"],
+			["import_as_name import_as_name_seq_star",	"$$ = $1;"]
+		],
+		"dotted_name": [
+			["NAME dotted_name_seq_star",		"$$ = $1;"]
+		],
+		"exec_stmt": [
+			["EXEC expr IN test , test",		"$$ = $1;"],
+			["EXEC expr IN test",			"$$ = $1;"],
+			["EXEC expr",				"$$ = $1;"]
+		],
+		"compound_stmt": [
+			["if_stmt",				"$$ = $1;"],
+			["while_stmt",				"$$ = $1;"],
+			["for_stmt",				"$$ = $1;"],
+			["try_stmt",				"$$ = $1;"],
+			["with_stmt",				"$$ = $1;"],
+			["funcdef",				"$$ = $1;"],
+			["classdef",				"$$ = $1;"],
+			["decorated",				"$$ = $1;"]
+		],
+		"while_stmt": [
+			["WHILE test : suite ELSE : suite",	"$$ = $1;"],
+			["WHILE test : suite",			"$$ = $1;"],
+		],
+		"try_stmt": [
+		],
+		"with_item": [
+			["test AS expr",			"$$ = $1;"],
+			["test",				"$$ = $1;"]
+		],
+		"suite": [
+			["simple_stmt",				"$$ = $1;"],
+			["NEWLINE INDENT stmt_plus DEDENT",	"$$ = $1;"]
+		],
+		"old_test": [
+			["or_test",				"$$ = $1;"],
+			["old_lambdef",				"$$ = $1;"]
+		],
+		"test": [
+			["or_test IF or_test ELSE test",	"$$ = $1;"],
+			["or_test",				"$$ = $1;"],
+			["lambdef",				"$$ = $1;"]
+		],
+		"and_test": [
+			["and_test AND not_test",		"$$ = $1;"],
+			["not_test",				"$$ = $1;"]
+		],
+		"comparison": [
+		],
+		"expr": [
+		],
+		"and_expr": [
+		],
+		"arith_expr": [
+		],
+		"factor": [
+			["+ factor",				"$$ = $1;"],
+			["- factor",				"$$ = $1;"],
+			["~ factor",				"$$ = $1;"],
+			["power",				"$$ = $1;"]
+		],
+		"atom": [
+		],
+		"testlist_comp": [
+		],
+		"trailer": [
+			["( arglist )",				"$$ = $1;"],
+			["( )",					"$$ = $1;"],
+			["[ subscriptlist ]",			"$$ = $1;"],
+			[". NAME",				"$$ = $1;"]
+		],
+		"subscript": [
+			["...",					"$$ = $1;"],
+			["test : test sliceop",			"$$ = $1;"],
+			["test : test",				"$$ = $1;"],
+			["test :",				"$$ = $1;"],
+			["test",				"$$ = $1;"]
+		],
+		"exprlist": [
+		],
+		"dictorsetmaker": [
+		],
+		"arglist": [
+		],
+		"list_iter": [
+			["list_for",				"$$ = $1;"],
+			["list_if",				"$$ = $1;"]
+		],
+		"list_if": [
+			["IF old_test list_iter",		"$$ = $1;"],
+			["IF old_test",				"$$ = $1;"]
+		],
+		"comp_for": [
+			["FOR exprlist IN or_test comp_iter",	"$$ = $1;"],
+			["FOR exprlist IN or_test",		"$$ = $1;"]
+		],
+		"testlist1": [
+		],
+		"yield_expr": [
+			["YIELD testlist",			"$$ =$1;"],
+			["YIELD",				"$$ =$1;"]
+		]
+		/* Start of Helper Functions*/
+		"newline_star": [
+			["newline_star NEWLINE",		"$$ = '';"],
+			["",					"$$ = '';"]
+		],
+		"fpdef_seq_star": [
+			["fpdef_seq_star , fpdef",		"$$ = $1; $1.push($3);"],
+			["",					"$$ = [];"]
+		],
+		"small_stmt_seq_star": [
+			["small_stmt_seq_star ; small_stmt",	"$$ = $1;"],
+			["",					"$$ = $1;"]
+		],
+		"import_as_name_seq_star": [
+			["import_as_name_seq_star , import_as_name",	"$$ = $1; $1.push($3);"],
+			["",	"$$ = $1;"]
+		],
+		"dotted_name_seq_star": [
+			["dotted_name_seq_star . NAME",		"$$ = $1;"],
+			["",					"$$ = $1;"]
+		],
+		"stmt_plus": [
+			["stmt_plus stmt",			"$$ = $1; $1.push($2);"],
+			["stmt",				"$$ = $1;"]
+		]
 	}
 }

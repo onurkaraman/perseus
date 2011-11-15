@@ -1,6 +1,6 @@
 # Reference: http://docs.python.org/reference/grammar.html
-# Onur: All Odd Lined Rules
-# Jiawei: All Even Lined Rules
+# Onur: All Even Lined Rules
+# Jiawei: All Odd Lined Rules
 single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
 file_input: (NEWLINE | stmt)* ENDMARKER
 eval_input: testlist NEWLINE* ENDMARKER
