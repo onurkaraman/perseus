@@ -40,6 +40,22 @@ parser.lexer.performAction = function(lineno, yy){
 	return ret;
 };
 
+var oldParserAction = parser.performAction;
+parser.performAction = function(yytext, yyleng, yylineno, yy, yystate, $$, _$){
+	var ret = oldParserAction.apply(this, arguments);
+	if(parser.lexer.yy.match === "INDENT")
+	{
+		var customYYState = 12; //magic number specified in parser's performAction switch statement
+		ret = oldParserAction(yytext, yyleng, yylineno, yy, customYYState, $$, _$);
+	}
+	else if(parser.lexer.yy.match === "DEDENT")
+	{
+		var customYYState = 13; //magic number specified in parser's performAction switch statement
+		ret = oldParserAction(yytext, yyleng, yylineno, yy, customYYState, $$, _$);
+	}
+	return ret;
+};
+
 /**
  * Figures out whether the current line's indentation should be considered
  * an indent or dedent, or none

@@ -4,7 +4,8 @@
 var fs = require('fs');
 var path = require('path');
 var Parser = require('jison').Parser;
-var grammarPath = path.join(__dirname, 'grammar.json');
+//var grammarPath = path.join(__dirname, 'grammar.json');
+var grammarPath = path.join(__dirname, 'week1_grammar.json');
 
 fs.readFile(grammarPath, 'utf8', function(err, result)
 {

@@ -185,9 +185,9 @@
 			["NEWLINE",				"$$ = yytext;"]
 		],
 		"whitespace": [
-			["INDENT",				"$$ = yytext;"],
-			["DEDENT",				"$$ = yytext;"],
-			["WHITESPACE",				"console.log(yy.match);$$ = yytext;"]
+			["INDENT",				"console.log('HIT INDENT');$$ = yytext;"],
+			["DEDENT",				"console.log('HIT DEDENT');$$ = yytext;"],
+			["WHITESPACE",				"$$ = yytext;"]
 		],
 		"keyword": [
 			["AND",				"$$ = 'AND';"],
