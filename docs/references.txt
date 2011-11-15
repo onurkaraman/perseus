@@ -1,4 +1,18 @@
-http://www.stanford.edu/class/cs143/lectures/
-http://docs.python.org/reference/lexical_analysis.html
-http://jashkenas.github.com/coffee-script/documentation/docs/grammar.html
-http://docs.python.org/reference/grammar.html
+Compiler Theory:
+	http://www.stanford.edu/class/cs143/lectures/
+
+Jison:
+	https://github.com/zaach/jison/issues/47
+	https://github.com/zaach/jison/blob/master/examples/json_ast.js
+	http://librelist.com/browser//jison/2011/7/28/a-way-to-match-tags-plugins/#c59148bc0ab7db5005ab0c31a1da6ee5
+	http://librelist.com/browser//jison/2011/3/19/custom-error-handling/#50ce35ff30ae8b5773e86072f5c5e358
+
+Python Grammar:
+	http://docs.python.org/reference/grammar.html
+	http://docs.python.org/reference/lexical_analysis.html
+
+CoffeeScript:
+	http://jashkenas.github.com/coffee-script/documentation/docs/grammar.html
+
+EBNF:
+	http://lamp.epfl.ch/teaching/archive/compilation-ssc/2000/part4/parsing/node3.html

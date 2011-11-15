@@ -165,5 +165,102 @@
 	},
 
 	"bnf": {
+		"file": [
+			["tokens EOF",				"return $1;"]
+		],
+		"tokens": [
+			["tokens token",			"$$ = $1; $1.push($2);"],
+			["",					"$$ = [];"]
+		],
+		"token": [
+			["newline",				"$$ = $1;"],
+			["whitespace",				"$$ = $1;"],
+			["array",				"$$ = $1;"],
+			["keyword",				"$$ = $1;"],
+			["operator",			"$$ = $1;"],
+			["number",				"$$ = $1;"],
+			["string",				"$$ = $1;"]
+		],
+		"newline": [
+			["NEWLINE",				"$$ = yytext;"]
+		],
+		"whitespace": [
+			["INDENT",				"$$ = yytext;"],
+			["DEDENT",				"$$ = yytext;"],
+			["WHITESPACE",				"console.log(yy.match);$$ = yytext;"]
+		],
+		"keyword": [
+			["AND",				"$$ = 'AND';"],
+			["ASSERT",			"$$ = 'ASSERT';"],
+			["AS",				"$$ = 'AS';"],
+			["BREAK",			"$$ = 'BREAK';"],
+			["CLASS",			"$$ = 'CLASS';"],
+			["CONTINUE",			"$$ = 'CONTINUE';"],
+			["DEF",				"$$ = 'DEF';"],
+			["DEL",				"$$ = 'DEL';"],
+			["ELIF",			"$$ = 'ELIF';"],
+			["ELSE",			"$$ = 'ELSE';"],
+			["EXCEPT",			"$$ = 'EXCEPT';"],
+			["EXEC",			"$$ = 'EXEC';"],
+			["FINALLY",			"$$ = 'FINALLY';"],
+			["FOR",				"$$ = 'FOR';"],
+			["FROM",			"$$ = 'FROM';"],
+			["GLOBAL",			"$$ = 'GLOBAL';"],
+			["IF",				"$$ = 'IF';"],
+			["IMPORT",			"$$ = 'IMPORT';"],
+			["IN",				"$$ = 'IN';"],
+			["IS",				"$$ = 'IS';"],
+			["LAMBDA",			"$$ = 'LAMBDA';"],
+			["NOT",				"$$ = 'NOT';"],
+			["OR",				"$$ = 'OR';"],
+			["PASS",			"$$ = 'PASS';"],
+			["PRINT",			"$$ = 'PRINT';"],
+			["RAISE",			"$$ = 'RAISE';"],
+			["RETURN",			"$$ = 'RETURN';"],
+			["TRY",				"$$ = 'TRY';"],
+			["WHILE",			"$$ = 'WHILE';"],
+			["WITH",			"$$ = 'WITH';"],
+			["YIELD",			"$$ = 'YIELD';"]
+		],
+		"operator": [
+			["+",			"$$ = '+';"],
+			["-",			"$$ = '-';"],
+			["*",			"$$ = '*';"],
+			["**",			"$$ = '**';"],
+			["/",			"$$ = '/';"],
+			["//",			"$$ = '//';"],
+			["%",			"$$ = '%';"],
+			["<<",			"$$ = '<<';"],
+			[">>",			"$$ = '>>';"],
+			["&",			"$$ = '&';"],
+			["|",			"$$ = '|';"],
+			["^",			"$$ = '^';"],
+			["~",			"$$ = '~';"],
+			["<",			"$$ = '<';"],
+			[">",			"$$ = '>';"],
+			["<=",			"$$ = '<=';"],
+			[">=",			"$$ = '>=';"],
+			["==",			"$$ = '==';"],
+			["!=",			"$$ = '!=';"],
+			["<>",			"$$ = '<>';"]
+		],
+		"array": [
+			["[ elementlist ]",			"$$ = $2;"]
+		],
+		"elementlist": [
+			["elementlist , element",		"$$ = $1; $1.push($3);"],
+			["element",				"$$ = [$1];"],
+			["",					"$$ = [];"]
+		],
+		"element": [
+			["number",				"$$ = $1;"],
+			["string",				"$$ = $1;"]
+		],
+		"number": [
+			["NUMBER", 				"$$ = Number(yytext);"]
+		],
+		"string": [
+			["STRING",				"$$ = yytext;"]
+		]
 	}
 }
