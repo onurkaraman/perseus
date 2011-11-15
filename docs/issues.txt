@@ -1,5 +1,10 @@
 How to link INDENT/DEDENT decisions from runner.js to the actual decider for rule keywords?
 	-So far can have parser see variables set by runner
+	RESOLVED
+
+Now that INDENT/DEDENT works:
+	-Need to generalize so I don't use magic switch statement value for INDENT/DEDENT's yystate
+	-Need to figure out why whitespace is being reached always after reaching indent
 
 Unclear as to what $$ should be in grammar rules like:
 	funcdef: 'def' NAME parameters ':' suite
