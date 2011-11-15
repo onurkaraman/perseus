@@ -182,12 +182,12 @@
 			["string",				"$$ = $1;"]
 		],
 		"newline": [
-			["NEWLINE",				"$$ = yytext;"]
+			["NEWLINE",				"console.log('HIT NEWLINE');$$ = yytext;"]
 		],
 		"whitespace": [
 			["INDENT",				"console.log('HIT INDENT');$$ = yytext;"],
 			["DEDENT",				"console.log('HIT DEDENT');$$ = yytext;"],
-			["WHITESPACE",				"$$ = yytext;"]
+			["WHITESPACE",				"console.log('HIT WHITESPACE');$$ = yytext;"]
 		],
 		"keyword": [
 			["AND",				"$$ = 'AND';"],

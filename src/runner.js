@@ -47,11 +47,13 @@ parser.performAction = function(yytext, yyleng, yylineno, yy, yystate, $$, _$){
 	{
 		var customYYState = 12; //magic number specified in parser's performAction switch statement
 		ret = oldParserAction(yytext, yyleng, yylineno, yy, customYYState, $$, _$);
+		parser.lexer.yy.match = undefined;
 	}
 	else if(parser.lexer.yy.match === "DEDENT")
 	{
 		var customYYState = 13; //magic number specified in parser's performAction switch statement
 		ret = oldParserAction(yytext, yyleng, yylineno, yy, customYYState, $$, _$);
+		parser.lexer.yy.match = undefined;
 	}
 	return ret;
 };
