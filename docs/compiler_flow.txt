@@ -1,0 +1,12 @@
+EVERYTHING GETS DONE IN PYTHON
+
+NOTE: 
+	Jison accepts Parser constructor of form Parser(tokens, rules, operators, startSymbol)
+	Jison accepts Token of the form [tag, value, lineNumber]
+
+STEPS:
+	grammar.py will have dictionary of all the rules and all the tokens of the language
+	Pass language tokens, bnf, operators, startSymbol to the Parser constructor
+	Jison generates a parser.js
+	lexer.py will generate all the tokens from input python code
+	We then pass input tokens to the parser.js
