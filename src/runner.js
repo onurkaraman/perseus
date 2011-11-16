@@ -40,22 +40,19 @@ parser.lexer.performAction = function(lineno, yy){
 	return ret;
 };
 
+/**
+ * Overwrites the parser's default action performed so we can redirect INDENT/DEDENT
+ * to their proper rules
+ */
 var oldParserAction = parser.performAction;
 parser.performAction = function(yytext, yyleng, yylineno, yy, yystate, $$, _$){
-	var ret = oldParserAction.apply(this, arguments);
-	if(parser.lexer.yy.match === "INDENT")
+	var symbol = parser.lexer.yy.match;
+	if(symbol === "INDENT" || symbol === "DEDENT")
 	{
-		var customYYState = 12; //magic number specified in parser's performAction switch statement
-		ret = oldParserAction(yytext, yyleng, yylineno, yy, customYYState, $$, _$);
+		yystate = parser.symbols_[symbol] - 3; // subtract 3 to account for $accept, $end, error symobls
 		parser.lexer.yy.match = undefined;
 	}
-	else if(parser.lexer.yy.match === "DEDENT")
-	{
-		var customYYState = 13; //magic number specified in parser's performAction switch statement
-		ret = oldParserAction(yytext, yyleng, yylineno, yy, customYYState, $$, _$);
-		parser.lexer.yy.match = undefined;
-	}
-	return ret;
+	return oldParserAction.apply(this, arguments);
 };
 
 /**
