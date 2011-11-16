@@ -15,8 +15,8 @@ class Lexer:
         Given a string of code, outputs tokens in the Jison format:
         `[tag, value, lineNumber]`
         '''
-        # The python tokenizer only accepts objects with a readline() method, so
-        # we need to wrap it in a StringIO object
+        # The python tokenizer only accepts objects with a `readline()` method,
+        # so we need to wrap it in a StringIO object
         stringWrappedAsFile = StringIO.StringIO(code)
         for (type, text, startPosition, endPosition, lineText) in tokenize.generate_tokens(stringWrappedAsFile.readline):
             # The position variables are of the form `(row, column)`.  The value
