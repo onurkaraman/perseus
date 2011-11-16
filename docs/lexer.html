@@ -1,0 +1,27 @@
+<!DOCTYPE html>  <html> <head>   <title>lexer.py</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               lexer.py             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">The Lexer class is used to parse input Python code into Jison-format tokens.</span>
+<span class="sd">This overrides the default lexer implementation within Jison.  Hence, this must</span>
+<span class="sd">be called before passing it to the Parser class.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">StringIO</span>
+<span class="kn">import</span> <span class="nn">tokenize</span>
+
+<span class="k">class</span> <span class="nc">Lexer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Given a string of code, outputs tokens in the Jison format:</span>
+<span class="sd">        `[tag, value, lineNumber]`</span>
+<span class="sd">        &#39;&#39;&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>The python tokenizer only accepts objects with a readline() method, so
+we need to wrap it in a StringIO object</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="n">stringWrappedAsFile</span> <span class="o">=</span> <span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">startPosition</span><span class="p">,</span> <span class="n">endPosition</span><span class="p">,</span> <span class="n">lineText</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tokenize</span><span class="o">.</span><span class="n">generate_tokens</span><span class="p">(</span><span class="n">stringWrappedAsFile</span><span class="o">.</span><span class="n">readline</span><span class="p">):</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>The position variables are of the form <code>(row, column)</code>.  The value
+of <code>lineNumber</code> needed in the Jison format is equivalent to
+the starting row.</p>
+
+<p><strong>Consider</strong>: Is it possible for tokens to be multi-line?</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="n">startRow</span> <span class="o">=</span> <span class="n">startPosition</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tokenize</span><span class="o">.</span><span class="n">tok_name</span><span class="p">[</span><span class="nb">type</span><span class="p">],</span> <span class="n">text</span><span class="p">,</span> <span class="n">startRow</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
