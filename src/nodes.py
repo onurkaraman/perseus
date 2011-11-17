@@ -138,6 +138,12 @@ class IfExpNode(Node):
         elseBody = ChunkNode(self.node.body).compile() # unsure if this should be ChunkNode or Node
         return '%s ? %s : %s' % (condition, ifBody, elseBody)
 
+class PrintNode(Node):
+    def compile(self):
+        for valueNode in self.node.values:
+            value = Node(valueNode).compile()
+            return 'console.log(%s);' % value
+
 class WhileNode(Node):
     def compile(self):
         condition = Node(self.node.test).compile()
