@@ -1,3 +1,5 @@
+import helper
+
 class Node:
     def __init__(self, node):
         self.node = node
@@ -13,7 +15,7 @@ class BodyNode(Node):
         self.nodeList = nodeList
     
     def compile(self):
-        return '\r\n'.join('\t' + Node(node).compile() for node in self.nodeList)
+        return '\r\n'.join(Node(node).compile() for node in self.nodeList)
 
 class NumNode(Node):
     def compile(self):
@@ -35,7 +37,7 @@ class ExprNode(Node):
 class ModuleNode(Node):
     def compile(self):
         return  '''(function(){\r\n%s\r\n})();
-                ''' % BodyNode(self.node.body).compile()
+                ''' % helper.indentCode(BodyNode(self.node.body).compile())
 
 class BreakNode(Node):
     def compile(self):
