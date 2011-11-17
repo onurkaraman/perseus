@@ -133,8 +133,8 @@ class UnaryOpNode(Node):
 class IfExpNode(Node):
     def compile(self):
         condition = Node(self.node.test).compile()
-        ifBody = ChunkNode(self.node.body).compile()
-        elseBody = ChunkNode(self.node.body).compile() # unsure if this should be ChunkNode or Node
+        ifBody = Node(self.node.body).compile()
+        elseBody = Node(self.node.orelse).compile()
         return '%s ? %s : %s' % (condition, ifBody, elseBody)
 
 class PrintNode(Node):
