@@ -109,6 +109,12 @@ class BinOpNode(Node):
         else:
             return '%s %s %s' % (leftOperand, operator, rightOperand)
 
+class UnaryOpNode(Node):
+    def compile(self):
+        operand = Node(self.node.operand).compile()
+        operator = Node(self.node.op).compile()
+        return '%s%s' % (operand, operator)
+
 class WhileNode(Node):
     def compile(self):
         condition = Node(self.node.test).compile()
