@@ -10,7 +10,7 @@ class Node:
     def getType(self):
         return type(self.node).__name__
     
-class BodyNode(Node):
+class ChunkNode(Node):
     def __init__(self, nodeList):
         self.nodeList = nodeList
     
@@ -37,7 +37,7 @@ class ExprNode(Node):
 class ModuleNode(Node):
     def compile(self):
         return  '''(function(){\r\n%s\r\n})();
-                ''' % helper.indentCode(BodyNode(self.node.body).compile())
+                ''' % helper.indentCode(ChunkNode(self.node.body).compile())
 
 class BreakNode(Node):
     def compile(self):
@@ -134,20 +134,20 @@ class UnaryOpNode(Node):
 class WhileNode(Node):
     def compile(self):
         condition = Node(self.node.test).compile()
-        whileBlock = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
-        elseBlock = '\r\n'.join(Node(stmt).compile() for stmt in self.node.orelse)
-        return 'while(%s){%s}%s' % (condition, whileBlock, elseBlock)
+        whileBlock = ChunkNode(self.node.body).compile()
+        elseBlock = ChunkNode(self.node.orelse).compile()
+        return 'while(%s){\r\n%s\r\n}\r\n%s' % (condition, helper.indentCode(whileBlock), elseBlock)
 
 class IfNode(Node):
     def compile(self):
         hasElse = bool(self.node.orelse)
         condition = Node(self.node.test).compile()
-        ifBlock = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
+        ifBlock = ChunkNode(self.node.body).compile()
         if hasElse:
-            elseBlock = '\r\n'.join(Node(stmt).compile() for stmt in self.node.orelse)
-            return 'if(%s){%s}else{%s}' % (condition, ifBlock, elseBlock)
+            elseBlock = ChunkNode(self.node.orelse).compile()
+            return 'if(%s){\r\n%s\r\n}\r\nelse{\r\n%s\r\n}' % (condition, helper.indentCode(ifBlock), helper.indentCode(elseBlock))
         else:
-            return 'if(%s){%s}' % (condition, ifBlock)
+            return 'if(%s){\r\n%s\r\n}' % (condition, helper.indentCode(ifBlock))
 
 #untested
 class RaiseNode(Node):
@@ -158,23 +158,23 @@ class RaiseNode(Node):
 #untested
 class TryExceptNode(Node):
     def compile(self):
-        tryBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
+        tryBody = ChunkNode(self.node.body).compile()
         handlers = Node(self.node.handlers.body).compile()
-        catchBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.orelse)
+        catchBody = ChunkNode(self.node.orelse).compile()
         return 'try{%s}catch(e){var caughtException = true;%s}if(!caughtException){%s}' % (tryBody, handlers, catchBody)
 
 #untested
 class TryFinallyNode(Node):
     def compile(self):
-        tryBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
-        finallyBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.finalbody)
+        tryBody = ChunkNode(self.node.body).compile()
+        finallyBody = ChunkNode(self.node.finalbody).compile()
         return 'try{%s}finally{%s}' % (tryBody, finallyBody)
 
 #untested
 class FunctionDefNode(Node):
     def compile(self):
         functionName = self.node.name
-        body = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
+        body = ChunkNode(self.node.body).compile()
         return 'this.%s = function(args){%s}' % (functionName, body)
 
 class ReturnNode(Node):
