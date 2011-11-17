@@ -36,8 +36,7 @@ class ExprNode(Node):
     
 class ModuleNode(Node):
     def compile(self):
-        return  '''(function(){\r\n%s\r\n})();
-                ''' % helper.indentCode(ChunkNode(self.node.body).compile())
+        return  '(function(){\r\n%s\r\n})();' % helper.indentCode(ChunkNode(self.node.body).compile())
 
 class BreakNode(Node):
     def compile(self):
@@ -120,7 +119,7 @@ class BinOpNode(Node):
         leftOperand = Node(self.node.left).compile()
         operator = Node(self.node.op).compile()
         rightOperand = Node(self.node.right).compile()
-        if(Node(self.node.op).getType() == ('Pow' or 'FloorDiv')):
+        if(Node(self.node.op).getType() in ['Pow', 'FloorDiv']):
             return '%s(%s, %s)' % (operator, leftOperand, rightOperand)
         else:
             return '%s %s %s' % (leftOperand, operator, rightOperand)
@@ -175,7 +174,8 @@ class FunctionDefNode(Node):
     def compile(self):
         functionName = self.node.name
         body = ChunkNode(self.node.body).compile()
-        return 'this.%s = function(args){%s}' % (functionName, body)
+        delimitedArguments = ', '.join(Node(arg).compile() for arg in args)
+        return 'this.%s = function(%s){\r\n%s\r\n}' % (functionName, delimitedArguments, body)
 
 class BoolOpNode(Node):
     def compile(self):
