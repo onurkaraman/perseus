@@ -99,6 +99,22 @@ class FloorDivNode(Node):
     def compile(self):
         return 'Math.floor'
     
+class InvertNode(Node):
+    def compile(self):
+        return '~'
+
+class NotNode(Node):
+    def compile(self):
+        return '!'
+
+class UAddNode(Node):
+    def compile(self):
+        return '+'
+
+class USubNode(Node):
+    def compile(self):
+        return '-'
+
 class BinOpNode(Node):
     def compile(self):
         leftOperand = Node(self.node.left).compile()
@@ -113,7 +129,7 @@ class UnaryOpNode(Node):
     def compile(self):
         operand = Node(self.node.operand).compile()
         operator = Node(self.node.op).compile()
-        return '%s%s' % (operand, operator)
+        return '%s%s' % (operator, operand)
 
 class WhileNode(Node):
     def compile(self):
