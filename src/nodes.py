@@ -3,8 +3,10 @@ class Node:
         self.node = node
     
     def compile(self):
-        ASTNodeType = type(self.node).__name__
-        return globals()[ASTNodeType + 'Node'](self.node).compile()
+        return globals()[self.getType() + 'Node'](self.node).compile()
+    
+    def getType(self):
+        return type(self.node).__name__
 
 class NumNode(Node):
     def compile(self):
@@ -39,6 +41,63 @@ class PassNode(Node):
     def compile(self):
         return 'return void(0);'
     
+class AddNode(Node):
+    def compile(self):
+        return '+'
+
+class SubNode(Node):
+    def compile(self):
+        return '-'
+
+class MultNode(Node):
+    def compile(self):
+        return '*'
+
+class DivNode(Node):
+    def compile(self):
+        return '/'
+
+class ModNode(Node):
+    def compile(self):
+        return '%'
+
+class LShiftNode(Node):
+    def compile(self):
+        return '<<'
+
+class RShiftNode(Node):
+    def compile(self):
+        return '>>'
+    
+class BitOrNode(Node):
+    def compile(self):
+        return '|'
+
+class BitXorNode(Node):
+    def compile(self):
+        return '^'
+
+class BitAndNode(Node):
+    def compile(self):
+        return '&'
+    
+class PowNode(Node):
+    def compile(self):
+        return 'Math.pow'
+    
+class FloorDivNode(Node):
+    def compile(self):
+        pass
+
+class BinOpNode(Node):
+    def compile(self):
+        leftOperand = Node(self.node.left)
+        operator = Node(self.node.op)
+        rightOperand = Node(self.node.right)
+        if(Node(self.node.op).getType() == ('Pow' or 'FloorDiv')):
+            return '%s(%s, %s)' % (operator.compile(), leftOperand.compile(), rightOperand.compile())
+        else:
+            return '%s %s %s' % (leftOperand.compile(), operator.compile(), rightOperand.compile())
 
 
 class ReturnNode(Node):

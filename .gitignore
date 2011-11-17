@@ -17,3 +17,8 @@ src/parser.js
 ###########
 .project
 .pydevproject
+.settings/
+
+# Test File #
+#############
+src/test.py
