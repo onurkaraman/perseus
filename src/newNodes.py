@@ -1,6 +1,8 @@
 import ast
 
-globals = {}
+INDENTWIDTH = 2
+
+globalVars = {}
 
 def getClassName(object):
     return type(object).__name__
@@ -8,21 +10,23 @@ def getClassName(object):
 # rootNode = ModuleNode(ast.parse(...), None)
 class Base:
     def __init__(self, astNode, parent):
-        self = astNode
+        self.ast = astNode
         self.parent = parent
         
         # Auto-build nodes out of children fields.
-        for fieldName in self._fields:
-            child = self.getattr(field)
-            child = self.resolve(child)
-    
-    def resolve(element):
+        for fieldName in self.ast._fields:
+            child = getattr(self.ast, fieldName)
+            setattr(self, fieldName, self.resolve(child))
+    def resolve(self, element):
         '''
-        Returns an element if it is primitive or casts an ast.AST object into
-        its abstraction.
+        Returns an element if it is primitive, a new Block object for closures,
+        or casts an ast.AST object into its abstraction.
         '''
+        # Handling closures
+        if getClassName(element) == 'list':
+            return Block(element, self)
         # Handling primitive children
-        if type(element) in __builtins__:
+        elif getClassName(element) in ['int', 'str']:
             return element 
         else:
             className = getClassName(element)
@@ -32,6 +36,21 @@ class Base:
         pass
     def __str__(self):
         return self.compile()
+    def getChildren(self):
+        [getattr(self, fieldName) for fieldName in self.ast._fields]
+
+class Module(Base):
+    def compile(self):
+        return '%s' % self.body
+#        return  '(function(){\r\n%s\r\n})();' % helper.indentCode(ChunkNode(self.node.body).compile())
+    
+class Expr(Base):
+    def compile(self):
+        return '%s' % self.value
+    
+class Num(Base):
+    def compile(self):
+        return '%s' % self.n
 
 class FloorDiv(Base):
     def compile(self):
@@ -41,11 +60,13 @@ class BinOp(Base):
     def compile(self):
         return self.op.compile()
 
-class Num(Base):
-    def compile(self):
-        return '%s' % self.n
-
-class Block:
+class Block(Base):
+    '''
+    An abstraction of a closure.  This occurs in Python whenever we have:
+    * module
+    * class definition
+    * function body
+    '''
     def __init__(self, astNodeList, parent):
         self.children = astNodeList
         self.parent = parent
@@ -58,4 +79,17 @@ class Block:
     # Traverse up parents until the nearest Block node, return that indent value
     # plus 1
     def calcIndent(self):
-        pass
+        def finishedTraversal(pointer):
+            return pointer != None
+        indent = 1
+        pointer = self.parent
+        while(not finishedTraversal(pointer)):
+            if getClassName(pointer) == 'Block':
+                indent = pointer.indent + 1
+                break
+        return indent
+    def compile(self):
+        compiledChildren = [self.resolve(child).compile() + ';' for child in self.children]
+        indentString = self.indent*INDENTWIDTH*' '
+        statementDelimiter = '\r\n' + indentString
+        return '(function(){%s\r\n})();' % (statementDelimiter + statementDelimiter.join(compiledChildren))
