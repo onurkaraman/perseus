@@ -184,6 +184,22 @@ class FunctionDefNode(Node):
         body = ChunkNode(self.node.body).compile()
         return 'this.%s = function(args){%s}' % (functionName, body)
 
+class BoolOpNode(Node):
+    def compile(self):
+        return  (' %s ' % 
+                    Node(self.node.op).compile()
+                ).join(
+                    Node(value).compile() for value in self.node.values
+                )
+
+class AndNode(Node):
+    def compile(self):
+        return '&&'
+    
+class OrNode(Node):
+    def compile(self):
+        return '||'
+
 class ReturnNode(Node):
     def compile(self):
         return 'return %s;' % ('' if self.node.value is None else Node(self.node.value).compile())
