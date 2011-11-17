@@ -87,18 +87,17 @@ class PowNode(Node):
     
 class FloorDivNode(Node):
     def compile(self):
-        pass
+        return 'Math.floor'
 
 class BinOpNode(Node):
     def compile(self):
-        leftOperand = Node(self.node.left)
-        operator = Node(self.node.op)
-        rightOperand = Node(self.node.right)
+        leftOperand = Node(self.node.left).compile()
+        operator = Node(self.node.op).compile()
+        rightOperand = Node(self.node.right).compile()
         if(Node(self.node.op).getType() == ('Pow' or 'FloorDiv')):
-            return '%s(%s, %s)' % (operator.compile(), leftOperand.compile(), rightOperand.compile())
+            return '%s(%s, %s)' % (operator, leftOperand, rightOperand)
         else:
-            return '%s %s %s' % (leftOperand.compile(), operator.compile(), rightOperand.compile())
-
+            return '%s %s %s' % (leftOperand, operator, rightOperand)
 
 class ReturnNode(Node):
     def compile(self):
