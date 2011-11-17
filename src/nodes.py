@@ -136,23 +136,23 @@ class RaiseNode(Node):
 #untested
 class TryExceptNode(Node):
     def compile(self):
-        tryBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
+        tryBody = ChunkNode(self.node.body).compile()
         handlers = Node(self.node.handlers.body).compile()
-        catchBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.orelse)
+        catchBody = ChunkNode(self.node.orelse).compile()
         return 'try{%s}catch(e){var caughtException = true;%s}if(!caughtException){%s}' % (tryBody, handlers, catchBody)
 
 #untested
 class TryFinallyNode(Node):
     def compile(self):
-        tryBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
-        finallyBody = '\r\n'.join(Node(stmt).compile() for stmt in self.node.finalbody)
+        tryBody = ChunkNode(self.node.body).compile()
+        finallyBody = ChunkNode(self.node.finalbody).compile()
         return 'try{%s}finally{%s}' % (tryBody, finallyBody)
 
 #untested
 class FunctionDefNode(Node):
     def compile(self):
         functionName = self.node.name
-        body = '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
+        body = ChunkNode(self.node.body).compile()
         return 'this.%s = function(args){%s}' % (functionName, body)
 
 class ReturnNode(Node):
