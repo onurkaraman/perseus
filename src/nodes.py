@@ -7,6 +7,13 @@ class Node:
     
     def getType(self):
         return type(self.node).__name__
+    
+class BodyNode(Node):
+    def __init__(self, nodeList):
+        self.nodeList = nodeList
+    
+    def compile(self):
+        return '\r\n'.join('\t' + Node(node).compile() for node in self.nodeList)
 
 class NumNode(Node):
     def compile(self):
@@ -27,7 +34,8 @@ class ExprNode(Node):
     
 class ModuleNode(Node):
     def compile(self):
-        return '(function(){%s})();' % '\r\n'.join(Node(stmt).compile() for stmt in self.node.body)
+        return  '''(function(){\r\n%s\r\n})();
+                ''' % BodyNode(self.node.body).compile()
 
 class BreakNode(Node):
     def compile(self):
@@ -88,7 +96,7 @@ class PowNode(Node):
 class FloorDivNode(Node):
     def compile(self):
         return 'Math.floor'
-
+    
 class BinOpNode(Node):
     def compile(self):
         leftOperand = Node(self.node.left).compile()
