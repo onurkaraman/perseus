@@ -2,8 +2,6 @@ import ast
 import helper
 import typing
 
-INDENTWIDTH = 2
-
 globalVars = {}
 
 # rootNode = ModuleNode(ast.parse(...), None)
@@ -18,29 +16,29 @@ class Base:
             setattr(self, fieldName, self.resolve(child))
     def resolve(self, element):
         '''
-        Returns an element if it is primitive, a new Block object for closures,
-        or casts an ast.AST object into its abstraction.
+        Returns an string representation of an element if it is primitive, 
+        or casts an ast.AST object into its abstraction.  Resolves recursively
+        for lists.
         '''
-        # Handling closures
-        if typing.isList(element):
-            return Block(element, self)
         # Handling primitive children
-        elif typing.isPrimitive(element) or typing.isExpressionContext(element):
+        if typing.isPrimitive(element) or typing.isExpressionContext(element):
             return str(element)
+        elif typing.isList(element):
+            return [self.resolve(member).compile() for member in element]
         else:
             className = typing.getClassName(element)
             nodeClass = globals()[className]
             return nodeClass(element, self)
+    def getChildren(self):
+        [getattr(self, fieldName) for fieldName in self.ast._fields]
     def compile(self):
         pass
     def __str__(self):
         return self.compile()
-    def getChildren(self):
-        [getattr(self, fieldName) for fieldName in self.ast._fields]
 
 class Module(Base):
     def compile(self):
-        return '%s' % self.body
+        return '%s' % Block(self.body, self)
 
 class FunctionDef(Base):
     def compile(self):
@@ -149,6 +147,18 @@ class UnaryOp(Base):
 class Return(Base):
     def compile(self):
         return 'return %s' % self.value
+
+class BoolOp(Base):
+    def compile(self):
+        return  (' %s ' % self.op).join(self.values)
+
+class And(Base):
+    def compile(self):
+        return '&&'
+    
+class Or(Base):
+    def compile(self):
+        return '||'
      
 class Block(Base):
     '''
@@ -180,6 +190,7 @@ class Block(Base):
         return indent
     
     def compile(self):
-        compiledChildren = [self.resolve(child).compile() + ';' for child in self.children]
+        # Append `;` to statements in the body
+        compiledChildren = [ child + ';' for child in self.children]
         indentedCode = '\r\n'.join([helper.indent(compiledChild, 1) for compiledChild in compiledChildren])
         return helper.closure(indentedCode)
