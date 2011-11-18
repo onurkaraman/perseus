@@ -1,4 +1,5 @@
 import ast
+import helper
 import typing
 
 INDENTWIDTH = 2
@@ -145,6 +146,10 @@ class UnaryOp(Base):
     def compile(self):
         return self.op.compile()
 
+class Return(Base):
+    def compile(self):
+        return 'return %s' % self.value
+     
 class Block(Base):
     '''
     An abstraction of a closure.  This occurs in Python whenever we have:
@@ -173,8 +178,8 @@ class Block(Base):
                 indent = pointer.indent + 1
                 break
         return indent
+    
     def compile(self):
         compiledChildren = [self.resolve(child).compile() + ';' for child in self.children]
-        indentString = self.indent * INDENTWIDTH * ' '
-        statementDelimiter = '\r\n' + indentString
-        return '(function(){%s\r\n})();' % (statementDelimiter + statementDelimiter.join(compiledChildren))
+        indentedCode = '\r\n'.join([helper.indent(compiledChild, 1) for compiledChild in compiledChildren])
+        return helper.closure(indentedCode)
