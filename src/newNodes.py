@@ -53,14 +53,29 @@ class Name(Base):
             return 'var %s' % self.id
         else:
             return '%s' % self.id
-    
+
 class Expr(Base):
     def compile(self):
         return '%s' % self.value
 
+class Compare(Base):
+	def compile(self):
+		print self.left, self.ops, self.comparators
+		trailingComparison = ' '.join('%s %s' % (op, comparator) for (op, comparator) in zip(self.ops, self.comparators))
+		return ("%s " + trailingComparison) % self.left
+
 class Num(Base):
     def compile(self):
         return '%s' % self.n
+
+class Str(Base):
+    def compile(self):
+        stringValue = self.s
+        if (stringValue.startswith('"')):
+            stringValue = "'%s'" % stringValue
+        else:
+            stringValue = '"%s"' % stringValue
+        return '%s' % stringValue
 
 class Break(Base):
     def compile(self):
@@ -146,6 +161,13 @@ class UnaryOp(Base):
     def compile(self):
         return self.op.compile()
 
+class IfExp(Base):
+    def compile(self):
+        condition = self.test.compile()
+        ifBody = self.body.compile()
+        elseBody = self.orelse.compile()
+        return '%s ? %s : %s' % (condition, ifBody, elseBody)
+
 class Return(Base):
     def compile(self):
         return 'return %s' % self.value
@@ -157,7 +179,7 @@ class BoolOp(Base):
 class And(Base):
     def compile(self):
         return '&&'
-    
+
 class Or(Base):
     def compile(self):
         return '||'
@@ -170,6 +192,42 @@ class Assign(Base):
 class Delete(Base):
     def compile(self):
         return 'delete ' + ', '.join(target for target in self.targets) 
+
+class Eq(Base):
+	def compile(self):
+		return '=='
+
+class NotEq(Base):
+	def compile(self):
+		return '!='
+
+class Lt(Base):
+	def compile(self):
+		return '<'
+
+class LtE(Base):
+	def compile(self):
+		return '<='
+
+class Gt(Base):
+	def compile(self):
+		return '>'
+
+class GtE(Base):
+	def compile(self):
+		return '>='
+
+class Is(Base):
+	def compile(self):
+		return '==='
+
+class IsNot(Base):
+	def compile(self):
+		return '!=='
+
+class Dict(Base):
+	def compile(self):
+	        return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
 
 class Block(Base):
     '''
@@ -199,7 +257,7 @@ class Block(Base):
                 indent = pointer.indent + 1
                 break
         return indent
-    
+
     def compile(self):
         # Append `;` to statements in the body
         compiledChildren = [ child + ';' for child in helper.flattenLines(self.children)]
