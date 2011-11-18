@@ -5,11 +5,11 @@ NEWLINE = '\r\n'
 
 # Wraps a chunk of code in a closure.
 def closure(code):
-    return (
-             '(function(){' + NEWLINE +
-             '%s' + NEWLINE +
+    return multiline([
+             '(function(){',
+             '  %s',
              '})();'
-           ) % indent(code, 1)
+           ]) % code
 
 # Indents a string.  If it is multi-line, each line will be indented.
 def indent(code, level):
@@ -33,4 +33,20 @@ def expand(array):
 # statements with newlines
 def formatGroup(statementList):
     return NEWLINE.join(map(lambda(line): line + ';', statementList))
-            
+
+# Concatenates a list of statements with newlines.
+def multiline(statementList):
+    map(lambda(statement): reindent(statement), statementList)
+    return NEWLINE.join(statementList)
+
+# *Developer-method*.  Indents a method using INDENTWIDTH per every 2 spaces in
+# a string.
+def reindent(statement):
+    originalLength = len(statement)
+    statement.lstrip()
+    
+    # should be an even number!
+    assert (len(statement) - originalLength) % 2 == 0
+    
+    numIndents = (len(statement) - originalLength)/2
+    return indent(statement, numIndents)

@@ -90,15 +90,15 @@ class Str(Base):
 
 class Break(Base):
     def compile(self):
-        return 'break;'
+        return 'break'
 
 class Continue(Base):
     def compile(self):
-        return 'continue;'
+        return 'continue'
 
 class Pass(Base):
     def compile(self):
-        return 'return void(0);'
+        return 'return void(0)'
 
 class Add(Base):
     def compile(self):
@@ -262,21 +262,37 @@ class List(Base):
     
 class If(Base):
     def compile(self):
-        compiled = (
-                     'if(%s){' + helper.NEWLINE +
-                     '%s' + helper.NEWLINE +
+        compiled = helper.multiline([
+                     'if(%s){',
+                     '  %s',
                      '}' 
-                   ) % (self.test, helper.indent(helper.formatGroup(self.body), 1))
+                   ]) % (self.test, helper.formatGroup(self.body))
         # **Consider:** abstract list.isEmpty() ?
         if len(self.orelse) != 0:
-            compiled = (
-                         compiled + helper.NEWLINE + 
-                         'else{' + helper.NEWLINE +
-                         '%s' + helper.NEWLINE + 
+            compiled = helper.multiline([
+                         compiled,
+                         'else{',
+                         '  %s',
                          '}'
-                       ) % (helper.indent(helper.formatGroup(self.orelse), 1))
+                       ]) % (helper.formatGroup(self.orelse))
         return compiled
 
+class While(Base):
+    def compile(self):
+        return helper.multiline([
+                   'if%s{',
+                   '  while(true){',
+                   '    %s',
+                   '    if(!%s){',
+                   '      %s',
+                   '      break;',
+                   '    }',
+                   '  }'
+                   '}',
+                   'else{',
+                   '  %s',
+                   '}'
+                ]) % (self.test, helper.formatGroup(self.body), self.test, helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
 
 class Block(Base):
     '''
@@ -315,4 +331,4 @@ class Block(Base):
         enclosed = helper.closure(group)
         
         # need to indent the entire block now
-        return indent(enclosed, self.indent)
+        return helper.indent(enclosed, self.indent)
