@@ -3,15 +3,15 @@ import typing
 INDENTWIDTH = 2
 NEWLINE = '\r\n'
 
+# Wraps a chunk of code in a closure.
 def closure(code):
     return (
-             '(function(){' +
-             NEWLINE +
-             '%s' +
-             NEWLINE +
+             '(function(){' + NEWLINE +
+             '%s' + NEWLINE +
              '})();'
-           ) % code
+           ) % indent(code, 1)
 
+# Indents a string.  If it is multi-line, each line will be indented.
 def indent(code, level):
     return NEWLINE.join(map(lambda(line): ' ' * INDENTWIDTH * level + line, code.split(NEWLINE)))
 
@@ -27,4 +27,10 @@ def expand(array):
         else:
             expanded.append(element)
     return expanded
+
+# Turns a list of statements into a *block* in the traditional sense, i.e.
+# appends a semicolon to the end of each statement, and concatenates the
+# statements with newlines
+def formatGroup(statementList):
+    return NEWLINE.join(map(lambda(line): line + ';', statementList))
             
