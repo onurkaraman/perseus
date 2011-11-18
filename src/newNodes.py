@@ -51,7 +51,7 @@ class Name(Base):
             return 'var %s' % self.id
         else:
             return '%s' % self.id
-    
+
 class Expr(Base):
     def compile(self):
         return '%s' % self.value
@@ -144,6 +144,13 @@ class UnaryOp(Base):
     def compile(self):
         return self.op.compile()
 
+class IfExp(Base):
+    def compile(self):
+        condition = self.test.compile()
+        ifBody = self.body.compile()
+        elseBody = self.orelse.compile()
+        return '%s ? %s : %s' % (condition, ifBody, elseBody)
+
 class Return(Base):
     def compile(self):
         return 'return %s' % self.value
@@ -155,11 +162,11 @@ class BoolOp(Base):
 class And(Base):
     def compile(self):
         return '&&'
-    
+
 class Or(Base):
     def compile(self):
         return '||'
-     
+
 class Block(Base):
     '''
     An abstraction of a closure.  This occurs in Python whenever we have:
@@ -188,7 +195,7 @@ class Block(Base):
                 indent = pointer.indent + 1
                 break
         return indent
-    
+
     def compile(self):
         # Append `;` to statements in the body
         compiledChildren = [ child + ';' for child in self.children]
