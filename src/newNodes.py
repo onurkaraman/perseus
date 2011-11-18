@@ -53,6 +53,16 @@ class Name(Base):
     def compile(self):
         if self.id == 'None':
             self.id = 'null'
+        try:
+            conversion = {
+                'None': 'null',
+                'True': 'true',
+                'False': 'false'
+            }
+            self.id = conversion[self.id]
+        except KeyError:
+            pass
+        
         return '%s' % self.id
 
 class Expr(Base):
@@ -245,6 +255,10 @@ class Dict(Base):
 class Print(Base):
     def compile(self):
         return 'console.log(%s)' % ', '.join(value for value in self.values)
+
+class List(Base):
+    def compile(self):
+        return '[%s]' % ', '.join(value for value in self.elts)
 
 class Block(Base):
     '''
