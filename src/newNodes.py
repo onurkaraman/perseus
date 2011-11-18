@@ -22,7 +22,6 @@ class Base:
         '''
         # Handling primitive children
         if typing.isPrimitive(element) or typing.isExpressionContext(element):
-			print 'hit prim'
 			return str(element)
         elif typing.isList(element):
             return [self.resolve(member).compile() for member in element]
@@ -56,6 +55,12 @@ class Name(Base):
 class Expr(Base):
     def compile(self):
         return '%s' % self.value
+
+class Compare(Base):
+	def compile(self):
+		print self.left, self.ops, self.comparators
+		trailingComparison = ' '.join('%s %s' % (op, comparator) for (op, comparator) in zip(self.ops, self.comparators))
+		return ("%s " + trailingComparison) % self.left
 
 class Num(Base):
     def compile(self):
@@ -176,6 +181,38 @@ class And(Base):
 class Or(Base):
     def compile(self):
         return '||'
+
+class Eq(Base):
+	def compile(self):
+		return '=='
+
+class NotEq(Base):
+	def compile(self):
+		return '!='
+
+class Lt(Base):
+	def compile(self):
+		return '<'
+
+class LtE(Base):
+	def compile(self):
+		return '<='
+
+class Gt(Base):
+	def compile(self):
+		return '>'
+
+class GtE(Base):
+	def compile(self):
+		return '>='
+
+class Is(Base):
+	def compile(self):
+		return '==='
+
+class IsNot(Base):
+	def compile(self):
+		return '!=='
 
 class Dict(Base):
 	def compile(self):
