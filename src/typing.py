@@ -1,7 +1,7 @@
 import types
 
 def getClassName(object):
-    return type(object).__name__
+    return object.__class__.__name__
 
 def isList(object):
     return type(object) == types.ListType
