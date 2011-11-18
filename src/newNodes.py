@@ -247,6 +247,48 @@ class IsNot(Base):
 	def compile(self):
 		return '!=='
 
+# **Consider:** ctx, Ellipsis, ExtSlice form of slice
+class Subscript(Base):
+	def compile(self):
+		return '%s' % self.slice
+
+class Slice(Base):
+	def compile(self):
+		hasLower = self.lower is not None
+		hasUpper = self.upper is not None
+		hasStep = self.step is not None and self.step.compile() != 'null'
+		slicedArray = None
+
+		if hasLower and hasUpper:
+			slicedArray = "%s.slice(%s, %s)" % (self.parent.value, self.lower, self.upper)
+		elif hasLower:
+			slicedArray = "%s.slice(%s)" % (self.parent.value, self.lower)
+		elif hasUpper:
+			slicedArray = "%s.slice(0, %s)" % (self.parent.value, self.upper)
+		else: #has neither
+			slicedArray = "%s.slice(0, %s)" % (self.parent.value, "%s.length" % self.parent.value)
+		if hasStep:
+			step = int(self.step.compile())
+			if step > 0:
+				slicedArray += (".filter(" +
+									"function(element, index, array){" +
+										"return index %s %s == 0;" +
+									"}" +
+								")") % ('%', self.step)
+			elif step < 0:
+				slicedArray += (".filter(" +
+									"function(element, index, array){" +
+										"return (array.length - index - 1) %s %s == 0;" +
+									"}" +
+								").reverse()") % ('%', self.step)
+			elif step == 0:
+				return "ValueError: slice step cannot be zero"
+		return slicedArray
+
+class Index(Base):
+	def compile(self):
+		return '%s[%s]' % (self.parent.value, self.value)
+
 class Dict(Base):
 	def compile(self):
 	        return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
@@ -259,20 +301,20 @@ class Print(Base):
 class List(Base):
     def compile(self):
         return '[%s]' % ', '.join(value for value in self.elts)
-    
+
 class If(Base):
     def compile(self):
         compiled = (
                      'if(%s){' + helper.NEWLINE +
                      '%s' + helper.NEWLINE +
-                     '}' 
+                     '}'
                    ) % (self.test, helper.indent(helper.formatGroup(self.body), 1))
         # **Consider:** abstract list.isEmpty() ?
         if len(self.orelse) != 0:
             compiled = (
-                         compiled + helper.NEWLINE + 
+                         compiled + helper.NEWLINE +
                          'else{' + helper.NEWLINE +
-                         '%s' + helper.NEWLINE + 
+                         '%s' + helper.NEWLINE +
                          '}'
                        ) % (helper.indent(helper.formatGroup(self.orelse), 1))
         return compiled
