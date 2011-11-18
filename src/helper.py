@@ -22,8 +22,8 @@ def expand(array):
     for element in array:
         if typing.isList(element):
             recursiveExpand = expand(element)
-            for element in array:
-                expanded.append(element)
+            for subelement in recursiveExpand:
+                expanded.append(subelement)
         else:
             expanded.append(element)
     return expanded
