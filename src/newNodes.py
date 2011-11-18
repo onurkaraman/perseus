@@ -77,7 +77,8 @@ class Compare(Base):
 
 class Num(Base):
     def compile(self):
-        return '%s' % self.n
+#        return '%s' % self.n
+        return self.n
 
 class Str(Base):
     def compile(self):
@@ -335,6 +336,37 @@ class While(Base):
                    '  %s',
                    '}'
                 ]) % (self.test, helper.formatGroup(self.body), self.test, helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+
+#### Functions
+
+# Currently cannot handle variable or keyword arguments.
+
+class arguments(Base):
+    def compile(self):
+        return ', '.join(self.args)
+    
+class Lambda(Base):
+    def compile(self):
+        return helper.multiline([
+            'function(%s){',
+            '  return %s;',
+            '}'
+        ]) % (self.args, self.body)
+
+class FunctionDef(Base):
+    def compile(self):
+        return helper.multiline([
+            'this.%s = function(%s){',
+            '  %s',
+            '}'
+        ]) % (self.name, self.args, helper.formatGroup(self.body))
+
+class Call(Base):
+    def compile(self):
+        argument = ', '.join(arg for arg in self.args)
+        return 'this.%s(%s)' % (self.func, argument)
+    
+##################################
 
 class Block(Base):
     '''
