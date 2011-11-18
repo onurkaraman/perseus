@@ -312,4 +312,7 @@ class Block(Base):
         # each have a `;` attached to their ends.  To avoid this (e.g. in if/
         # else blocks), simply concatenate the code before passing it back
         group = helper.formatGroup(helper.expand(self.children))
-        return helper.closure(group)
+        enclosed = helper.closure(group)
+        
+        # need to indent the entire block now
+        return indent(enclosed, self.indent)
