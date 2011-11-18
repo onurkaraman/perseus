@@ -302,6 +302,8 @@ class List(Base):
     def compile(self):
         return '[%s]' % ', '.join(value for value in self.elts)
 
+#### Control Flow
+
 class If(Base):
     def compile(self):
         compiled = helper.multiline([
@@ -319,6 +321,31 @@ class If(Base):
                        ]) % (helper.formatGroup(self.orelse))
         return compiled
 
+#TODO: Stabilize. Obviously having inlined variable names could result in variable name conflicts
+class For(Base):
+    def compile(self):
+        target = self.target.compile()
+        iterable = self.iter.compile()
+        return helper.multiline([
+                   'var uniqueObj = Object(%s);', # Doing this because strings in python are iterable, but not in javascript
+                   'if(Object.keys(uniqueObj).length > 0){',
+                   '  var %s;',
+                   '  var uniqueCounter = 0;',
+                   '  for(uniqueVar in uniqueObj){',
+                   '    uniqueCounter++;',
+                   '    %s = uniqueObj[uniqueVar];',
+                   '    %s',
+                   '    if(uniqueCounter >= Object.keys(uniqueObj).length){',
+                   '      %s',
+                   '      break;',
+                   '    }',
+                   '  }',
+                   '}',
+                   'else{',
+                   '  %s',
+                   '}'
+                ]) % (iterable, target, target, helper.formatGroup(self.body), helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+
 class While(Base):
     def compile(self):
         return helper.multiline([
@@ -335,6 +362,7 @@ class While(Base):
                    '  %s',
                    '}'
                 ]) % (self.test, helper.formatGroup(self.body), self.test, helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+##################################
 
 #### Functions
 
