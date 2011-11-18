@@ -1,13 +1,9 @@
 import ast
+import typing
 
 INDENTWIDTH = 2
 
 globalVars = {}
-
-IGNORE_FIELDS = {'ctx'}
-
-def getClassName(object):
-    return type(object).__name__
 
 # rootNode = ModuleNode(ast.parse(...), None)
 class Base:
@@ -17,8 +13,6 @@ class Base:
 
         # Auto-build nodes out of children fields.
         for fieldName in self.ast._fields:
-            if fieldName in IGNORE_FIELDS:
-                continue
             child = getattr(self.ast, fieldName)
             setattr(self, fieldName, self.resolve(child))
     def resolve(self, element):
@@ -27,13 +21,13 @@ class Base:
         or casts an ast.AST object into its abstraction.
         '''
         # Handling closures
-        if getClassName(element) == 'list':
+        if typing.isList(element):
             return Block(element, self)
         # Handling primitive children
-        elif getClassName(element) in ['int', 'float', 'str']:
+        elif typing.isPrimitive(element) or typing.isExpressionContext(element):
             return str(element)
         else:
-            className = getClassName(element)
+            className = typing.getClassName(element)
             nodeClass = globals()[className]
             return nodeClass(element, self)
     def compile(self):
@@ -46,11 +40,18 @@ class Base:
 class Module(Base):
     def compile(self):
         return '%s' % self.body
-#        return  '(function(){\r\n%s\r\n})();' % helper.indentCode(ChunkNode(self.node.body).compile())
+
+class FunctionDef(Base):
+    def compile(self):
+        compiledArgs = self.args.compile()
+        return 'this.%s = function(%s){%s%s}' % (self.name, compiledArgs[0], compiledArgs[1], self.body)
 
 class Name(Base):
     def compile(self):
-        return '%s' % self.id
+        if self.ctx == 'Store':
+            return 'var %s' % self.id
+        else:
+            return '%s' % self.id
     
 class Expr(Base):
     def compile(self):
@@ -168,7 +169,7 @@ class Block(Base):
         indent = 1
         pointer = self.parent
         while(not finishedTraversal(pointer)):
-            if getClassName(pointer) == 'Block':
+            if typing.getClassName(pointer) == 'Block':
                 indent = pointer.indent + 1
                 break
         return indent
