@@ -22,7 +22,8 @@ class Base:
         '''
         # Handling primitive children
         if typing.isPrimitive(element) or typing.isExpressionContext(element):
-            return str(element)
+			print 'hit prim'
+			return str(element)
         elif typing.isList(element):
             return [self.resolve(member).compile() for member in element]
         else:
@@ -59,6 +60,15 @@ class Expr(Base):
 class Num(Base):
     def compile(self):
         return '%s' % self.n
+
+class Str(Base):
+    def compile(self):
+        stringValue = self.s
+        if (stringValue.startswith('"')):
+            stringValue = "'%s'" % stringValue
+        else:
+            stringValue = '"%s"' % stringValue
+        return '%s' % stringValue
 
 class Break(Base):
     def compile(self):
@@ -166,6 +176,10 @@ class And(Base):
 class Or(Base):
     def compile(self):
         return '||'
+
+class Dict(Base):
+	def compile(self):
+	        return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
 
 class Block(Base):
     '''
