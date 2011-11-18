@@ -21,8 +21,10 @@ class Base:
         for lists.
         '''
         # Handling primitive children
-        if typing.isPrimitive(element) or typing.isExpressionContext(element):
+        if typing.isPrimitive(element):
             return str(element)
+        elif typing.isExpressionContext(element):
+            return typing.getClassName(element)
         elif typing.isList(element):
             return [self.resolve(member).compile() for member in element]
         else:
@@ -159,7 +161,16 @@ class And(Base):
 class Or(Base):
     def compile(self):
         return '||'
-     
+
+# **Consider:** need to handle global var assignments eventually.
+class Assign(Base):
+    def compile(self):
+        return '\r\n'.join('%s = %s' % (target, self.value) for target in self.targets)
+
+class Delete(Base):
+    def compile(self):
+        return 'delete ' + ', '.join(target for target in self.targets) 
+
 class Block(Base):
     '''
     An abstraction of a closure.  This occurs in Python whenever we have:
@@ -167,8 +178,8 @@ class Block(Base):
     * class definition
     * function body
     '''
-    def __init__(self, astNodeList, parent):
-        self.children = astNodeList
+    def __init__(self, children, parent):
+        self.children = children
         self.parent = parent
         self.indent = self.calcIndent()
         self.locals = {}
@@ -191,6 +202,6 @@ class Block(Base):
     
     def compile(self):
         # Append `;` to statements in the body
-        compiledChildren = [ child + ';' for child in self.children]
+        compiledChildren = [ child + ';' for child in helper.flattenLines(self.children)]
         indentedCode = '\r\n'.join([helper.indent(compiledChild, 1) for compiledChild in compiledChildren])
         return helper.closure(indentedCode)
