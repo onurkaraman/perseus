@@ -4,6 +4,8 @@ INDENTWIDTH = 2
 
 globalVars = {}
 
+IGNORE_FIELDS = {'ctx'}
+
 def getClassName(object):
     return type(object).__name__
 
@@ -15,6 +17,8 @@ class Base:
         
         # Auto-build nodes out of children fields.
         for fieldName in self.ast._fields:
+            if fieldName in IGNORE_FIELDS:
+                continue
             child = getattr(self.ast, fieldName)
             setattr(self, fieldName, self.resolve(child))
     def resolve(self, element):
@@ -43,6 +47,10 @@ class Module(Base):
     def compile(self):
         return '%s' % self.body
 #        return  '(function(){\r\n%s\r\n})();' % helper.indentCode(ChunkNode(self.node.body).compile())
+
+class Name(Base):
+    def compile(self):
+        return '%s' % self.id
     
 class Expr(Base):
     def compile(self):
