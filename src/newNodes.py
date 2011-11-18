@@ -259,6 +259,24 @@ class Print(Base):
 class List(Base):
     def compile(self):
         return '[%s]' % ', '.join(value for value in self.elts)
+    
+class If(Base):
+    def compile(self):
+        compiled = (
+                     'if(%s){' + helper.NEWLINE +
+                     '%s' + helper.NEWLINE +
+                     '}' 
+                   ) % (self.test, helper.indent(helper.formatGroup(self.body), 1))
+        # **Consider:** abstract list.isEmpty() ?
+        if len(self.orelse) != 0:
+            compiled = (
+                         compiled + helper.NEWLINE + 
+                         'else{' + helper.NEWLINE +
+                         '%s' + helper.NEWLINE + 
+                         '}'
+                       ) % (helper.indent(helper.formatGroup(self.orelse), 1))
+        return compiled
+
 
 class Block(Base):
     '''
@@ -273,7 +291,7 @@ class Block(Base):
         self.indent = self.calcIndent()
         self.locals = {}
         # To keep track of global declarations in python.  This causes different
-        # assignement statements in JS.
+        # assignment statements in JS.
         self.globalRefs = set()
 
     # Traverse up parents until the nearest Block node, return that indent value
@@ -290,9 +308,8 @@ class Block(Base):
         return indent
 
     def compile(self):
-        # Append `;` to statements in the body - those passed back in an array
+        # Appends `;` to statements in the body - those passed back in an array
         # each have a `;` attached to their ends.  To avoid this (e.g. in if/
         # else blocks), simply concatenate the code before passing it back
-        compiledChildren = [ child + ';' for child in helper.expand(self.children)]
-        indentedCode = helper.NEWLINE.join([helper.indent(compiledChild, 1) for compiledChild in compiledChildren])
-        return helper.closure(indentedCode)
+        group = helper.formatGroup(helper.expand(self.children))
+        return helper.closure(group)
