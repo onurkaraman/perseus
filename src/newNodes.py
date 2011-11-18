@@ -68,12 +68,12 @@ class Expr(Base):
         return '%s' % self.value
 
 class Compare(Base):
-	def compile(self):
-		allComparators = [self.left.compile()]
-		allComparators.extend(self.comparators[:])
-		leftComparators = allComparators[:-1]
-		rightComparators = allComparators[1:]
-		return ' && '.join('(%s %s %s)' % (left, op, right) for (left, op, right) in zip(leftComparators, self.ops, rightComparators))
+    def compile(self):
+        allComparators = [self.left.compile()]
+        allComparators.extend(self.comparators[:])
+        leftComparators = allComparators[:-1]
+        rightComparators = allComparators[1:]
+        return ' && '.join('(%s %s %s)' % (left, op, right) for (left, op, right) in zip(leftComparators, self.ops, rightComparators))
 
 class Num(Base):
     def compile(self):
@@ -167,14 +167,14 @@ class USub(Base):
 
 class BinOp(Base):
     def compile(self):
-    	if typing.getClassName(self.op) in ['Pow', 'FloorDiv']:
-    		return MathOp(self.ast, self.parent).compile()
-    	else:
-        	return '%s %s %s' % (self.left, self.op, self.right)
+        if typing.getClassName(self.op) in ['Pow', 'FloorDiv']:
+            return MathOp(self.ast, self.parent).compile()
+        else:
+            return '%s %s %s' % (self.left, self.op, self.right)
 
 class MathOp(Base):
-	def compile(self):
-		return '%s' % self.op
+    def compile(self):
+        return '%s' % self.op
 
 class UnaryOp(Base):
     def compile(self):
@@ -217,82 +217,82 @@ class AugAssign(Base):
         return '%s %s= %s' % (self.target, self.op, self.value)
 
 class Eq(Base):
-	def compile(self):
-		return '=='
+    def compile(self):
+        return '=='
 
 class NotEq(Base):
-	def compile(self):
-		return '!='
+    def compile(self):
+        return '!='
 
 class Lt(Base):
-	def compile(self):
-		return '<'
+    def compile(self):
+        return '<'
 
 class LtE(Base):
-	def compile(self):
-		return '<='
+    def compile(self):
+        return '<='
 
 class Gt(Base):
-	def compile(self):
-		return '>'
+    def compile(self):
+        return '>'
 
 class GtE(Base):
-	def compile(self):
-		return '>='
+    def compile(self):
+        return '>='
 
 class Is(Base):
-	def compile(self):
-		return '==='
+    def compile(self):
+        return '==='
 
 class IsNot(Base):
-	def compile(self):
-		return '!=='
+    def compile(self):
+        return '!=='
 
 # **Consider:** ctx, Ellipsis, ExtSlice form of slice
 class Subscript(Base):
-	def compile(self):
-		return '%s' % self.slice
+    def compile(self):
+        return '%s' % self.slice
 
 class Slice(Base):
-	def compile(self):
-		hasLower = self.lower is not None
-		hasUpper = self.upper is not None
-		hasStep = self.step is not None and self.step.compile() != 'null'
-		slicedArray = None
+    def compile(self):
+        hasLower = self.lower is not None
+        hasUpper = self.upper is not None
+        hasStep = self.step is not None and self.step.compile() != 'null'
+        slicedArray = None
 
-		if hasLower and hasUpper:
-			slicedArray = "%s.slice(%s, %s)" % (self.parent.value, self.lower, self.upper)
-		elif hasLower:
-			slicedArray = "%s.slice(%s)" % (self.parent.value, self.lower)
-		elif hasUpper:
-			slicedArray = "%s.slice(0, %s)" % (self.parent.value, self.upper)
-		else: #has neither
-			slicedArray = "%s.slice(0, %s)" % (self.parent.value, "%s.length" % self.parent.value)
-		if hasStep:
-			step = int(self.step.compile())
-			if step > 0:
-				slicedArray += (".filter(" +
-									"function(element, index, array){" +
-										"return index %s %s == 0;" +
-									"}" +
-								")") % ('%', self.step)
-			elif step < 0:
-				slicedArray += (".filter(" +
-									"function(element, index, array){" +
-										"return (array.length - index - 1) %s %s == 0;" +
-									"}" +
-								").reverse()") % ('%', self.step)
-			elif step == 0:
-				return "ValueError: slice step cannot be zero"
-		return slicedArray
+        if hasLower and hasUpper:
+            slicedArray = "%s.slice(%s, %s)" % (self.parent.value, self.lower, self.upper)
+        elif hasLower:
+            slicedArray = "%s.slice(%s)" % (self.parent.value, self.lower)
+        elif hasUpper:
+            slicedArray = "%s.slice(0, %s)" % (self.parent.value, self.upper)
+        else: #has neither
+            slicedArray = "%s.slice(0, %s)" % (self.parent.value, "%s.length" % self.parent.value)
+        if hasStep:
+            step = int(self.step.compile())
+            if step > 0:
+                slicedArray += (".filter(" +
+                                    "function(element, index, array){" +
+                                        "return index %s %s == 0;" +
+                                    "}" +
+                                ")") % ('%', self.step)
+            elif step < 0:
+                slicedArray += (".filter(" +
+                                    "function(element, index, array){" +
+                                        "return (array.length - index - 1) %s %s == 0;" +
+                                    "}" +
+                                ").reverse()") % ('%', self.step)
+            elif step == 0:
+                return "ValueError: slice step cannot be zero"
+        return slicedArray
 
 class Index(Base):
-	def compile(self):
-		return '%s[%s]' % (self.parent.value, self.value)
+    def compile(self):
+        return '%s[%s]' % (self.parent.value, self.value)
 
 class Dict(Base):
-	def compile(self):
-	        return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
+    def compile(self):
+            return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
 
 # **Consider:** What is nl - newline?
 class Print(Base):
@@ -308,7 +308,7 @@ class If(Base):
         compiled = helper.multiline([
                      'if(%s){',
                      '  %s',
-                     '}' 
+                     '}'
                    ]) % (self.test, helper.formatGroup(self.body))
         # **Consider:** abstract list.isEmpty() ?
         if len(self.orelse) != 0:
@@ -323,7 +323,7 @@ class If(Base):
 class While(Base):
     def compile(self):
         return helper.multiline([
-                   'if%s{',
+                   'if(%s){',
                    '  while(true){',
                    '    %s',
                    '    if(!%s){',
@@ -344,7 +344,7 @@ class While(Base):
 class arguments(Base):
     def compile(self):
         return ', '.join(self.args)
-    
+
 class Lambda(Base):
     def compile(self):
         return helper.multiline([
@@ -365,7 +365,68 @@ class Call(Base):
     def compile(self):
         argument = ', '.join(arg for arg in self.args)
         return 'this.%s(%s)' % (self.func, argument)
-    
+
+##################################
+
+#### Error Handling
+
+class ExceptHandler(Base):
+    def compile(self):
+        #return self.name
+        return self
+
+# TODO: Incorporate self.inst, trace
+class Raise(Base):
+    def compile(self):
+        exceptionType = self.type
+        return 'throw Error("%s")' % exceptionType
+
+class TryExcept(Base):
+    def compileCatchStatements(self):
+        catchStatements = []
+        for handler in self.handlers:
+            body = Block(handler.body, self.parent)
+            exceptionType = handler.type
+            if exceptionType is not None:
+                catch = helper.multiline([
+                    "if(e.message === '%s'){",
+                    "    %s",
+                    "}"
+                ]) % (exceptionType, body)
+            else:
+                catch = '%s' % body
+            catchStatements.append(catch)
+        return '\r\n'.join(catchStatements)
+
+    def compile(self):
+        tryBody = Block(self.body, self.parent)
+        catchBody = self.compileCatchStatements()
+        elseBody = Block(self.orelse, self.parent)
+        return helper.multiline([
+            'try{',
+            '  %s',
+            '}',
+            'catch(e){',
+            '  var caughtException = true;',
+            '  %s',
+            '}',
+            'if(!caughtException){',
+            '  %s',
+            '}'
+        ]) % (tryBody, catchBody, elseBody)
+
+class TryFinally(Base):
+    def compile(self):
+        tryBody = Block(self.body, self.parent)
+        finallyBody = Block(self.finalbody, self.parent)
+        return helper.multiline([
+            'try{',
+            '  %s',
+            '}',
+            'finally{',
+            '  %s',
+            '}',
+        ]) % (tryBody, finallyBody)
 ##################################
 
 class Block(Base):
@@ -403,6 +464,6 @@ class Block(Base):
         # else blocks), simply concatenate the code before passing it back
         group = helper.formatGroup(helper.expand(self.children))
         enclosed = helper.closure(group)
-        
+
         # need to indent the entire block now
         return helper.indent(enclosed, self.indent)
