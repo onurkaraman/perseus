@@ -1,0 +1,437 @@
+<!DOCTYPE html>  <html> <head>   <title>nodes.py</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="astprint.html">                 astprint.py               </a>                                           <a class="source" href="helper.html">                 helper.py               </a>                                           <a class="source" href="lexer.html">                 lexer.py               </a>                                           <a class="source" href="nodes.html">                 nodes.py               </a>                                           <a class="source" href="pythonscript.html">                 pythonscript.py               </a>                                           <a class="source" href="testHarness.html">                 testHarness.py               </a>                                           <a class="source" href="typing.html">                 typing.py               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               nodes.py             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">helper</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+
+<span class="n">globalVars</span> <span class="o">=</span> <span class="p">{}</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>rootNode = ModuleNode(ast.parse(...), None)</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">astNode</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ast</span> <span class="o">=</span> <span class="n">astNode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Auto-build nodes out of children fields.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">for</span> <span class="n">fieldName</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ast</span><span class="o">.</span><span class="n">_fields</span><span class="p">:</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ast</span><span class="p">,</span> <span class="n">fieldName</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">child</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns an string representation of an element if it is primitive, </span>
+<span class="sd">        or casts an ast.AST object into its abstraction.  Resolves recursively</span>
+<span class="sd">        for lists.</span>
+<span class="sd">        &#39;&#39;&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Handling primitive children</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="n">typing</span><span class="o">.</span><span class="n">isNone</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="ow">or</span> <span class="n">typing</span><span class="o">.</span><span class="n">isBoolean</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">element</span>
+        <span class="k">elif</span> <span class="n">typing</span><span class="o">.</span><span class="n">isPrimitive</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">typing</span><span class="o">.</span><span class="n">isExpressionContext</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">typing</span><span class="o">.</span><span class="n">getClassName</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">typing</span><span class="o">.</span><span class="n">isList</span><span class="p">(</span><span class="n">element</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">member</span><span class="p">)</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">element</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">className</span> <span class="o">=</span> <span class="n">typing</span><span class="o">.</span><span class="n">getClassName</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+            <span class="n">nodeClass</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">className</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">nodeClass</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">getChildren</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldName</span><span class="p">)</span> <span class="k">for</span> <span class="n">fieldName</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ast</span><span class="o">.</span><span class="n">_fields</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">Module</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Name</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">conversion</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;None&#39;</span><span class="p">:</span> <span class="s">&#39;null&#39;</span><span class="p">,</span>
+                <span class="s">&#39;True&#39;</span><span class="p">:</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>
+                <span class="s">&#39;False&#39;</span><span class="p">:</span> <span class="s">&#39;false&#39;</span>
+            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">conversion</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+
+<span class="k">class</span> <span class="nc">Expr</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+<span class="k">class</span> <span class="nc">Compare</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">allComparators</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">compile</span><span class="p">()]</span>
+        <span class="n">allComparators</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comparators</span><span class="p">[:])</span>
+        <span class="n">leftComparators</span> <span class="o">=</span> <span class="n">allComparators</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">rightComparators</span> <span class="o">=</span> <span class="n">allComparators</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="s">&#39; &amp;&amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;(</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">leftComparators</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="p">,</span> <span class="n">rightComparators</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">Num</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+
+<span class="k">class</span> <span class="nc">Str</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">stringValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">stringValue</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)):</span>
+            <span class="n">stringValue</span> <span class="o">=</span> <span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">stringValue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stringValue</span> <span class="o">=</span> <span class="s">&#39;&quot;</span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span> <span class="n">stringValue</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">stringValue</span>
+
+<span class="k">class</span> <span class="nc">Break</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;break&#39;</span>
+
+<span class="k">class</span> <span class="nc">Continue</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;continue&#39;</span>
+
+<span class="k">class</span> <span class="nc">Pass</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;return void(0)&#39;</span>
+
+<span class="k">class</span> <span class="nc">Add</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;+&#39;</span>
+
+<span class="k">class</span> <span class="nc">Sub</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;-&#39;</span>
+
+<span class="k">class</span> <span class="nc">Mult</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;*&#39;</span>
+
+<span class="k">class</span> <span class="nc">Div</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;/&#39;</span>
+
+<span class="k">class</span> <span class="nc">Mod</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;%&#39;</span>
+
+<span class="k">class</span> <span class="nc">LShift</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;&lt;&#39;</span>
+
+<span class="k">class</span> <span class="nc">RShift</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&gt;&gt;&#39;</span>
+
+<span class="k">class</span> <span class="nc">BitOr</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;|&#39;</span>
+
+<span class="k">class</span> <span class="nc">BitXor</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;^&#39;</span>
+
+<span class="k">class</span> <span class="nc">BitAnd</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&amp;&#39;</span>
+
+<span class="k">class</span> <span class="nc">Pow</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;Math.pow(</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">FloorDiv</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;Math.floor(</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Invert</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;~&#39;</span>
+
+<span class="k">class</span> <span class="nc">Not</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;!&#39;</span>
+
+<span class="k">class</span> <span class="nc">UAdd</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;+&#39;</span>
+
+<span class="k">class</span> <span class="nc">USub</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;-&#39;</span>
+
+<span class="k">class</span> <span class="nc">BinOp</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typing</span><span class="o">.</span><span class="n">getClassName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;Pow&#39;</span><span class="p">,</span> <span class="s">&#39;FloorDiv&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">MathOp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ast</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MathOp</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span>
+
+<span class="k">class</span> <span class="nc">UnaryOp</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operand</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">IfExp</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+        <span class="n">ifBody</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+        <span class="n">elseBody</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> ? </span><span class="si">%s</span><span class="s"> : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">ifBody</span><span class="p">,</span> <span class="n">elseBody</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Return</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;return </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+<span class="k">class</span> <span class="nc">BoolOp</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>  <span class="p">(</span><span class="s">&#39; </span><span class="si">%s</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">And</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&amp;&amp;&#39;</span>
+
+<span class="k">class</span> <span class="nc">Or</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;||&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p><strong>Consider:</strong> need to handle global var assignments eventually.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Assign</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s">&#39;var </span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">Delete</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;delete &#39;</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">AugAssign</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">= </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Eq</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;==&#39;</span>
+
+<span class="k">class</span> <span class="nc">NotEq</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;!=&#39;</span>
+
+<span class="k">class</span> <span class="nc">Lt</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;&#39;</span>
+
+<span class="k">class</span> <span class="nc">LtE</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;=&#39;</span>
+
+<span class="k">class</span> <span class="nc">Gt</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&gt;&#39;</span>
+
+<span class="k">class</span> <span class="nc">GtE</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;&gt;=&#39;</span>
+
+<span class="k">class</span> <span class="nc">Is</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;===&#39;</span>
+
+<span class="k">class</span> <span class="nc">IsNot</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;!==&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p><strong>Consider:</strong> ctx, Ellipsis, ExtSlice form of slice</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Subscript</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">slice</span>
+
+<span class="k">class</span> <span class="nc">Slice</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">hasLower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+        <span class="n">hasUpper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+        <span class="n">hasStep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;null&#39;</span>
+        <span class="n">slicedArray</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">hasLower</span> <span class="ow">and</span> <span class="n">hasUpper</span><span class="p">:</span>
+            <span class="n">slicedArray</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.slice(</span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">hasLower</span><span class="p">:</span>
+            <span class="n">slicedArray</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.slice(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">hasUpper</span><span class="p">:</span>
+            <span class="n">slicedArray</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.slice(0, </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c">#has neither</span>
+            <span class="n">slicedArray</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.slice(0, </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.length&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hasStep</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="o">.</span><span class="n">compile</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">slicedArray</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&quot;.filter(&quot;</span> <span class="o">+</span>
+                                    <span class="s">&quot;function(element, index, array){&quot;</span> <span class="o">+</span>
+                                        <span class="s">&quot;return index </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> == 0;&quot;</span> <span class="o">+</span>
+                                    <span class="s">&quot;}&quot;</span> <span class="o">+</span>
+                                <span class="s">&quot;)&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;%&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">slicedArray</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&quot;.filter(&quot;</span> <span class="o">+</span>
+                                    <span class="s">&quot;function(element, index, array){&quot;</span> <span class="o">+</span>
+                                        <span class="s">&quot;return (array.length - index - 1) </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> == 0;&quot;</span> <span class="o">+</span>
+                                    <span class="s">&quot;}&quot;</span> <span class="o">+</span>
+                                <span class="s">&quot;).reverse()&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;%&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&quot;ValueError: slice step cannot be zero&quot;</span>
+        <span class="k">return</span> <span class="n">slicedArray</span>
+
+<span class="k">class</span> <span class="nc">Index</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Dict</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">&#39;{</span><span class="si">%s</span><span class="s">}&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)))</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p><strong>Consider:</strong> What is nl - newline?</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Print</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;console.log(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">List</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elts</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h3>Control Flow</h3>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">If</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">compiled</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+                     <span class="s">&#39;if(</span><span class="si">%s</span><span class="s">){&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;}&#39;</span>
+                   <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">))</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p><strong>Consider:</strong> abstract list.isEmpty() ?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">compiled</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+                         <span class="n">compiled</span><span class="p">,</span>
+                         <span class="s">&#39;else{&#39;</span><span class="p">,</span>
+                         <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                         <span class="s">&#39;}&#39;</span>
+                       <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">compiled</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>TODO: Stabilize. Obviously having inlined variable names could result in variable name conflicts</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">For</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+                   <span class="s">&#39;var uniqueObj = Object(</span><span class="si">%s</span><span class="s">);&#39;</span><span class="p">,</span> <span class="c"># Doing this because strings in python are iterable, but not in javascript</span>
+                   <span class="s">&#39;if(Object.keys(uniqueObj).length &gt; 0){&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  var </span><span class="si">%s</span><span class="s">;&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  var uniqueCounter = 0;&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  for(uniqueVar in uniqueObj){&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    uniqueCounter++;&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    </span><span class="si">%s</span><span class="s"> = uniqueObj[uniqueVar];&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    if(uniqueCounter &gt;= Object.keys(uniqueObj).length){&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;      </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;      break;&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    }&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  }&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;}&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;else{&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;}&#39;</span>
+                <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">),</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">),</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">While</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+                   <span class="s">&#39;if(</span><span class="si">%s</span><span class="s">){&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  while(true){&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    if(!</span><span class="si">%s</span><span class="s">){&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;      </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;      break;&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;    }&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  }&#39;</span>
+                   <span class="s">&#39;}&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;else{&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+                   <span class="s">&#39;}&#39;</span>
+                <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">),</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">))</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <h6>#</h6>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h3>Functions</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Currently cannot handle variable or keyword arguments.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">arguments</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Lambda</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+            <span class="s">&#39;function(</span><span class="si">%s</span><span class="s">){&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  return </span><span class="si">%s</span><span class="s">;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;}&#39;</span>
+        <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">FunctionDef</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+            <span class="s">&#39;this.</span><span class="si">%s</span><span class="s"> = function(</span><span class="si">%s</span><span class="s">){&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="s">&#39;}&#39;</span>
+        <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">Call</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">argument</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&#39;this.</span><span class="si">%s</span><span class="s">(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">argument</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <h6>#</h6>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <h3>Error Handling</h3>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">ExceptHandler</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>TODO: Incorporate self.inst, trace</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Raise</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">exceptionType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">return</span> <span class="s">&#39;throw Error(&quot;</span><span class="si">%s</span><span class="s">&quot;)&#39;</span> <span class="o">%</span> <span class="n">exceptionType</span>
+
+<span class="k">class</span> <span class="nc">TryExcept</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compileCatchStatements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">catchStatements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+            <span class="n">exceptionType</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">type</span>
+            <span class="k">if</span> <span class="n">exceptionType</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">catch</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+                    <span class="s">&quot;if(e.message === &#39;</span><span class="si">%s</span><span class="s">&#39;){&quot;</span><span class="p">,</span>
+                    <span class="s">&quot;    </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span>
+                    <span class="s">&quot;}&quot;</span>
+                <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="n">exceptionType</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">catch</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">body</span>
+            <span class="n">catchStatements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">catch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">catchStatements</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tryBody</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">catchBody</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compileCatchStatements</span><span class="p">()</span>
+        <span class="n">elseBody</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+            <span class="s">&#39;try{&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="s">&#39;}&#39;</span><span class="p">,</span>
+            <span class="s">&#39;catch(e){&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  var caughtException = true;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="s">&#39;}&#39;</span><span class="p">,</span>
+            <span class="s">&#39;if(!caughtException){&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="s">&#39;}&#39;</span>
+        <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="n">tryBody</span><span class="p">,</span> <span class="n">catchBody</span><span class="p">,</span> <span class="n">elseBody</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TryFinally</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tryBody</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">finallyBody</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">finalbody</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">multiline</span><span class="p">([</span>
+            <span class="s">&#39;try{&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="s">&#39;}&#39;</span><span class="p">,</span>
+            <span class="s">&#39;finally{&#39;</span><span class="p">,</span>
+            <span class="s">&#39;  </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span>
+            <span class="s">&#39;}&#39;</span><span class="p">,</span>
+        <span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="n">tryBody</span><span class="p">,</span> <span class="n">finallyBody</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h6>#</h6>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Block</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    An abstraction of a closure.  This occurs in Python whenever we have:</span>
+<span class="sd">    * module</span>
+<span class="sd">    * class definition</span>
+<span class="sd">    * function body</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcIndent</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locals</span> <span class="o">=</span> <span class="p">{}</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>To keep track of global declarations in python.  This causes different
+assignment statements in JS.</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">globalRefs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Traverse up parents until the nearest Block node, return that indent value
+plus 1</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">calcIndent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">finishedTraversal</span><span class="p">(</span><span class="n">pointer</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">pointer</span> <span class="o">!=</span> <span class="bp">None</span>
+        <span class="n">indent</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">pointer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span>
+        <span class="k">while</span><span class="p">(</span><span class="ow">not</span> <span class="n">finishedTraversal</span><span class="p">(</span><span class="n">pointer</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">typing</span><span class="o">.</span><span class="n">getClassName</span><span class="p">(</span><span class="n">pointer</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;Block&#39;</span><span class="p">:</span>
+                <span class="n">indent</span> <span class="o">=</span> <span class="n">pointer</span><span class="o">.</span><span class="n">indent</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">indent</span>
+
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>Appends <code>;</code> to statements in the body - those passed back in an array
+each have a <code>;</code> attached to their ends.  To avoid this (e.g. in if/
+else blocks), simply concatenate the code before passing it back</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="n">group</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">formatGroup</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">))</span>
+        <span class="n">enclosed</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">closure</span><span class="p">(</span><span class="n">group</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>need to indent the entire block now</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">enclosed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent</span><span class="p">)</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

@@ -60,6 +60,7 @@ Timeline
 			http://docs.python.org/reference/grammar.html
 
 	Week 3: Implement library functions
+		Finish implementing translations in python abstract grammar.
 		Onur:
 			abs
 			any
