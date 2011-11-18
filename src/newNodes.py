@@ -205,7 +205,7 @@ class Or(Base):
 # **Consider:** need to handle global var assignments eventually.
 class Assign(Base):
     def compile(self):
-        return '\r\n'.join('var %s = %s' % (target, self.value) for target in self.targets)
+        return ['var %s = %s' % (target, self.value) for target in self.targets]
 
 class Delete(Base):
     def compile(self):
@@ -290,7 +290,9 @@ class Block(Base):
         return indent
 
     def compile(self):
-        # Append `;` to statements in the body
-        compiledChildren = [ child + ';' for child in helper.flattenLines(self.children)]
-        indentedCode = '\r\n'.join([helper.indent(compiledChild, 1) for compiledChild in compiledChildren])
+        # Append `;` to statements in the body - those passed back in an array
+        # each have a `;` attached to their ends.  To avoid this (e.g. in if/
+        # else blocks), simply concatenate the code before passing it back
+        compiledChildren = [ child + ';' for child in helper.flatten(self.children)]
+        indentedCode = helper.NEWLINE.join([helper.indent(compiledChild, 1) for compiledChild in compiledChildren])
         return helper.closure(indentedCode)
