@@ -9,5 +9,11 @@ def isList(object):
 def isPrimitive(object):
     return type(object) in {types.IntType, types.StringType, types.FloatType}
 
+def isNone(object):
+    return type(object) == types.NoneType
+
+def isBoolean(object):
+    return type(object) == types.BooleanType
+
 def isExpressionContext(object):
     return getClassName(object) in {'Load', 'Store', 'Del', 'AugLoad', 'AugStore', 'Param'}

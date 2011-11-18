@@ -21,7 +21,9 @@ class Base:
         for lists.
         '''
         # Handling primitive children
-        if typing.isPrimitive(element):
+        if typing.isNone(element) or typing.isBoolean(element):
+            return element
+        elif typing.isPrimitive(element):
             return str(element)
         elif typing.isExpressionContext(element):
             return typing.getClassName(element)
@@ -49,6 +51,8 @@ class FunctionDef(Base):
 
 class Name(Base):
     def compile(self):
+        if self.id == 'None':
+            self.id = 'null'
         return '%s' % self.id
 
 class Expr(Base):
@@ -236,6 +240,11 @@ class IsNot(Base):
 class Dict(Base):
 	def compile(self):
 	        return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
+
+# **Consider:** What is nl - newline?
+class Print(Base):
+    def compile(self):
+        return 'console.log(%s)' % ', '.join(value for value in self.values)
 
 class Block(Base):
     '''
