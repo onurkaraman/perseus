@@ -51,8 +51,6 @@ class FunctionDef(Base):
 
 class Name(Base):
     def compile(self):
-        if self.id == 'None':
-            self.id = 'null'
         try:
             conversion = {
                 'None': 'null',
@@ -62,7 +60,7 @@ class Name(Base):
             self.id = conversion[self.id]
         except KeyError:
             pass
-        
+
         return '%s' % self.id
 
 class Expr(Base):
@@ -71,8 +69,11 @@ class Expr(Base):
 
 class Compare(Base):
 	def compile(self):
-		trailingComparison = ' '.join('%s %s' % (op, comparator) for (op, comparator) in zip(self.ops, self.comparators))
-		return ("%s " + trailingComparison) % self.left
+		allComparators = [self.left.compile()]
+		allComparators.extend(self.comparators[:])
+		leftComparators = allComparators[:-1]
+		rightComparators = allComparators[1:]
+		return ' && '.join('(%s %s %s)' % (left, op, right) for (left, op, right) in zip(leftComparators, self.ops, rightComparators))
 
 class Num(Base):
     def compile(self):
@@ -208,7 +209,7 @@ class Assign(Base):
 
 class Delete(Base):
     def compile(self):
-        return 'delete ' + ', '.join(target for target in self.targets) 
+        return 'delete ' + ', '.join(target for target in self.targets)
 
 class AugAssign(Base):
     def compile(self):
