@@ -22,3 +22,5 @@ src/parser.js
 # Test File #
 #############
 src/test.py
+src/test.js
+src/result.txt
