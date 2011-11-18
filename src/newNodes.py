@@ -71,7 +71,6 @@ class Expr(Base):
 
 class Compare(Base):
 	def compile(self):
-		print self.left, self.ops, self.comparators
 		trailingComparison = ' '.join('%s %s' % (op, comparator) for (op, comparator) in zip(self.ops, self.comparators))
 		return ("%s " + trailingComparison) % self.left
 
@@ -293,6 +292,6 @@ class Block(Base):
         # Append `;` to statements in the body - those passed back in an array
         # each have a `;` attached to their ends.  To avoid this (e.g. in if/
         # else blocks), simply concatenate the code before passing it back
-        compiledChildren = [ child + ';' for child in helper.flatten(self.children)]
+        compiledChildren = [ child + ';' for child in helper.expand(self.children)]
         indentedCode = helper.NEWLINE.join([helper.indent(compiledChild, 1) for compiledChild in compiledChildren])
         return helper.closure(indentedCode)
