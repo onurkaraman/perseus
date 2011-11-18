@@ -89,43 +89,43 @@ class Pass(Base):
 
 class Add(Base):
     def compile(self):
-        return '%s + %s' % (self.parent.left, self.parent.right)
+        return '+'
 
 class Sub(Base):
     def compile(self):
-        return '%s - %s' % (self.parent.left, self.parent.right)
+        return '-'
 
 class Mult(Base):
     def compile(self):
-        return '%s * %s' % (self.parent.left, self.parent.right)
+        return '*'
 
 class Div(Base):
     def compile(self):
-        return '%s / %s' % (self.parent.left, self.parent.right)
+        return '/'
 
 class Mod(Base):
     def compile(self):
-        return "%s %s %s" % (self.parent.left, '%', self.parent.right)
+        return '%'
 
 class LShift(Base):
     def compile(self):
-        return '%s << %s' % (self.parent.left, self.parent.right)
+        return '<<'
 
 class RShift(Base):
     def compile(self):
-        return '%s >> %s' % (self.parent.left, self.parent.right)
+        return '>>'
 
 class BitOr(Base):
     def compile(self):
-        return '%s | %s' % (self.parent.left, self.parent.right)
+        return '|'
 
 class BitXor(Base):
     def compile(self):
-        return '%s ^ %s' % (self.parent.left, self.parent.right)
+        return '^'
 
 class BitAnd(Base):
     def compile(self):
-        return '%s & %s' % (self.parent.left, self.parent.right)
+        return '&'
 
 class Pow(Base):
     def compile(self):
@@ -137,27 +137,34 @@ class FloorDiv(Base):
 
 class Invert(Base):
     def compile(self):
-        return '~%s' % self.parent.operand
+        return '~'
 
 class Not(Base):
     def compile(self):
-        return '!%s' % self.parent.operand
+        return '!'
 
 class UAdd(Base):
     def compile(self):
-        return '+%s' % self.parent.operand
+        return '+'
 
 class USub(Base):
     def compile(self):
-        return '-%s' % self.parent.operand
+        return '-'
 
 class BinOp(Base):
     def compile(self):
-        return self.op.compile()
+    	if typing.getClassName(self.op) in ['Pow', 'FloorDiv']:
+    		return MathOp(self.ast, self.parent).compile()
+    	else:
+        	return '%s %s %s' % (self.left, self.op, self.right)
+
+class MathOp(Base):
+	def compile(self):
+		return '%s' % self.op
 
 class UnaryOp(Base):
     def compile(self):
-        return self.op.compile()
+        return '%s%s' % (self.op, self.operand)
 
 class IfExp(Base):
     def compile(self):
