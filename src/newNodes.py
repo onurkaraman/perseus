@@ -49,10 +49,7 @@ class FunctionDef(Base):
 
 class Name(Base):
     def compile(self):
-        if self.ctx == 'Store':
-            return 'var %s' % self.id
-        else:
-            return '%s' % self.id
+        return '%s' % self.id
 
 class Expr(Base):
     def compile(self):
@@ -194,11 +191,15 @@ class Or(Base):
 # **Consider:** need to handle global var assignments eventually.
 class Assign(Base):
     def compile(self):
-        return '\r\n'.join('%s = %s' % (target, self.value) for target in self.targets)
+        return '\r\n'.join('var %s = %s' % (target, self.value) for target in self.targets)
 
 class Delete(Base):
     def compile(self):
         return 'delete ' + ', '.join(target for target in self.targets) 
+
+class AugAssign(Base):
+    def compile(self):
+        return '%s %s= %s' % (self.target, self.op, self.value)
 
 class Eq(Base):
 	def compile(self):
