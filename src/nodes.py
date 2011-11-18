@@ -44,11 +44,6 @@ class Module(Base):
     def compile(self):
         return '%s' % Block(self.body, self)
 
-class FunctionDef(Base):
-    def compile(self):
-        compiledArgs = self.args.compile()
-        return 'this.%s = function(%s){%s%s}' % (self.name, compiledArgs[0], compiledArgs[1], self.body)
-
 class Name(Base):
     def compile(self):
         try:
