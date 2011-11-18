@@ -1,10 +1,10 @@
 import ast
-import nodes
+import newNodes
 
 class PythonScript:
     @staticmethod
     def compile(code):
         ASTRootNode = ast.parse(code)
-        return nodes.Node(ASTRootNode).compile()
+        return newNodes.Module(ASTRootNode, None).compile()
       
 print(PythonScript.compile(open('test.py').read()))

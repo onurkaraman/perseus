@@ -1,6 +1,8 @@
 import ast
 
-globals = {}
+INDENTWIDTH = 2
+
+globalVars = {}
 
 def getClassName(object):
     return type(object).__name__
@@ -8,22 +10,24 @@ def getClassName(object):
 # rootNode = ModuleNode(ast.parse(...), None)
 class Base:
     def __init__(self, astNode, parent):
-        self = astNode
+        self.ast = astNode
         self.parent = parent
 
         # Auto-build nodes out of children fields.
-        for fieldName in self._fields:
-            child = self.getattr(field)
-            child = self.resolve(child)
-
-    def resolve(element):
+        for fieldName in self.ast._fields:
+            child = getattr(self.ast, fieldName)
+            setattr(self, fieldName, self.resolve(child))
+    def resolve(self, element):
         '''
-        Returns an element if it is primitive or casts an ast.AST object into
-        its abstraction.
+        Returns an element if it is primitive, a new Block object for closures,
+        or casts an ast.AST object into its abstraction.
         '''
+        # Handling closures
+        if getClassName(element) == 'list':
+            return Block(element, self)
         # Handling primitive children
-        if type(element) in __builtins__:
-            return element
+        elif getClassName(element) in ['int', 'float', 'str']:
+            return str(element)
         else:
             className = getClassName(element)
             nodeClass = globals()[className]
@@ -32,6 +36,21 @@ class Base:
         pass
     def __str__(self):
         return self.compile()
+    def getChildren(self):
+        [getattr(self, fieldName) for fieldName in self.ast._fields]
+
+class Module(Base):
+    def compile(self):
+        return '%s' % self.body
+#        return  '(function(){\r\n%s\r\n})();' % helper.indentCode(ChunkNode(self.node.body).compile())
+
+class Expr(Base):
+    def compile(self):
+        return '%s' % self.value
+
+class Num(Base):
+    def compile(self):
+        return '%s' % self.n
 
 class Break(Base):
     def compile(self):
@@ -47,47 +66,47 @@ class Pass(Base):
 
 class Add(Base):
     def compile(self):
-        return '+'
+        return '%s + %s' % (self.parent.left, self.parent.right)
 
 class Sub(Base):
     def compile(self):
-        return '-'
+        return '%s - %s' % (self.parent.left, self.parent.right)
 
 class Mult(Base):
     def compile(self):
-        return '*'
+        return '%s * %s' % (self.parent.left, self.parent.right)
 
 class Div(Base):
     def compile(self):
-        return '/'
+        return '%s / %s' % (self.parent.left, self.parent.right)
 
 class Mod(Base):
     def compile(self):
-        return '%'
+        return "%s %s %s" % (self.parent.left, '%', self.parent.right)
 
 class LShift(Base):
     def compile(self):
-        return '<<'
+        return '%s << %s' % (self.parent.left, self.parent.right)
 
 class RShift(Base):
     def compile(self):
-        return '>>'
+        return '%s >> %s' % (self.parent.left, self.parent.right)
 
 class BitOr(Base):
     def compile(self):
-        return '|'
+        return '%s | %s' % (self.parent.left, self.parent.right)
 
 class BitXor(Base):
     def compile(self):
-        return '^'
+        return '%s ^ %s' % (self.parent.left, self.parent.right)
 
 class BitAnd(Base):
     def compile(self):
-        return '&'
+        return '%s & %s' % (self.parent.left, self.parent.right)
 
 class Pow(Base):
     def compile(self):
-        return 'Math.pow'
+        return 'Math.pow(%s, %s)' % (self.parent.left, self.parent.right)
 
 class FloorDiv(Base):
     def compile(self):
@@ -95,29 +114,35 @@ class FloorDiv(Base):
 
 class Invert(Base):
     def compile(self):
-        return '~'
+        return '~%s' % self.parent.operand
 
 class Not(Base):
     def compile(self):
-        return '!'
+        return '!%s' % self.parent.operand
 
 class UAdd(Base):
     def compile(self):
-        return '+'
+        return '+%s' % self.parent.operand
 
 class USub(Base):
     def compile(self):
-        return '-'
+        return '-%s' % self.parent.operand
 
 class BinOp(Base):
     def compile(self):
         return self.op.compile()
 
-class Num(Base):
+class UnaryOp(Base):
     def compile(self):
-        return '%s' % self.n
+        return self.op.compile()
 
-class Block:
+class Block(Base):
+    '''
+    An abstraction of a closure.  This occurs in Python whenever we have:
+    * module
+    * class definition
+    * function body
+    '''
     def __init__(self, astNodeList, parent):
         self.children = astNodeList
         self.parent = parent
@@ -130,4 +155,17 @@ class Block:
     # Traverse up parents until the nearest Block node, return that indent value
     # plus 1
     def calcIndent(self):
-        pass
+        def finishedTraversal(pointer):
+            return pointer != None
+        indent = 1
+        pointer = self.parent
+        while(not finishedTraversal(pointer)):
+            if getClassName(pointer) == 'Block':
+                indent = pointer.indent + 1
+                break
+        return indent
+    def compile(self):
+        compiledChildren = [self.resolve(child).compile() + ';' for child in self.children]
+        indentString = self.indent * INDENTWIDTH * ' '
+        statementDelimiter = '\r\n' + indentString
+        return '(function(){%s\r\n})();' % (statementDelimiter + statementDelimiter.join(compiledChildren))
