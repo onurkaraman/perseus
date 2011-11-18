@@ -14,7 +14,7 @@ class Base:
     def __init__(self, astNode, parent):
         self.ast = astNode
         self.parent = parent
-        
+
         # Auto-build nodes out of children fields.
         for fieldName in self.ast._fields:
             if fieldName in IGNORE_FIELDS:
@@ -30,12 +30,12 @@ class Base:
         if getClassName(element) == 'list':
             return Block(element, self)
         # Handling primitive children
-        elif getClassName(element) in ['int', 'str']:
-            return element 
+        elif getClassName(element) in ['int', 'float', 'str']:
+            return str(element)
         else:
             className = getClassName(element)
             nodeClass = globals()[className]
-            return nodeClass(element, self)    
+            return nodeClass(element, self)
     def compile(self):
         pass
     def __str__(self):
@@ -55,16 +55,92 @@ class Name(Base):
 class Expr(Base):
     def compile(self):
         return '%s' % self.value
-    
+
 class Num(Base):
     def compile(self):
         return '%s' % self.n
+
+class Break(Base):
+    def compile(self):
+        return 'break;'
+
+class Continue(Base):
+    def compile(self):
+        return 'continue;'
+
+class Pass(Base):
+    def compile(self):
+        return 'return void(0);'
+
+class Add(Base):
+    def compile(self):
+        return '%s + %s' % (self.parent.left, self.parent.right)
+
+class Sub(Base):
+    def compile(self):
+        return '%s - %s' % (self.parent.left, self.parent.right)
+
+class Mult(Base):
+    def compile(self):
+        return '%s * %s' % (self.parent.left, self.parent.right)
+
+class Div(Base):
+    def compile(self):
+        return '%s / %s' % (self.parent.left, self.parent.right)
+
+class Mod(Base):
+    def compile(self):
+        return "%s %s %s" % (self.parent.left, '%', self.parent.right)
+
+class LShift(Base):
+    def compile(self):
+        return '%s << %s' % (self.parent.left, self.parent.right)
+
+class RShift(Base):
+    def compile(self):
+        return '%s >> %s' % (self.parent.left, self.parent.right)
+
+class BitOr(Base):
+    def compile(self):
+        return '%s | %s' % (self.parent.left, self.parent.right)
+
+class BitXor(Base):
+    def compile(self):
+        return '%s ^ %s' % (self.parent.left, self.parent.right)
+
+class BitAnd(Base):
+    def compile(self):
+        return '%s & %s' % (self.parent.left, self.parent.right)
+
+class Pow(Base):
+    def compile(self):
+        return 'Math.pow(%s, %s)' % (self.parent.left, self.parent.right)
 
 class FloorDiv(Base):
     def compile(self):
         return 'Math.floor(%s, %s)' % (self.parent.left, self.parent.right)
 
+class Invert(Base):
+    def compile(self):
+        return '~%s' % self.parent.operand
+
+class Not(Base):
+    def compile(self):
+        return '!%s' % self.parent.operand
+
+class UAdd(Base):
+    def compile(self):
+        return '+%s' % self.parent.operand
+
+class USub(Base):
+    def compile(self):
+        return '-%s' % self.parent.operand
+
 class BinOp(Base):
+    def compile(self):
+        return self.op.compile()
+
+class UnaryOp(Base):
     def compile(self):
         return self.op.compile()
 
@@ -83,7 +159,7 @@ class Block(Base):
         # To keep track of global declarations in python.  This causes different
         # assignement statements in JS.
         self.globalRefs = set()
-    
+
     # Traverse up parents until the nearest Block node, return that indent value
     # plus 1
     def calcIndent(self):
@@ -98,6 +174,6 @@ class Block(Base):
         return indent
     def compile(self):
         compiledChildren = [self.resolve(child).compile() + ';' for child in self.children]
-        indentString = self.indent*INDENTWIDTH*' '
+        indentString = self.indent * INDENTWIDTH * ' '
         statementDelimiter = '\r\n' + indentString
         return '(function(){%s\r\n})();' % (statementDelimiter + statementDelimiter.join(compiledChildren))
