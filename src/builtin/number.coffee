@@ -22,3 +22,9 @@ class Number extends Primitive
     
   __pos__: ->
     return +@value
+    
+  __sub__: (operand) ->
+    if isSubInstance operand, @
+      return @value - operand.value
+    else
+      super operand

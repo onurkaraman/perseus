@@ -91,3 +91,6 @@ class Object
     
   __rshift__: (operand) ->
     raiseBinaryException('>>', @, operand)
+
+  __sub__: (operand) ->
+    raiseBinaryException('-', @, operand)
