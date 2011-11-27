@@ -72,8 +72,14 @@ class Integer extends Number
     else
       super operand
       
-  __lshift__: (operand) ->
+  __ilshift__: (operand) ->
     if isSubInstance(operand, @)
       return @value <<= operand.value
+    else
+      super operand
+      
+  __imod__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value %= operand.value
     else
       super operand

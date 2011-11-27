@@ -112,3 +112,6 @@ class Object
     
   __ilshift__: (operand) ->
     raiseBinaryException('<<=', @, operand)
+
+  __imod__: (operand) ->
+    raiseBinaryException('%=', @, operand)
