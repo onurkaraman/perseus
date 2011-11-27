@@ -24,3 +24,7 @@ src/parser.js
 src/test.py
 src/test.js
 src/result.txt
+
+# Compiled Coffeescript files #
+###############################
+src/builtin/*.js
