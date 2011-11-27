@@ -82,3 +82,6 @@ class Object
 
   __or__: (operand) ->
     raiseBinaryException('|', @, operand)
+    
+  __pos__: ->
+    raiseUnaryException('unary +', @)

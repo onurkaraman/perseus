@@ -19,3 +19,6 @@ class Number extends Primitive
   
   __neg__: ->
     return -@value
+    
+  __pos__: ->
+    return +@value
