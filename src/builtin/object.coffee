@@ -79,3 +79,6 @@ class Object
   
   __neg__: ->
     raiseUnaryException('unary -', @)
+
+  __or__: (operand) ->
+    raiseBinaryException('|', @, operand)

@@ -39,5 +39,9 @@ class Integer extends Number
     # TODO: need to add another branch for lists
     else
       super operand
+  
+  __or__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value | operand.value
     
   
