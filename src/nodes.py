@@ -190,10 +190,19 @@ class ListComp(Base):
         of comprehensions
         Note: nested list comprehensions still make len(self.generators) == 1
         '''
-        element = self.elt
+        element = str(self.elt)
         iter = self.generators[0].iter
-        target = self.generators[0].target
-        return "%s.map(function(%s){return %s;})" % (iter, target, element)
+        isMultiTargeted = hasattr(self.generators[0].target, 'elts') is True
+        if isMultiTargeted:
+            targets = self.generators[0].target.elts
+            numTargets = len(targets)
+            for i in range(numTargets):
+                mappedTarget = "x[%d]" % i
+                element = element.replace(targets[i], mappedTarget)
+            return "%s.map(function(x){return %s;})" % (iter, element)
+        else:
+            target = self.generators[0].target
+            return "%s.map(function(%s){return %s;})" % (iter, target, element)
 
 class DictComp(Base):
     def compile(self):
