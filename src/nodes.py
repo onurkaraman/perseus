@@ -367,7 +367,13 @@ class Slice(Base):
 
 class Index(Base):
     def compile(self):
-        return '%s[%s]' % (self.parent.value, self.value)
+        sequence = self.parent.value
+        index = int(self.value.compile())
+        if index < 0:
+            negativeIndex = "%s.length + %s" % (sequence, index)
+            return '%s[%s]' % (sequence, negativeIndex)
+        else:
+            return '%s[%s]' % (sequence, index)
 
 class Dict(Base):
     def compile(self):
