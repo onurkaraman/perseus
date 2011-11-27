@@ -71,6 +71,9 @@ class Object
   __invert__: ->
     raiseUnaryException('unary ~', @)
     
+  __lshift__: (operand) ->
+    raiseBinaryException('<<', @, operand)
+    
   __mod__: (operand) ->
     raiseBinaryException('%', @, operand)
   
@@ -85,3 +88,6 @@ class Object
     
   __pos__: ->
     raiseUnaryException('unary +', @)
+    
+  __rshift__: (operand) ->
+    raiseBinaryException('>>', @, operand)
