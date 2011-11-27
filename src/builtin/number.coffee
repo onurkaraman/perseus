@@ -37,3 +37,9 @@ class Number extends Primitive
       return @value += operand.value
     else
       super operand
+
+  __ifloordiv__: (operand) ->
+    if isSubInstance operand, @
+      return @value = Math.floor(@value / operand.value)
+    else
+      super operand

@@ -106,3 +106,6 @@ class Object
     
   __div__: (operand) ->
     raiseBinaryException('/=', @, operand)
+    
+  __ifloordiv__: (operand) ->
+    raiseBinaryException('//=', @, operand)

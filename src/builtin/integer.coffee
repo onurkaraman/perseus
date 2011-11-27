@@ -66,7 +66,7 @@ class Integer extends Number
   
   __idiv__: (operand) ->
     if isSubInstance(operand, @)
-      return @value = @__floordiv__(operand)
+      return @__ifloordiv__(operand)
     else if 'Float' in operand.__class__.__bases__
       return @value /= operand.value
     else
