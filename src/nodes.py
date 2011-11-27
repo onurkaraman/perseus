@@ -352,18 +352,22 @@ class Slice(Base):
             if step > 0:
                 slicedArray += (".filter(" +
                                     "function(element, index, array){" +
-                                        "return index %s %s == 0;" +
+                                        "return index %% %s == 0;" +
                                     "}" +
-                                ")") % ('%', self.step)
+                                ")") % (self.step)
             elif step < 0:
                 slicedArray += (".filter(" +
                                     "function(element, index, array){" +
-                                        "return (array.length - index - 1) %s %s == 0;" +
+                                        "return (array.length - index - 1) %% %s == 0;" +
                                     "}" +
-                                ").reverse()") % ('%', self.step)
+                                ").reverse()") % (self.step)
             elif step == 0:
                 return "ValueError: slice step cannot be zero"
         return slicedArray
+
+class Attribute(Base):
+    def compile(self):
+        return "%s.%s" % (self.value, self.attr)
 
 class Index(Base):
     def compile(self):
@@ -477,7 +481,7 @@ class FunctionDef(Base):
 class Call(Base):
     def compile(self):
         argument = ', '.join(arg for arg in self.args)
-        return 'this.%s(%s)' % (self.func, argument)
+        return '%s(%s)' % (self.func, argument)
 
 ##################################
 
