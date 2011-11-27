@@ -255,7 +255,7 @@ class DictComp(Base):
                 "    obj[key] = translated[i][1];",
                 "  }",
                 "  return obj;",
-                "})()"]) % (iter, target, key, value)
+                "})()"]) % (iter, target, keyElement, valueElement)
 
 # Placeholder so I can start DictComp
 class Tuple(Base):
