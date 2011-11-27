@@ -10,10 +10,22 @@ class Number extends Primitive
       return @value + operand.value
     else
       super operand
+  
+  __div__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value / operand.value
+    else
+      super operand
       
   __floordiv__: (operand) ->
     if isSubInstance operand, @
       return Math.floor(@value / operand.value)
+    else
+      super operand
+  
+  __mul__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value * operand.value
     else
       super operand
   
