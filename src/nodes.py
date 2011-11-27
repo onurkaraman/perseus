@@ -181,6 +181,17 @@ class IfExp(Base):
         elseBody = self.orelse.compile()
         return '%s ? %s : %s' % (condition, ifBody, elseBody)
 
+class ListComp(Base):
+    def compile(self):
+        mappingAction = self.elt
+        iter = self.generators[0].iter # TODO: Apply to arbitrary number of generators
+        target = self.generators[0].target
+        return "%s.map(function(%s){return %s;})" % (iter, target, mappingAction)
+
+class comprehension(Base):
+    def compile(self):
+        return self
+
 class Return(Base):
     def compile(self):
         return 'return %s' % self.value
