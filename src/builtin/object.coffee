@@ -103,3 +103,6 @@ class Object
   
   __iand__: (operand) ->
     raiseBinaryException('&=', @, operand)
+    
+  __div__: (operand) ->
+    raiseBinaryException('/=', @, operand)

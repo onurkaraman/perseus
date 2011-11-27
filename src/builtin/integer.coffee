@@ -63,3 +63,11 @@ class Integer extends Number
       return @value &= operand.value
     else
       super operand
+  
+  __idiv__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value = @__floordiv__(operand)
+    else if 'Float' in operand.__class__.__bases__
+      return @value /= operand.value
+    else
+      super operand
