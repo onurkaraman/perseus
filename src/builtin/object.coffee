@@ -94,3 +94,6 @@ class Object
 
   __sub__: (operand) ->
     raiseBinaryException('-', @, operand)
+    
+  __xor__: (operand) ->
+    raiseBinaryException('^', @, operand)

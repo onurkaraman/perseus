@@ -43,6 +43,8 @@ class Integer extends Number
   __or__: (operand) ->
     if isSubInstance(operand, @)
       return @value | operand.value
+    else
+      super operand
   
   __rshift__: (operand) ->
     if isSubInstance(operand, @)
@@ -50,4 +52,8 @@ class Integer extends Number
     else
       super operand
     
-  
+  __xor__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value ^ operand.value
+    else
+      super operand
