@@ -1,4 +1,19 @@
+# TODO: All user-created classes should inherit from this - how to make this
+# seamless?
 class Primitive
+  
+  __isType__: (type) ->
+    inheritanceLevel = @
+    classString = getType(@)
+      
+    while classString isnt 'Undefined'
+      if classString is type
+        return true
+      inheritanceLevel = @prototype
+      classString = getType(@)
+    
+    return false
+  
   __raiseUnaryException__: (operand) ->
     throw new TypeError "bad operand type for #{operand}: '#{getType(this)}'"
   
@@ -68,6 +83,12 @@ class Primitive
   # Throw an exception, as it's only defined for integers in Python.
   __invert__: ->
     @__raiseUnaryException__('unary ~')
+    
+  __mod__: (divisor) ->
+    @__raiseBinaryException__('%')
+  
+  __mul__: (divisor) ->
+    @__raiseBinaryException__('*')
     
   # TODO: difference between __repr__ and __str__?
   # Need to consider how this will affect console.log / print / concatenation

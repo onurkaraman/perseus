@@ -3,8 +3,10 @@ class Integer extends Number
   constructor: (@value) ->  
   
   __and__: (other) ->
-    # TODO: verify other type is also 'Integer'.  If not, use Primitive.method()
-    return @value & other.value
+    if other.__isType__('Integer')
+      return @value & other.value
+    else
+      return Primitive.__and__.call(this, other)
   
   __div__: (other) ->
     otherType = getType(other)
@@ -18,11 +20,26 @@ class Integer extends Number
     return ~@value
   
   __lshift__: (bits) ->
-    # TODO: verify other type is also 'Integer'.  If not, use Primitive.method()
-    return @value << bits
+    if bits.__isType__('Integer')
+      return @value << bits.value
+    else
+      return Primitive.__lshift__.call(this, bits)
   
   __mod__: (divisor) ->
-    # TODO: verify other type is also 'Integer'.  If not, use Primitive.method()
-    return @value % divisor
+    if divisor.__isType__('Integer')
+      return @value % divisor.value
+    else
+      return Primitive.__mod__.call(this, divisor)
+    
+  __mul__: (other) ->
+    if other.__isType__('Integer')
+      return @value * other.value
+    # String * Integer and Integer * String are interchangeable in Python and
+    # represent a form of string concatenation
+    else if other.__isType__('String')
+      return String.__mul__.call(other, this)
+    # TODO: need to add another branch for lists
+    else
+      return Primitive.__mul__.call(this, other)
     
   
