@@ -1,19 +1,15 @@
 # http://docs.python.org/library/operator.html
 class Integer extends Number
   __and__: (operand) ->
-    operandType = operand.__class__.__name__
-    
-    if operandType is 'Integer'
+    if isSubInstance(operand, @)
       return @value & operand.value
     else
       super operand
   
   __div__: (operand) ->
-    operandType = operand.__class__.__name__
-    
-    if operandType is 'Integer'
+    if isSubInstance(operand, @)
       return @__floordiv__(operand)
-    else if operandType is 'Float'
+    else if 'Float' in operand.__class__.__bases__
       return @value / operand.value
     else
       super operand
@@ -22,26 +18,23 @@ class Integer extends Number
     return ~@value
   
   __lshift__: (operand) ->
-    operandType = operand.__class__.__name__
-    if operandType is 'Integer'
+    if isSubInstance(operand, @)
       return @value << operand.value
     else
       super operand
   
   __mod__: (operand) ->
-    operandType = operand.__class__.__name__
-    if operandType is 'Integer'
+    if isSubInstance(operand, @)
       return @value % operand.value
     else
       super operand
     
   __mul__: (operand) ->
-    operandType = operand.__class__.__name__
-    if operandType is 'Number'
+    if isSubInstance(operand, @)
       return @value * operand.value
     # String * Integer and Integer * String are interchangeable in Python and
     # represent a form of string concatenation
-    else if operandType is 'String'
+    else if 'String' in operand.__class__.__bases__
       return String.__mul__.call(operand, this)
     # TODO: need to add another branch for lists
     else

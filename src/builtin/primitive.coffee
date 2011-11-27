@@ -47,4 +47,4 @@ class Primitive extends Object
   # TODO: difference between __repr__ and __str__?
   # Need to consider how this will affect console.log / print / concatenation
   __str__: ->
-    return @value
+    return @value.toString()
