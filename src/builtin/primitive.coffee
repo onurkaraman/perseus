@@ -7,42 +7,42 @@ class Primitive extends Object
   # For these comparison operators, we are allowed to use their new definitions
   # iff the operand is a subclass of the current object, since the definition
   # would make sense in that context.  However, if it doesn't, we default to the
-  # quirky 
+  # quirky implementation used by Python for generic objects.
   __lt__: (operand) ->
-    if not operand.__inherits__(@)
-      super operand
-    else
+    if isSubInstance operand, @
       return @value < operand.value
+    else
+      super operand
     
   __le__: (operand) ->
-    if not operand.__inherits__(@)
-      super operand
-    else
+    if isSubInstance operand, @
       return @value <= operand.value
+    else
+      super operand
   
   __eq__: (operand) ->
-    if not operand.__inherits__(@)
-      super operand
-    else
+    if isSubInstance operand, @
       return @value == operand.value
+    else
+      super operand
     
   __ne__: (operand) ->
-    if not operand.__inherits__(@)
-      super operand
+    if isSubInstance operand, @
+      return @value != operand.value
     else
-       return @value != operand.value
+      super operand
     
   __ge__: (operand) ->
-    if not operand.__inherits__(@)
-      super operand
-    else
+    if isSubInstance operand, @
       return @value >= operand.value
+    else
+      super operand
     
   __gt__: (operand) ->
-    if not operand.__inherits__(@)
-      super operand
-    else
+    if isSubInstance operand, @
       return @value > operand.value
+    else
+      super operand
     
   # TODO: difference between __repr__ and __str__?
   # Need to consider how this will affect console.log / print / concatenation

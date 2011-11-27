@@ -1,32 +1,14 @@
 class Object
-  __getType__: ->
+  @__bases__: ->
+    # TODO: need to implement tuples - it's a tuple of the base classes
+  
+  @__name__: ->
     return Object.prototype.toString.call(@).slice(8, -1)
   
-  # Argument needs to be a string.  Will traverse up the inheritance tree
-  # looking to see if the string matches any of the classes
-  __inherits__: (type) ->
-    inheritanceLevel = @
-    classString = @__getType__()
-    
-    # 'Undefined' means we've reached the end of the tree.  
-    while classString isnt 'Undefined'
-      if classString is typeAsString
-        return true
-      inheritanceLevel = @prototype
-      classString = @__getType__()
-    
-    return false
-  
-  __raiseUnaryException__: (operator) ->
-    throw new TypeError "bad operand type for #{operator}: '#{getType(this)}'"
-  
-  __raiseBinaryException__: (operator, operand) ->
-    ownType = getType(this)
-    operandType = getType(operand)
-    throw new TypeError "unsupported operand type(s) for #{operator}: '#{ownType}' and '#{operandType}'"
-  
-  # TODO: python returns a 'classobj', e.g. <class __main__.Int at 0xdeadbeef>
-  __class__: this
+  # XXX: This appears to be the most accurate way to get the class of an object
+  # Using `@prototype` fails for simple primitives such as ints and strings.  
+  __class__: ->
+    return @constructor.prototype
   
   __cmp__: (operand) ->
     if @.__lt__(operand)
@@ -71,29 +53,29 @@ class Object
   #
   
   __abs__: ->
-    @__raiseUnaryException__('abs()')
+    raiseUnaryException('abs()', @)
   
   __add__: (operand) ->
-    @__raiseBinaryException__('+', operand)
+    raiseBinaryException('+', @, operand)
   
   __and__: (operand) ->
-    @__raiseBinaryException__('&', operand)
+    raiseBinaryException('&', @, operand)
   
   __div__: (operand) ->
-    @__raiseBinaryException__('/', operand)
+    raiseBinaryException('/', @, operand)
   
   __floordiv__: (operand) ->
-    @__raiseBinaryException__('//', operand)
+    raiseBinaryException('//', @, operand)
   
   # Throw an exception, as it's only defined for integers in Python.
   __invert__: ->
-    @__raiseUnaryException__('unary ~')
+    raiseUnaryException('unary ~', @)
     
   __mod__: (operand) ->
-    @__raiseBinaryException__('%', operand)
+    raiseBinaryException('%', @, operand)
   
   __mul__: (operand) ->
-    @__raiseBinaryException__('*', operand)
+    raiseBinaryException('*', @, operand)
   
   __neg__: ->
-    @__raiseUnaryException__('unary -')
+    raiseUnaryException('unary -', @)
