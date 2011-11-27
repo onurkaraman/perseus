@@ -183,10 +183,75 @@ class IfExp(Base):
 
 class ListComp(Base):
     def compile(self):
-        mappingAction = self.elt
-        iter = self.generators[0].iter # TODO: Apply to arbitrary number of generators
+        '''
+        Already works for nested list comprehensions:
+            [[row[i] for row in mat] for i in [0, 1, 2]]
+        I'm unsure about what it means for there to be a list
+        of comprehensions
+        Note: nested list comprehensions still make len(self.generators) == 1
+        '''
+        element = self.elt
+        iter = self.generators[0].iter
         target = self.generators[0].target
-        return "%s.map(function(%s){return %s;})" % (iter, target, mappingAction)
+        return "%s.map(function(%s){return %s;})" % (iter, target, element)
+
+class DictComp(Base):
+    def compile(self):
+        keyElement = str(self.key)
+        valueElement = str(self.value.compile())
+        iter = self.generators[0].iter
+        isMultiTargeted = hasattr(self.generators[0].target, 'elts') is True
+        if isMultiTargeted:
+            '''
+            Multi-target for cases such as:
+                print {x: y + x for x, y in [('hello', 5), ('world', 2)]}
+                    x, y are the targets
+                print {x: y + z for x, y, z in [(5, 2, 7), (8, 9, 4)]}
+                    x, y, z are targets
+            '''
+            targets = self.generators[0].target.elts
+            numTargets = len(targets)
+            for i in range(numTargets):
+                mappedTarget = "x[%d]" % i
+                keyElement = keyElement.replace(targets[i], mappedTarget)
+                valueElement = valueElement.replace(targets[i], mappedTarget)
+            return helper.multiline([
+                "(function(){",
+                "  var obj = {};",
+                "  var translated = %s.map(function(x){",
+                "    return [%s,%s];",
+                "  });",
+                "  for(var i = 0; i < translated.length; i++){",
+                "    var key = translated[i][0];",
+                "    obj[key] = translated[i][1];",
+                "  }",
+                "  return obj;",
+                "})()"]) % (iter, keyElement, valueElement)
+        else:
+            '''
+            Single target for cases such as:
+                k = 4
+                print {x: x + k for x in [5, 67, 2]}
+                x is the single target
+            '''
+            target = self.generators[0].target
+            return helper.multiline([
+                "(function(){",
+                "  var obj = {};",
+                "  var translated = %s.map(function(%s){",
+                "    return [%s,%s];",
+                "  });",
+                "  for(var i = 0; i < translated.length; i++){",
+                "    var key = translated[i][0];",
+                "    obj[key] = translated[i][1];",
+                "  }",
+                "  return obj;",
+                "})()"]) % (iter, target, key, value)
+
+# Placeholder so I can start DictComp
+class Tuple(Base):
+    def compile(self):
+        return List(self.ast, self.parent).compile()
 
 class comprehension(Base):
     def compile(self):
