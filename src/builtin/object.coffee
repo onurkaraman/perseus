@@ -97,3 +97,6 @@ class Object
     
   __xor__: (operand) ->
     raiseBinaryException('^', @, operand)
+    
+  __iadd__: (operand) ->
+    raiseBinaryException('+=', @, operand)

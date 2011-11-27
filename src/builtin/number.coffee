@@ -28,3 +28,12 @@ class Number extends Primitive
       return @value - operand.value
     else
       super operand
+  
+  # In-place operators
+  # XXX: Should not be allowed to do these on literals
+  # This is currently caught by the ASTparser.
+  __iadd__: (operand) ->
+    if isSubInstance operand, @
+      return @value += operand.value
+    else
+      super operand
