@@ -1,16 +1,19 @@
 class Object
+  __getType__: ->
+    return Object.prototype.toString.call(@).slice(8, -1)
+  
   # Argument needs to be a string.  Will traverse up the inheritance tree
   # looking to see if the string matches any of the classes
-  __isType__: (typeAsString) ->
+  __inherits__: (type) ->
     inheritanceLevel = @
-    classString = getType(@)
+    classString = @__getType__()
     
     # 'Undefined' means we've reached the end of the tree.  
     while classString isnt 'Undefined'
       if classString is typeAsString
         return true
       inheritanceLevel = @prototype
-      classString = getType(@)
+      classString = @__getType__()
     
     return false
   

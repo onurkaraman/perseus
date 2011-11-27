@@ -10,3 +10,6 @@ class Number extends Primitive
       
   __floordiv__: (other) ->
     return Math.floor(@value / other.value)
+  
+  __neg__: ->
+    return -@value

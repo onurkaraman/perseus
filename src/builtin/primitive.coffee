@@ -4,23 +4,45 @@
 class Primitive extends Object
   constructor: (@value) ->  
   
+  # For these comparison operators, we are allowed to use their new definitions
+  # iff the operand is a subclass of the current object, since the definition
+  # would make sense in that context.  However, if it doesn't, we default to the
+  # quirky 
   __lt__: (operand) ->
-    return @value < operand.value
+    if not operand.__inherits__(@)
+      super operand
+    else
+      return @value < operand.value
     
   __le__: (operand) ->
-    return @value <= operand.value
+    if not operand.__inherits__(@)
+      super operand
+    else
+      return @value <= operand.value
   
   __eq__: (operand) ->
-    return @value == operand.value
+    if not operand.__inherits__(@)
+      super operand
+    else
+      return @value == operand.value
     
   __ne__: (operand) ->
-    return @value != operand.value
+    if not operand.__inherits__(@)
+      super operand
+    else
+       return @value != operand.value
     
   __ge__: (operand) ->
-    return @value >= operand.value
+    if not operand.__inherits__(@)
+      super operand
+    else
+      return @value >= operand.value
     
   __gt__: (operand) ->
-    return @value > operand.value
+    if not operand.__inherits__(@)
+      super operand
+    else
+      return @value > operand.value
     
   # TODO: difference between __repr__ and __str__?
   # Need to consider how this will affect console.log / print / concatenation
