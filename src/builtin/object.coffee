@@ -100,3 +100,6 @@ class Object
     
   __iadd__: (operand) ->
     raiseBinaryException('+=', @, operand)
+  
+  __iand__: (operand) ->
+    raiseBinaryException('&=', @, operand)

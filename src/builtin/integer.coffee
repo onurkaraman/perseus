@@ -57,3 +57,9 @@ class Integer extends Number
       return @value ^ operand.value
     else
       super operand
+
+  __iand__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value &= operand.value
+    else
+      super operand
