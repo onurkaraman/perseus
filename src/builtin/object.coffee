@@ -104,8 +104,11 @@ class Object
   __iand__: (operand) ->
     raiseBinaryException('&=', @, operand)
     
-  __div__: (operand) ->
+  __idiv__: (operand) ->
     raiseBinaryException('/=', @, operand)
     
   __ifloordiv__: (operand) ->
     raiseBinaryException('//=', @, operand)
+    
+  __ilshift__: (operand) ->
+    raiseBinaryException('<<=', @, operand)

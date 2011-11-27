@@ -71,3 +71,9 @@ class Integer extends Number
       return @value /= operand.value
     else
       super operand
+      
+  __lshift__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value <<= operand.value
+    else
+      super operand
