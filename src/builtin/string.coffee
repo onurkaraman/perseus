@@ -5,12 +5,6 @@ class String extends Sequence
       return @value.indexOf(operand) > -1
     else
       super operand
-
-  __add__: (operand) ->
-    if isSubInstance(operand, @)
-      return @value + operand
-    else
-      super operand
   
   capitalize: ->
     if @__len__ is 0
@@ -22,9 +16,7 @@ class String extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = ''
-    pad = for i in Math.floor(delta, 2)
-            pad += fillchar
+    pad = String('').__mul__(Math.floor(delta, 2))
     if delta % 2 == 0
       return pad + @value + pad
     else
@@ -38,13 +30,15 @@ class String extends Sequence
       if substringIndex < 0
         break
       else
-        curIndex = substringIndex + sub.__len__()
+        curIndex = substringIndex + String(sub).__len__()
         count++
     return count
   
   decode: -> return
   encode: -> return
-  endswith: -> return
+  endswith: (suffix, start, end) ->
+    return @value.slice(start, end).lastIndexOf(suffix) > -1
+
   expandtabs: -> return
   
   find: (sub, start = 0, end = @__len__()) ->
@@ -133,7 +127,13 @@ class String extends Sequence
       return true
 
   join: (iterable) -> return
-  ljust: (width, fillchar = ' ') -> return
+
+  ljust: (width, fillchar = ' ') ->
+    if width <= @__len__()
+      return @value
+    delta = width - @__len__()
+    pad = String('').__mul__(delta)
+    return @value + pad    
   
   lower: ->
     return @value.toLowerCase()
