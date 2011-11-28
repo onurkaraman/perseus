@@ -47,10 +47,20 @@ class String extends Sequence
   endswith: -> return
   expandtabs: -> return
   
-  find: (sub, start = 0, end = @value.__len__())->
-    valueSubstring = @value.slice(start, end)
-    return valueSubstring.indexOf(sub)
- 
+  find: (sub, start = 0, end = @value.__len__()) ->
+    substr = @value.slice(start, end)
+    return substr.indexOf(sub)
+
+  format: -> return
+  
+  index: (sub, start = 0, end = @value.__len__()) ->
+    substr = @value.slice(start, end)
+    index = substr.indexOf(sub)
+    if index == -1
+      (new ValueError "substring not found").raise()
+    else
+      return index
+
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @value.__len__() == 0
