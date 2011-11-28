@@ -41,7 +41,16 @@ class String extends Sequence
         curIndex = substringIndex + sub.__len__()
         count++
     return count
-    
+  
+  decode: -> return
+  encode: -> return
+  endswith: -> return
+  expandtabs: -> return
+  
+  find: (sub, start = 0, end = @value.__len__())->
+    valueSubstring = @value.slice(start, end)
+    return valueSubstring.indexOf(sub)
+ 
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @value.__len__() == 0
