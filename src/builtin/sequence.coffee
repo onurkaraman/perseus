@@ -31,6 +31,12 @@ class Sequence extends Primitive
     else
       # TODO: implementation for step > 1
       
+  __iadd__: (operand) ->
+    return @value = @value.__add__(operand)
+  
+  __imul__: (operand) ->
+    return @value = @value.__mul__(operand)
+      
   # TODO: The above `__contains__` uses a fallback definition of Array.prototype
   # .indexOf.  Any way to trigger this?  
   index: (operand) ->
