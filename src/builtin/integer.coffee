@@ -71,3 +71,6 @@ class Integer extends Number
     
   __irshift__: (operand) ->
     return @value = @.__rshift__(operand)
+
+  __ixor__: (operand) ->
+    return @value = @.__xor__(operand)

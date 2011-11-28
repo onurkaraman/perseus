@@ -133,3 +133,6 @@ class Object
     
   __isub__: (operand) ->
     raiseBinaryException('-=', @, operand)
+    
+  __ixor__: (operand) ->
+    raiseBinaryException('^=', @, operand)
