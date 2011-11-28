@@ -8,7 +8,7 @@ class Integer extends Number
   
   __div__: (operand) ->
     if isSubInstance(operand, @)
-      return @__floordiv__(operand)
+      return @.__floordiv__(operand)
     else
       super operand
 
