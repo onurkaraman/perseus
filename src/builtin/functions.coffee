@@ -20,3 +20,6 @@ pow: (operand1, operand2) ->
 
 abs: (operand) ->
   return operand.__abs__()
+
+float: (operand) ->
+  return new Number(window.Number(operand))
