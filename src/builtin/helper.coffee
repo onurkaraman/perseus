@@ -10,9 +10,9 @@ isSubInstance: (obj1, obj2) ->
     
 raiseUnaryException: (operator, operand) ->
   operandType = operand.__class__.__name__
-  throw new TypeError "bad operand type for #{operator}: '#{operandType}'"
+  (new TypeError "bad operand type for #{operator}: '#{operandType}'").raise()
   
 raiseBinaryException: (operator, operand1, operand2) ->
   operand1Type = operand1.__class__.__name__
   operand2Type = operand2.__class__.__name__
-  throw new TypeError "unsupported operand type(s) for #{operator}: '#{operand1Type}' and '#{operand2Type}'"
+  (new TypeError "unsupported operand type(s) for #{operator}: '#{operand1Type}' and '#{operand2Type}'").raise()
