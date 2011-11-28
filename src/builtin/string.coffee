@@ -141,3 +141,18 @@ class String extends Sequence
   lstrip: (chars) -> return
 
   partition: (sep) -> return #if using regex in split, need to be careful to escape chars
+
+  upper: ->
+    return @value.toUpperCase()
+  
+  zfill: (width) ->
+    if width <= @value.__len__()
+      return @value
+    if @value.__len__() == 0
+      return String('0').__mul__(width)
+    zeroCount = width - @value.__len__()
+    if @value[0] == '-'
+      remaining = @value.slice(1)
+      return '-' + String('0').__mul__(zeroCount) + remaining
+    else
+      return String('0').__mul__(zeroCount) + remaining
