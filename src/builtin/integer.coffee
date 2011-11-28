@@ -68,3 +68,6 @@ class Integer extends Number
       
   __ior__: (operand) ->
     return @value = @.__or__(operand)
+    
+  __irshift__: (operand) ->
+    return @value = @.__rshift__(operand)

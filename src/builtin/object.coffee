@@ -127,3 +127,6 @@ class Object
     
   __ipow__: (operand) ->
     raiseBinaryException('**=', @, operand)
+    
+  __irshift__: (operand) ->
+    raiseBinaryException('>>=', @, operand)
