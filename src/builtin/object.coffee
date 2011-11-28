@@ -118,3 +118,6 @@ class Object
     
   __imul__: (operand) ->
     raiseBinaryException('*=', @, operand)
+    
+  __ior__: (operand) ->
+    raiseBinaryException('|=', @, operand)
