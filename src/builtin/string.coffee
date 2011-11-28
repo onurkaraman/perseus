@@ -19,9 +19,9 @@ class String extends Sequence
       return @value[0].toUpperCase() + @value.slice(1).toLowerCase()
 
   center: (width, fillchar = " ") ->
-    if width <= @value.__len__
+    if width <= @value.__len__()
       return @value
-    delta = width - @value.__len__
+    delta = width - @value.__len__()
     pad = ''
     pad = for i in Math.floor(delta, 2)
             pad += fillchar
@@ -30,7 +30,7 @@ class String extends Sequence
     else
       return pad + @value + pad + fillchar
 
-  count: (sub, start = 0, end = @.__len__) ->
+  count: (sub, start = 0, end = @value.__len__()) ->
     count = 0
     curIndex = start
     while curIndex < end
@@ -38,13 +38,13 @@ class String extends Sequence
       if substringIndex < 0
         break
       else
-        curIndex = substringIndex + sub.__len__
+        curIndex = substringIndex + sub.__len__()
         count++
     return count
-
+    
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    if @value.__len__ == 0
+    if @value.__len__() == 0
       return false
     else
       for char in @value
@@ -54,7 +54,7 @@ class String extends Sequence
   
   isdigit: ->
     digits = '0123456789'
-    if @value.__len__ == 0
+    if @value.__len__() == 0
       return false
     else
       for char in @value
@@ -64,7 +64,7 @@ class String extends Sequence
 
   islower: ->
     lowers = 'abcdefghijklmnopqrstuvwxyz'
-    if @value.__len__ == 0
+    if @value.__len__() == 0
       return false
     else
       for char in @value
@@ -74,7 +74,7 @@ class String extends Sequence
   
   isspace: ->
     spaces = '\t\n\x0b\x0c\r '
-    if @value.__len__ == 0
+    if @value.__len__() == 0
       return false
     else
       for char in @value
