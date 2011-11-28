@@ -37,11 +37,9 @@ class Sequence extends Primitive
     return Array.prototype.indexOf(@value, operand.value)
     
   count: (operand) ->
-    var total = 0
+    total = 0
     for element in @value
       if element.__eq__(operand)
         total += 1
         
     return total
-      
-      
