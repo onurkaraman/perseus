@@ -30,6 +30,18 @@ class String extends Sequence
     else
       return pad + @value + pad + fillchar
 
+  count: (sub, start = 0, end = sub.length) ->
+    count = 0
+    curIndex = start
+    while curIndex < end
+      substringIndex = @value.indexOf(sub, curIndex)
+      if substringIndex < 0
+        break
+      else
+        curIndex = substringIndex + sub.__len__
+        count++
+    return count
+
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @value.__len__ == 0
