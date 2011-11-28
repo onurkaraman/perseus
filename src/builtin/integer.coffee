@@ -55,33 +55,16 @@ class Integer extends Number
       super operand
 
   __iand__: (operand) ->
-    if isSubInstance(operand, @)
-      return @value &= operand.value
-    else
-      super operand
+    return @value = @.__and__(operand)
   
   __idiv__: (operand) ->
-    if isSubInstance(operand, @)
-      return @__ifloordiv__(operand)
-    else if 'Float' in operand.__class__.__bases__
-      return @value /= operand.value
-    else
-      super operand
+    return @value = @.__div__(operand)
       
   __ilshift__: (operand) ->
-    if isSubInstance(operand, @)
-      return @value <<= operand.value
-    else
-      super operand
+    return @value = @.__lshift__(operand)
       
   __imod__: (operand) ->
-    if isSubInstance(operand, @)
-      return @value %= operand.value
-    else
-      super operand
+    return @value = @.__mod__(operand)
       
   __ior__: (operand) ->
-    if isSubInstance(operand, @)
-      return @value |= operand.value
-    else
-      super operand
+    return @value = @.__or__(operand)

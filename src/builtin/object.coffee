@@ -89,6 +89,9 @@ class Object
   __pos__: ->
     raiseUnaryException('unary +', @)
     
+  __pow__: (operand) ->
+    raiseBinaryException('**', @, operand)
+    
   __rshift__: (operand) ->
     raiseBinaryException('>>', @, operand)
 
@@ -121,3 +124,6 @@ class Object
     
   __ior__: (operand) ->
     raiseBinaryException('|=', @, operand)
+    
+  __ipow__: (operand) ->
+    raiseBinaryException('**=', @, operand)
