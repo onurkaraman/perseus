@@ -13,15 +13,15 @@ class String extends Sequence
       super operand
   
   capitalize: ->
-    if @value.__len__ is 0
+    if @__len__ is 0
       return @value
     else
-      return @value[0].toUpperCase() + @value.slice(1).toLowerCase()
+      return @value[0].toUpperCase() + @.lower().slice(1)
 
   center: (width, fillchar = " ") ->
-    if width <= @value.__len__()
+    if width <= @__len__()
       return @value
-    delta = width - @value.__len__()
+    delta = width - @__len__()
     pad = ''
     pad = for i in Math.floor(delta, 2)
             pad += fillchar
@@ -30,7 +30,7 @@ class String extends Sequence
     else
       return pad + @value + pad + fillchar
 
-  count: (sub, start = 0, end = @value.__len__()) ->
+  count: (sub, start = 0, end = @__len__()) ->
     count = 0
     curIndex = start
     while curIndex < end
@@ -47,13 +47,13 @@ class String extends Sequence
   endswith: -> return
   expandtabs: -> return
   
-  find: (sub, start = 0, end = @value.__len__()) ->
+  find: (sub, start = 0, end = @__len__()) ->
     substr = @value.slice(start, end)
     return substr.indexOf(sub)
 
   format: -> return
   
-  index: (sub, start = 0, end = @value.__len__()) ->
+  index: (sub, start = 0, end = @__len__()) ->
     substr = @value.slice(start, end)
     index = substr.indexOf(sub)
     if index == -1
@@ -63,7 +63,7 @@ class String extends Sequence
 
   isalnum: ->
     alnums = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    if @value.__len__() == 0
+    if @__len__() == 0
       return false
     else
       for char in @value
@@ -73,7 +73,7 @@ class String extends Sequence
 
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    if @value.__len__() == 0
+    if @__len__() == 0
       return false
     else
       for char in @value
@@ -83,7 +83,7 @@ class String extends Sequence
   
   isdigit: ->
     digits = '0123456789'
-    if @value.__len__() == 0
+    if @__len__() == 0
       return false
     else
       for char in @value
@@ -93,7 +93,7 @@ class String extends Sequence
 
   islower: ->
     lowers = 'abcdefghijklmnopqrstuvwxyz'
-    if @value.__len__() == 0
+    if @__len__() == 0
       return false
     else
       for char in @value
@@ -103,7 +103,7 @@ class String extends Sequence
   
   isspace: ->
     spaces = '\t\n\x0b\x0c\r '
-    if @value.__len__() == 0
+    if @__len__() == 0
       return false
     else
       for char in @value
@@ -124,10 +124,35 @@ class String extends Sequence
   
   isupper: ->
     uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    if @value.__len__() == 0
+    if @__len__() == 0
       return false
     else
       for char in @value
         if not char in uppers
           return false
       return true
+
+  join: (iterable) -> return
+  ljust: (width, fillchar = ' ') -> return
+  
+  lower: ->
+    return @value.toLowerCase()
+
+  lstrip: (chars) -> return
+
+  partition: (sep) -> return #if using regex in split, need to be careful to escape chars
+
+  upper: ->
+    return @value.toUpperCase()
+  
+  zfill: (width) ->
+    if width <= @__len__()
+      return @value
+    if @value.__len__() == 0
+      return String('0').__mul__(width)
+    zeroCount = width - @__len__()
+    if @value[0] == '-'
+      remaining = @value.slice(1)
+      return '-' + String('0').__mul__(zeroCount) + remaining
+    else
+      return String('0').__mul__(zeroCount) + remaining
