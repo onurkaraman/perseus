@@ -14,3 +14,6 @@ issubclass: (classArg, classinfo) ->
 
 cmp: (operand1, operand2) ->
   return operand1.__cmp__(operand2)
+  
+pow: (operand1, operand2) ->
+  return operand1.__pow__(operand2)
