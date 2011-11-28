@@ -61,6 +61,16 @@ class String extends Sequence
     else
       return index
 
+  isalnum: ->
+    alnums = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    if @value.__len__() == 0
+      return false
+    else
+      for char in @value
+        if not char in alnums
+          return false
+      return true
+
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @value.__len__() == 0
