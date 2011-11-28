@@ -131,3 +131,13 @@ class String extends Sequence
         if not char in uppers
           return false
       return true
+
+  join: (iterable) -> return
+  ljust: (width, fillchar = ' ') -> return
+  
+  lower: ->
+    return @value.toLowerCase()
+
+  lstrip: (chars) -> return
+
+  partition: (sep) -> return #if using regex in split, need to be careful to escape chars
