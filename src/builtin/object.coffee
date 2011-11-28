@@ -3,7 +3,7 @@ class Object
     # TODO: need to implement tuples - it's a tuple of the base classes
   
   @__name__: ->
-    return Object.prototype.toString.call(@).slice(8, -1)
+    return getClass(@)
   
   # XXX: This appears to be the most accurate way to get the class of an object
   # Using `@prototype` fails for simple primitives such as ints and strings.  
