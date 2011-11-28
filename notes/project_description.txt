@@ -58,9 +58,32 @@ Timeline
 	Week 2: Implement grammar rules and their semantic meaning
 		Alternating based on full grammar specification:
 			http://docs.python.org/reference/grammar.html
-
-	Week 3: Implement library functions
-		Finish implementing translations in python abstract grammar.
+			
+	Week 3:
+		Built-in Types
+			Jiawei:
+				int, float, long?, complex
+				List
+			Onur:
+				Strings
+				Boolean
+			Deferred:
+				Iterator
+				Tuple
+				Set/Frozenset
+				Dict
+			Ignoring:
+				bytearray
+				buffer
+				xrange
+				File
+				memoryview
+				Context Manager Types
+		
+	Week 4:
+		Week 2 Work
+		Built-in Functions
+		Debug and work on Nodejs functions if we have time.
 		Onur:
 			abs
 			any
@@ -140,5 +163,3 @@ Timeline
 			__import__
 			buffer
 			intern
-
-	Week 4: Debug and work on Nodejs functions if we have time.
