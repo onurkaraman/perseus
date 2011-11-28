@@ -142,6 +142,23 @@ class String extends Sequence
 
   partition: (sep) -> return #if using regex in split, need to be careful to escape chars
 
+  swapcase: ->
+    result = ''
+    for char in @value
+      if String(char).islower()
+        ascii = char.charCodeAt(0)
+        upperCaseAscii = ascii - 32
+        upperCaseChar = String.fromCharCode(upperCaseAscii)
+        result += upperCaseChar
+      else if String(char).isupper()
+        ascii = char.charCodeAt(0)
+        lowerCaseAscii = ascii + 32
+        lowerCaseChar = String.fromCharCode(lowerCaseAscii)
+        result += lowerCaseChar
+      else
+        result += char
+    return char
+
   upper: ->
     return @value.toUpperCase()
   
