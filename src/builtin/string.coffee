@@ -30,7 +30,7 @@ class String extends Sequence
     else
       return pad + @value + pad + fillchar
 
-  count: (sub, start = 0, end = sub.length) ->
+  count: (sub, start = 0, end = @.__len__) ->
     count = 0
     curIndex = start
     while curIndex < end
