@@ -61,3 +61,6 @@ class Number extends Primitive
       
   __ipow__: (operand) ->
     return @value = @.__pow__(operand)
+    
+  __isub__: (operand) ->
+    return @value = @.__sub__(operand)

@@ -130,3 +130,6 @@ class Object
     
   __irshift__: (operand) ->
     raiseBinaryException('>>=', @, operand)
+    
+  __isub__: (operand) ->
+    raiseBinaryException('-=', @, operand)
