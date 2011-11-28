@@ -184,11 +184,10 @@ class IfExp(Base):
 class ListComp(Base):
     def compile(self):
         '''
-        Already works for nested list comprehensions:
-            [[row[i] for row in mat] for i in [0, 1, 2]]
-        I'm unsure about what it means for there to be a list
-        of comprehensions
-        Note: nested list comprehensions still make len(self.generators) == 1
+        TODO: Handle multi-comprehensions:
+            seq1 = ['a', 'b', 'c']
+            seq2 = [1, 2, 3]
+            [(x, y) for x in seq1 for y in seq2]
         '''
         element = str(self.elt)
         iter = self.generators[0].iter
@@ -473,7 +472,8 @@ class Lambda(Base):
 class FunctionDef(Base):
     def compile(self):
         return helper.multiline([
-            'this.%s = function(%s){',
+            #'this.%s = function(%s){',
+            'var %s = function(%s){',
             '  %s',
             '}'
         ]) % (self.name, self.args, helper.formatGroup(self.body))
