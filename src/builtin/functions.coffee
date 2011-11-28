@@ -17,3 +17,6 @@ cmp: (operand1, operand2) ->
   
 pow: (operand1, operand2) ->
   return operand1.__pow__(operand2)
+
+abs: (operand) ->
+  return operand.__abs__()
