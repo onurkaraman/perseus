@@ -136,3 +136,20 @@ class Object
     
   __ixor__: (operand) ->
     raiseBinaryException('^=', @, operand)
+    
+  __contains__: (operand) ->
+    raiseNotIterableException(@)
+    
+  __len__: ->
+    type = @__class__.__name__
+    (new TypeError("object of type '#{type}' has no len()")).raise()
+    
+  __min__: ->
+    raiseNotIterableException(@)
+    
+  __max__: ->
+    raiseNotIterableException(@)
+    
+  __slice__: ->
+    raiseNotSubscriptableException(@)
+    
