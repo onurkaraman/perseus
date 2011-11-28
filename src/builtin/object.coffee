@@ -115,3 +115,6 @@ class Object
 
   __imod__: (operand) ->
     raiseBinaryException('%=', @, operand)
+    
+  __imul__: (operand) ->
+    raiseBinaryException('*=', @, operand)

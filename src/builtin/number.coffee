@@ -55,3 +55,9 @@ class Number extends Primitive
       return @value = Math.floor(@value / operand.value)
     else
       super operand
+      
+  __imul__: (operand) ->
+    if isSubInstance(operand, @)
+      return @value *= operand.value
+    else
+      super operand
