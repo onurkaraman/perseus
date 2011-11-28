@@ -30,8 +30,8 @@ class Integer extends Number
   __mul__: (operand) ->
     # String * Integer and Integer * String are interchangeable in Python and
     # represent a form of string concatenation
-    if 'String' in operand.__class__.__bases__
-      return String.__mul__.call(operand, this)
+    if 'Sequence' in operand.__class__.__bases__
+      return operand::__mul__.call(operand, this)
     # TODO: need to add another branch for lists
     else
       super operand

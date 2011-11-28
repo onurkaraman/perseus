@@ -16,3 +16,11 @@ raiseBinaryException: (operator, operand1, operand2) ->
   operand1Type = operand1.__class__.__name__
   operand2Type = operand2.__class__.__name__
   (new TypeError "unsupported operand type(s) for #{operator}: '#{operand1Type}' and '#{operand2Type}'").raise()
+  
+raiseNotIterableException: (operand) ->
+  operandType = operand.__class__.__name__
+  (new TypeError("argument of type '#{type}' is not iterable")).raise()
+  
+raiseNotSubscriptableException: (operand) ->
+  operandType = operand.__class__.__name__
+  (new TypeError("argument of type '#{type}' is not subscriptable")).raise()
