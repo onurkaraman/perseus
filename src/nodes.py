@@ -97,82 +97,75 @@ class Pass(Base):
 
 class Add(Base):
     def compile(self):
-        return '+'
+        return '__add__'
 
 class Sub(Base):
     def compile(self):
-        return '-'
+        return '__sub__'
 
 class Mult(Base):
     def compile(self):
-        return '*'
+        return '__mul__'
 
 class Div(Base):
     def compile(self):
-        return '/'
+        return '__div__'
 
 class Mod(Base):
     def compile(self):
-        return '%'
+        return '__mod__'
 
 class LShift(Base):
     def compile(self):
-        return '<<'
+        return '__lshift__'
 
 class RShift(Base):
     def compile(self):
-        return '>>'
+        return '__rshift__'
 
 class BitOr(Base):
     def compile(self):
-        return '|'
+        return '__or__'
 
 class BitXor(Base):
     def compile(self):
-        return '^'
+        return '__xor__'
 
 class BitAnd(Base):
     def compile(self):
-        return '&'
+        return '__and__'
 
 class Pow(Base):
     def compile(self):
-        return 'Math.pow(%s, %s)' % (self.parent.left, self.parent.right)
+        return '__pow__'
 
 class FloorDiv(Base):
     def compile(self):
-        return 'Math.floor(%s, %s)' % (self.parent.left, self.parent.right)
+        return '__floordiv__'
 
 class Invert(Base):
     def compile(self):
-        return '~'
+        return '__invert__'
 
 class Not(Base):
     def compile(self):
-        return '!'
+        return '__not__'
 
 class UAdd(Base):
     def compile(self):
-        return '+'
+        return '__pos__'
 
 class USub(Base):
     def compile(self):
-        return '-'
+        return '__neg__'
 
 class BinOp(Base):
     def compile(self):
-        if typing.getClassName(self.op) in ['Pow', 'FloorDiv']:
-            return MathOp(self.ast, self.parent).compile()
-        else:
-            return '%s %s %s' % (self.left, self.op, self.right)
-
-class MathOp(Base):
-    def compile(self):
-        return '%s' % self.op
+        return '%s.%s(%s)' % (self.left, self.op, self.right)
 
 class UnaryOp(Base):
     def compile(self):
-        return '%s%s' % (self.op, self.operand)
+        return '%s.%s()' % (self.operand, self.op)
 
 class IfExp(Base):
     def compile(self):
@@ -290,41 +283,42 @@ class Delete(Base):
     def compile(self):
         return 'delete ' + ', '.join(target for target in self.targets)
 
+# TODO: Append 'i' to ops, e.g. __add__ => __iadd__
 class AugAssign(Base):
     def compile(self):
         return '%s %s= %s' % (self.target, self.op, self.value)
 
 class Eq(Base):
     def compile(self):
-        return '=='
+        return '__eq__'
 
 class NotEq(Base):
     def compile(self):
-        return '!='
+        return '__nq__'
 
 class Lt(Base):
     def compile(self):
-        return '<'
+        return '__lt__'
 
 class LtE(Base):
     def compile(self):
-        return '<='
+        return '__lte__'
 
 class Gt(Base):
     def compile(self):
-        return '>'
+        return '__gt__'
 
 class GtE(Base):
     def compile(self):
-        return '>='
+        return '__gte__'
 
 class Is(Base):
     def compile(self):
-        return '==='
+        return '__is__'
 
 class IsNot(Base):
     def compile(self):
-        return '!=='
+        return '__is_not__'
 
 # **Consider:** ctx, Ellipsis, ExtSlice form of slice
 class Subscript(Base):

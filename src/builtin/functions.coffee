@@ -11,3 +11,6 @@ issubclass: (classArg, classinfo) ->
     currentClass = currentClass.__class__.prototype
   
   return false
+
+cmp: (operand1, operand2) ->
+  return operand1.__cmp__(operand2)
