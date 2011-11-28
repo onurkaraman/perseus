@@ -23,3 +23,13 @@ abs: (operand) ->
 
 float: (operand) ->
   return new Number(window.Number(operand))
+
+str: (operand) ->
+  if operand?
+    return operand.__str__()
+  else
+    # [Relevant](http://docs.python.org/library/functions.html#str)
+    return ''
+    
+repr: (operand) ->
+  return operand.__repr__()
