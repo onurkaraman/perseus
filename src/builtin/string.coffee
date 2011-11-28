@@ -142,6 +142,9 @@ class String extends Sequence
 
   partition: (sep) -> return #if using regex in split, need to be careful to escape chars
 
+  startswith: (prefix, start = 0, end = @__len__()) ->
+    return @value.slice(start, end).indexOf(suffix) == 0
+
   swapcase: ->
     result = ''
     for char in @value
