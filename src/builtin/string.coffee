@@ -142,8 +142,8 @@ class String extends Sequence
 
   partition: (sep) ->
     splitValues = @split(sep, 1)
-    successfulSplit = splitValues.length > 1
-    if successfulSplit
+    containsSeparator = @__contains__(sep)
+    if containsSeparator
       partitions = [splitValues[0], sep, splitValues[1]]
     else
       partitions = [splitValues[0], "", ""]
