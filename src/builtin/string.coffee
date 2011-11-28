@@ -140,7 +140,14 @@ class String extends Sequence
 
   lstrip: (chars) -> return
 
-  partition: (sep) -> return #if using regex in split, need to be careful to escape chars
+  partition: (sep) ->
+    splitValues = @split(sep, 1)
+    successfulSplit = splitValues.length > 1
+    if successfulSplit
+      partitions = [splitValues[0], sep, splitValues[1]]
+    else
+      partitions = [splitValues[0], "", ""]
+    return new Tuple(partitions)
 
   startswith: (prefix, start = 0, end = @__len__()) ->
     return @value.slice(start, end).indexOf(suffix) == 0
