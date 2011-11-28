@@ -110,3 +110,24 @@ class String extends Sequence
         if not char in spaces
           return false
       return true
+
+  istitle: ->
+    words = @value.split ' '
+    for word in words
+      if not String(word[0]).isupper()
+        return false
+      if word.length == 1
+        continue
+      if not String(word[0]).islower()
+        return false
+    return true
+  
+  isupper: ->
+    uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    if @value.__len__() == 0
+      return false
+    else
+      for char in @value
+        if not char in uppers
+          return false
+      return true
