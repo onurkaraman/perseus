@@ -1,6 +1,9 @@
 class Sequence extends Primitive
   __add__: (operand) ->
-    return @value.concat(operand.value)
+    if isSubInstance operand, @
+      return @value.concat(operand.value)
+    else
+      super operand
     
   __contains__: (operand)->
     return operand.value in @value
