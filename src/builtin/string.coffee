@@ -167,7 +167,7 @@ class String extends Sequence
         result += lowerCaseChar
       else
         result += char
-    return char
+    return result
 
   upper: ->
     return @value.toUpperCase()
