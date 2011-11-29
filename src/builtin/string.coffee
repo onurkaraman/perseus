@@ -153,11 +153,11 @@ class String extends Sequence
       partitions = [splitValues[0], "", ""]
     return new Tuple(partitions)
 
-  replace: (old, new, count = null) ->
+  replace: (old, replacement, count) ->
     if count?
-      return @split(old, count).join(new)
+      return @split(old, count).join(replacement)
     else
-      return @split(old).join(new)
+      return @split(old).join(replacement)
 
   rfind: (sub, start = 0, end = @__len__()) ->
     lastIndex = @__slice__(start, end).lastIndexOf(sub)
