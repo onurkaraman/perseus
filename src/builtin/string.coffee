@@ -177,6 +177,15 @@ class String extends Sequence
     pad = String('').__mul__(delta)
     return pad + @value
 
+  rpartition: (sep) ->
+    splitValues = @rsplit(sep, 1)
+    containsSeparator = @__contains__(sep)
+    if containsSeparator
+      partitions = [splitValues[0], sep, splitValues[1]]
+    else
+      partitions = ["", "", splitValues[0]]
+    return new Tuple(partitions)
+
   startswith: (prefix, start = 0, end = @__len__()) ->
     return @value.slice(start, end).indexOf(suffix) == 0
 
