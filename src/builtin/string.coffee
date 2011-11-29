@@ -105,6 +105,10 @@ class String extends Sequence
           return false
       return true
 
+  ###
+  TODO: Fix istitle to account for punctuations as described in:
+  http://docs.python.org/library/stdtypes.html#str.title
+  ###
   istitle: ->
     words = @value.split ' '
     for word in words
@@ -148,6 +152,30 @@ class String extends Sequence
     else
       partitions = [splitValues[0], "", ""]
     return new Tuple(partitions)
+
+  replace: (old, new, count = null) ->
+    if count?
+      return @split(old, count).join(new)
+    else
+      return @split(old).join(new)
+
+  rfind: (sub, start = 0, end = @__len__()) ->
+    lastIndex = @__slice__(start, end).lastIndexOf(sub)
+    return lastIndex
+
+  rindex: (sub, start = 0, end = @__len__()) ->
+    lastIndex = substr.lastIndexOf(sub)
+    if lastIndex == -1
+      (new ValueError "substring not found").raise()
+    else
+      return lastIndex
+      
+  rjust: (width, fillchar = ' ') ->
+    if width <= @__len__()
+      return @value
+    delta = width - @__len__()
+    pad = String('').__mul__(delta)
+    return pad + @value
 
   startswith: (prefix, start = 0, end = @__len__()) ->
     return @value.slice(start, end).indexOf(suffix) == 0
