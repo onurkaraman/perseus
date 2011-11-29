@@ -186,8 +186,14 @@ class String extends Sequence
       partitions = ["", "", splitValues[0]]
     return new Tuple(partitions)
 
+  rsplit: -> return
+  rstrip: -> return
+  split: -> return
+  splitlines: -> return
   startswith: (prefix, start = 0, end = @__len__()) ->
     return @value.slice(start, end).indexOf(suffix) == 0
+
+  strip: -> return
 
   swapcase: ->
     result = ''
@@ -205,6 +211,9 @@ class String extends Sequence
       else
         result += char
     return result
+
+  title: -> return
+  translate: -> return
 
   upper: ->
     return @value.toUpperCase()
