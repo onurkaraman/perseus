@@ -55,22 +55,22 @@ class Integer extends Number
       super operand
 
   __iand__: (operand) ->
-    return @value = @.__and__(operand)
+    return @value = @__and__(operand)
   
   __idiv__: (operand) ->
-    return @value = @.__div__(operand)
+    return @value = @__div__(operand)
       
   __ilshift__: (operand) ->
-    return @value = @.__lshift__(operand)
+    return @value = @__lshift__(operand)
       
   __imod__: (operand) ->
-    return @value = @.__mod__(operand)
+    return @value = @__mod__(operand)
       
   __ior__: (operand) ->
-    return @value = @.__or__(operand)
+    return @value = @__or__(operand)
     
   __irshift__: (operand) ->
-    return @value = @.__rshift__(operand)
+    return @value = @__rshift__(operand)
 
   __ixor__: (operand) ->
-    return @value = @.__xor__(operand)
+    return @value = @__xor__(operand)

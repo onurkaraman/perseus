@@ -51,16 +51,16 @@ class Number extends Primitive
   # XXX: Should not be allowed to do these on literals
   # This is currently caught by the ASTparser.
   __iadd__: (operand) ->
-    return @value = @.__add__(operand)
+    return @value = @__add__(operand)
 
   __ifloordiv__: (operand) ->
-    return @value = @.__floordiv__(operand)
+    return @value = @__floordiv__(operand)
       
   __imul__: (operand) ->
-    return @value = @.__mul__(operand)
+    return @value = @__mul__(operand)
       
   __ipow__: (operand) ->
-    return @value = @.__pow__(operand)
+    return @value = @__pow__(operand)
     
   __isub__: (operand) ->
-    return @value = @.__sub__(operand)
+    return @value = @__sub__(operand)
