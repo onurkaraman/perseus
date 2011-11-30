@@ -1,5 +1,5 @@
-import base.Base as Base
-import block.Block as Block
+from base import Base
+from block import Block
 import helper
 
 class FunctionDef(Base):

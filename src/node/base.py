@@ -1,7 +1,7 @@
 # http://docs.python.org/library/ast.html#abstract-grammar
 
-import helper
 import typing
+
 
 # rootNode = ModuleNode(ast.parse(...), None)
 class Base:
@@ -31,9 +31,23 @@ class Base:
         elif typing.isList(element):
             return [self.resolve(member).compile() for member in element]
         else:
+            from alias import *
+            from arguments import *
+            from block import *
+            from boolop import *
+            from cmpop import *
+            from comprehension import *
+            from excepthandler import *
+            from expr_context import *
+            from expr import *
+            from keyword import *
+            from mod import *
+            from operator import *
+            from slice import *
+            from stmt import *
             className = typing.getClassName(element)
-            nodeClass = globals()[className]
-            return nodeClass(element, self)
+            return locals()[className](element, self)
+        
     def getChildren(self):
         [getattr(self, fieldName) for fieldName in self.ast._fields]
     def compile(self):
