@@ -34,10 +34,9 @@ class Dict(Base):
     def compile(self):
         return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
 
-# **Unimplemented**
 class Set(Base):
     def compile(self):
-        pass
+        return 'new Set(%s)' % (self.elts)
 
 # **To-do** Handle multi-comprehensions:
 # * seq1 = ['a', 'b', 'c']

@@ -52,12 +52,7 @@ class Object
   # **Unimplemented**   
   __is_not__: ->
  
-  __in__: ->
-    type = @__class__.__name__
-    new TypeError "argument of type '#{type}' is not iterable"
-    .raise()
-    
-  __not_in__: ->
+  __contains__: ->
     type = @__class__.__name__
     new TypeError "argument of type '#{type}' is not iterable"
     .raise()
