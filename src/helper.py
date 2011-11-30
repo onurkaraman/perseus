@@ -1,7 +1,7 @@
 import typing
 
+INDENT = ' '
 INDENTWIDTH = 2
-NEWLINE = '\r\n'
 
 # Wraps a chunk of code in a closure.
 def closure(code):
@@ -13,7 +13,7 @@ def closure(code):
 
 # Indents a string.  If it is multi-line, each line will be indented.
 def indent(code, level):
-    return NEWLINE.join(map(lambda(line): ' ' * INDENTWIDTH * level + line, code.split(NEWLINE)))
+    return os.linesep.join(map(lambda(line): INDENT * INDENTWIDTH * level + line, code.split(os.linesep)))
 
 # Recursively expands lists within a list, e.g.
 # [1, [2, 3], 4] => [1, 2, 3, 4]
@@ -32,20 +32,26 @@ def expand(array):
 # appends a semicolon to the end of each statement, and concatenates the
 # statements with newlines
 def formatGroup(statementList):
-    return NEWLINE.join(map(lambda(line): line + ';', statementList))
+    return os.linesep.join(map(lambda(line): line + ';', statementList))
 
-# Concatenates a list of statements with newlines.
-def multiline(statementList):
+# Removing prefixed newlines, trailing whitespace
+def multiline(multiLineString):
+    newLineChars = '\r\n\f\t'
+    strippedLeadingEnding = multiLineString.lstrip(newLineChars).rstrip(string.whitespace)
+    
+    lines = strippedLeadingEnding.split(os.linesep)
+    
+    [line.rstrip(string.whitespace) for line in lines].join(os.linesep)
+    
     map(lambda(statement): reindent(statement), statementList)
-    return NEWLINE.join(statementList)
+    return os.linesep.join(statementList)
 
-# *Developer-method*.  Indents a method using INDENTWIDTH per every 2 spaces in
-# a string.
+# Indents a method using INDENTWIDTH per every 2 spaces in a string.
 def reindent(statement):
     originalLength = len(statement)
     statement.lstrip()
     
-    # should be an even number!
+    # should be an even number!    
     assert (len(statement) - originalLength) % 2 == 0
     
     numIndents = (len(statement) - originalLength)/2

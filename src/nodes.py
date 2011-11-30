@@ -25,6 +25,8 @@ class Base:
             return element
         elif typing.isPrimitive(element):
             return str(element)
+        # Expression contexts appear to be an argument-less instance of a class
+        # e.g. Load(), Store()
         elif typing.isExpressionContext(element):
             return typing.getClassName(element)
         elif typing.isList(element):
@@ -343,16 +345,16 @@ class Slice(Base):
         if hasStep:
             step = int(self.step.compile())
             if step > 0:
-                slicedArray += (".filter(" +
-                                    "function(element, index, array){" +
-                                        "return index %% %s == 0;" +
-                                    "}" +
+                slicedArray += (".filter(" + 
+                                    "function(element, index, array){" + 
+                                        "return index %% %s == 0;" + 
+                                    "}" + 
                                 ")") % (self.step)
             elif step < 0:
-                slicedArray += (".filter(" +
-                                    "function(element, index, array){" +
-                                        "return (array.length - index - 1) %% %s == 0;" +
-                                    "}" +
+                slicedArray += (".filter(" + 
+                                    "function(element, index, array){" + 
+                                        "return (array.length - index - 1) %% %s == 0;" + 
+                                    "}" + 
                                 ").reverse()") % (self.step)
             elif step == 0:
                 return "ValueError: slice step cannot be zero"
