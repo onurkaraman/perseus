@@ -8,6 +8,9 @@ class Set extends Iterable
   __contains__: (other) ->
     return other in @value
 
+  __cmp__: (set) ->
+    (new TypeError "cannot compare sets using cmp()").raise()
+
   __lt__: (set) ->
     if @__eq__(set)
       return false
