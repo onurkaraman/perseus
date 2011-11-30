@@ -32,10 +32,9 @@ class IsNot(Base):
     def compile(self):
         return '__is_not__'
     
-# **Unimplemented**
 class In(Base):
     def compile(self):
-        pass
+        return '__contains__'
 
 # **Unimplemented**
 class NotIn(Base):

@@ -42,7 +42,7 @@ class Primitive extends Object
     else
       super operand
     
-  # TODO: difference between __repr__ and __str__?
-  # Need to consider how this will affect console.log / print / concatenation
+  # **Consideration** What is the difference between __repr__ and __str__?
+  # How does this affect console.log / print / concatenation?
   __str__: ->
     return @value.toString()
