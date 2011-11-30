@@ -33,3 +33,6 @@ str: (operand) ->
     
 repr: (operand) ->
   return operand.__repr__()
+
+type: (object) ->
+  return object.constructor

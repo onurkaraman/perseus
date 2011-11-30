@@ -1,6 +1,4 @@
-# A 'Primitive' is anything that is considered a JS primitive - it can be
-# represented using 1 variable in Javascript
-# e.g. Array, Boolean, Dictionary, Integer/Float, String
+# A 'Primitive' is anything that is considered a Python built-in type
 class Primitive extends Object
   constructor: (@value) ->  
   
