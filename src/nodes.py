@@ -62,7 +62,8 @@ class Name(Base):
 
 class Expr(Base):
     def compile(self):
-        return '%s' % self.value
+        # Unbox our objects!
+        return '(%s).value' % self.value
 
 class Compare(Base):
     def compile(self):
@@ -74,16 +75,27 @@ class Compare(Base):
 
 class Num(Base):
     def compile(self):
+        value = self.n
+        
+        # Floats and integers have different meanings for division!
+        if ('.' in str(value)):
+            return 'new Number(%s)' % value
+        else:
+            return 'new Integer(%s)' % value
+        
         return self.n
 
 class Str(Base):
     def compile(self):
         stringValue = self.s
+        
+        # Wrap it in the correct quotes
         if (stringValue.startswith('"')):
             stringValue = "'%s'" % stringValue
         else:
             stringValue = '"%s"' % stringValue
-        return '%s' % stringValue
+            
+        return 'new String(%s)' % stringValue
 
 class Break(Base):
     def compile(self):
