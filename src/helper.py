@@ -41,10 +41,9 @@ def multiline(multiLineString):
     
     lines = strippedLeadingEnding.split(os.linesep)
     
-    [line.rstrip(string.whitespace) for line in lines].join(os.linesep)
+    leadingIndent = len(lines[0]) - len(lines[0].lstrip(string.whitespace))
     
-    map(lambda(statement): reindent(statement), statementList)
-    return os.linesep.join(statementList)
+    return [line.rstrip(string.whitespace)[leadingIndent:] for line in lines].join(os.linesep)
 
 # Indents a method using INDENTWIDTH per every 2 spaces in a string.
 def reindent(statement):
