@@ -105,6 +105,10 @@ class String extends Sequence
           return false
       return true
 
+  ###
+  TODO: Fix istitle to account for punctuations as described in:
+  http://docs.python.org/library/stdtypes.html#str.title
+  ###
   istitle: ->
     words = @value.split ' '
     for word in words
@@ -142,15 +146,54 @@ class String extends Sequence
 
   partition: (sep) ->
     splitValues = @split(sep, 1)
-    successfulSplit = splitValues.length > 1
-    if successfulSplit
+    containsSeparator = @__contains__(sep)
+    if containsSeparator
       partitions = [splitValues[0], sep, splitValues[1]]
     else
       partitions = [splitValues[0], "", ""]
     return new Tuple(partitions)
 
+  replace: (old, replacement, count) ->
+    if count?
+      return @split(old, count).join(replacement)
+    else
+      return @split(old).join(replacement)
+
+  rfind: (sub, start = 0, end = @__len__()) ->
+    lastIndex = @__slice__(start, end).lastIndexOf(sub)
+    return lastIndex
+
+  rindex: (sub, start = 0, end = @__len__()) ->
+    lastIndex = substr.lastIndexOf(sub)
+    if lastIndex == -1
+      (new ValueError "substring not found").raise()
+    else
+      return lastIndex
+      
+  rjust: (width, fillchar = ' ') ->
+    if width <= @__len__()
+      return @value
+    delta = width - @__len__()
+    pad = String('').__mul__(delta)
+    return pad + @value
+
+  rpartition: (sep) ->
+    splitValues = @rsplit(sep, 1)
+    containsSeparator = @__contains__(sep)
+    if containsSeparator
+      partitions = [splitValues[0], sep, splitValues[1]]
+    else
+      partitions = ["", "", splitValues[0]]
+    return new Tuple(partitions)
+
+  rsplit: -> return
+  rstrip: -> return
+  split: -> return
+  splitlines: -> return
   startswith: (prefix, start = 0, end = @__len__()) ->
     return @value.slice(start, end).indexOf(suffix) == 0
+
+  strip: -> return
 
   swapcase: ->
     result = ''
@@ -167,7 +210,10 @@ class String extends Sequence
         result += lowerCaseChar
       else
         result += char
-    return char
+    return result
+
+  title: -> return
+  translate: -> return
 
   upper: ->
     return @value.toUpperCase()
