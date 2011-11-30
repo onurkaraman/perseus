@@ -106,7 +106,7 @@ class String extends Sequence
       return true
 
   ###
-  TODO: Fix istitle to account for punctuations as described in:
+  **Fix-me**: Account for punctuation as described in:
   http://docs.python.org/library/stdtypes.html#str.title
   ###
   istitle: ->
