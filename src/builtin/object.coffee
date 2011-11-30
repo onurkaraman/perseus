@@ -1,11 +1,11 @@
 class Object
+  # **To-do** Implement tuples - it's a tuple of the base classes.
   @__bases__: ->
-    # TODO: need to implement tuples - it's a tuple of the base classes
   
   @__name__: ->
     return getClass(@)
   
-  # XXX: This appears to be the most accurate way to get the class of an object
+  # This appears to be the most accurate way to get the class of an object
   # Using `@prototype` fails for simple primitives such as ints and strings.  
   __class__: ->
     return @constructor.prototype
@@ -18,7 +18,7 @@ class Object
     if @.__gt__(operand)
       return 1
   
-  # XXX: This appears to be how objects evaluate undefined operators.
+  # This appears to be how objects evaluate undefined operators.
   __lt__: (operand) ->
     return true
     
@@ -45,11 +45,13 @@ class Object
   # We need to compare memory addresses, which may be JS implementation-
   # dependent.
   # [Relevant](http://stackoverflow.com/questions/639514/how-can-i-get-the-memory-address-of-a-javascript-variable)
+  
+  # **Unimplemented**
   __is__: ->
-    # TODO: Stub
-    
+ 
+  # **Unimplemented**   
   __is_not__: ->
-    # TODO: Stub
+ 
   #
   
   __abs__: ->

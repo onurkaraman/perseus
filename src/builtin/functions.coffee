@@ -1,4 +1,4 @@
-# TODO: implement tuple support for classinfo
+# **To-do** Implement tuple support for classinfo.
 issubclass: (classArg, classinfo) ->
   currentClass = classArg
   desiredClass = classinfo

@@ -32,7 +32,7 @@ class Integer extends Number
     # represent a form of string concatenation
     if 'Sequence' in operand.__class__.__bases__
       return operand::__mul__.call(operand, this)
-    # TODO: need to add another branch for lists
+    # **To-do** Add another branch for lists.
     else
       super operand
     

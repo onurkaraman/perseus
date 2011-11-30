@@ -48,8 +48,8 @@ class Number extends Primitive
       super operand
   
   # In-place operators
-  # XXX: Should not be allowed to do these on literals
-  # This is currently caught by the ASTparser.
+  # **Consideration** Should not be allowed to do these on literals.
+  # This is currently caught by the Python ASTparser.
   __iadd__: (operand) ->
     return @value = @__add__(operand)
 
