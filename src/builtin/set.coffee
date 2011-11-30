@@ -2,7 +2,7 @@ class Set extends Iterable
   constructor: (iterable) ->
     @value = Dictionary() # set just is a wrapped version of our own Dictionary class
     for item in iterable
-      @value.__setitem__(item) = true
+      @value.__setitem__(item, true)
 
   __and__: (other) ->
     intersect = List()
@@ -18,15 +18,18 @@ class Set extends Iterable
   # Checks to see if this is equivalent to set
   __eq__: (set) ->
     for item in set
-      if not @__contains__(item) return false
+      if not @__contains__(item)
+        return false
     for item in @value
-      if not set.__contains__(item) return false
+      if not set.__contains__(item)
+        return false
     return true
 
   # Checks to see if this is a superset of set
   __ge__: (set) ->
     for item in set
-      if not @__contains__(item) return false
+      if not @__contains__(item)
+        return false
     return true
   
   __getattribute__: ->
@@ -36,7 +39,8 @@ class Set extends Iterable
     if @__eq__(set)
       return false
     for item in set
-      if not @__contains__(item) return false
+      if not @__contains__(item)
+        return false
     return true
   
   # Inplace and operation. x.__iand__(y) changes x
@@ -81,7 +85,8 @@ class Set extends Iterable
   # Checks to see if this is a subset of set
   __le__: (set) ->
     for item in @value
-      if not set.__contains__(item) return false
+      if not set.__contains__(item)
+        return false
     return true
 
   __len__: ->
@@ -92,7 +97,8 @@ class Set extends Iterable
     if @__eq__(set)
       return false
     for item in @value
-      if not set.__contains__(item) return false
+      if not set.__contains__(item)
+        return false
     return true
 
   # Checks to see if this is not equivalent to set
@@ -142,6 +148,20 @@ class Set extends Iterable
       if not set.__contains__(item)
         xorKeys.append(item)
     return Set(xorKeys)
+  
+  add: (element) ->
+    @value.__setitem__(item, true)
+    return
+    
+  clear: ->
+    @value.clear()
+  
+  # Returns a shallow copy of this
+  copy: ->
+    return new Set(@)
+  
+  difference: (others) ->
+    
 
   # Checks to see if this and set are disjoint, meaning this intersected with set is the empty set 
   isdisjoint: (set) ->
