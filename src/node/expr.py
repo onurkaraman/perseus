@@ -197,7 +197,6 @@ class List(Base):
     def compile(self):
         return 'new List(%s)' % self.elts
 
-# **Fix-me** Placeholder so I can start DictComp
 class Tuple(Base):
     def compile(self):
-        return List(self.ast, self.parent).compile()
+        return 'new Tuple(%s)' % self.elts
