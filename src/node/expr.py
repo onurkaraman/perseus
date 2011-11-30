@@ -152,7 +152,12 @@ class Repr(Base):
     
 class Num(Base):
     def compile(self):
-        return self.n
+        value = self.n
+        # Floats and integers have different meanings for division!
+        if ('.' in str(value)):
+            return 'new Number(%s)' % value
+        else:
+            return 'new Integer(%s)' % value
 
 class Str(Base):
     def compile(self):
