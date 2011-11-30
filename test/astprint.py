@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import ast
 
-print(ast.dump(ast.parse(open('test.py').read())))
+print(ast.dump(ast.parse(open('input.py').read())))
 
 #import re
 #

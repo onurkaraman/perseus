@@ -7,4 +7,4 @@ class PythonScript:
         ASTRootNode = ast.parse(code)
         return node.mod.Module(ASTRootNode, None).compile()
 
-print(PythonScript.compile(open('test.py').read()))
+print(PythonScript.compile(open('input.py').read()))
