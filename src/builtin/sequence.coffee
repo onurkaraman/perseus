@@ -32,7 +32,7 @@ class Sequence extends Primitive
     if not step?
       return @value.slice(start, end)
     else
-      # TODO: implementation for step > 1
+      # **To-do**: implementation for `step > 1`
       
   __iadd__: (operand) ->
     return @value = @value.__add__(operand)
@@ -40,8 +40,8 @@ class Sequence extends Primitive
   __imul__: (operand) ->
     return @value = @value.__mul__(operand)
       
-  # TODO: The above `__contains__` uses a fallback definition of Array.prototype
-  # .indexOf.  Any way to trigger this?  
+  # **To-do**: The above `__contains__` uses a fallback definition of 
+  # `Array.prototype.indexOf`.  Any way to trigger this?  
   index: (operand) ->
     return Array.prototype.indexOf(@value, operand.value)
     
