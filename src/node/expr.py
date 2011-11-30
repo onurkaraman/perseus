@@ -193,7 +193,7 @@ class Name(Base):
     
 class List(Base):
     def compile(self):
-        return 'new List(%s)' % ', '.join(value for value in self.elts)
+        return 'new List(%s)' % str([element.compile() for element in self.elts])
 
 # **Fix-me** Placeholder so I can start DictComp
 class Tuple(Base):
