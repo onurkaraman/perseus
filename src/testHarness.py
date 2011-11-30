@@ -19,7 +19,7 @@ for test in tests:
 	pythonCode.close()
 	pythonValue = str(eval(test))
 	
-	os.system('python pythonscript.py > test.js')
+	os.system('python compiler.py > test.js')
 	os.system('node test.js > result.txt')
 
 	jsValue = open('result.txt', 'r').read()
