@@ -403,7 +403,7 @@ class Print(Base):
 
 class List(Base):
     def compile(self):
-        return '[%s]' % ', '.join(value for value in self.elts)
+        return 'new List(%s)' % ', '.join(value for value in self.elts)
 
 #### Control Flow
 
