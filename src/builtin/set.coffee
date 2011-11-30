@@ -53,6 +53,27 @@ class Set extends Iterable
   __ior__: (set) ->
     for item in set
       @add(item)
+  
+  __isub__: (set) ->
+    for item in set
+      if @__contains__(item)
+        @pop(item)
+
+  __iter__: ->
+    return new Iterator(@)
+  
+  __ixor__: (set) ->
+    xorKeys = List()
+    for item in set
+      if not @__contains__(item)
+        xorKeys.append(item)
+    for item in @value
+      if not set.__contains__(item)
+        xorKeys.append(item)
+    @clear()
+    for item in xorKeys
+        @add(item)
+
   # Checks to see if this is a subset of set
   __le__: (set) ->
     for item in @value
