@@ -1,19 +1,23 @@
+import string
 import typing
 
-INDENT = ' '
-INDENTWIDTH = 2
+INDENT = '\t'
+INDENTWIDTH = 1
+NEWLINE = '\n'
 
 # Wraps a chunk of code in a closure.
 def closure(code):
-    return multiline([
-             '(function(){',
-             '  %s',
-             '})();'
-           ]) % code
+    return multiline(
+        '''
+        (function(){
+            %s
+        })();
+        '''
+    ) % code
 
 # Indents a string.  If it is multi-line, each line will be indented.
 def indent(code, level):
-    return os.linesep.join(map(lambda(line): INDENT * INDENTWIDTH * level + line, code.split(os.linesep)))
+    return NEWLINE.join(map(lambda(line): INDENT * INDENTWIDTH * level + line, code.split(NEWLINE)))
 
 # Recursively expands lists within a list, e.g.
 # [1, [2, 3], 4] => [1, 2, 3, 4]
@@ -32,18 +36,18 @@ def expand(array):
 # appends a semicolon to the end of each statement, and concatenates the
 # statements with newlines
 def formatGroup(statementList):
-    return os.linesep.join(map(lambda(line): line + ';', statementList))
+    return NEWLINE.join(map(lambda(line): line + ';', statementList))
 
 # Removing prefixed newlines, trailing whitespace
 def multiline(multiLineString):
     newLineChars = '\r\n\f\t'
     strippedLeadingEnding = multiLineString.lstrip(newLineChars).rstrip(string.whitespace)
     
-    lines = strippedLeadingEnding.split(os.linesep)
+    lines = strippedLeadingEnding.split(NEWLINE)
     
     leadingIndent = len(lines[0]) - len(lines[0].lstrip(string.whitespace))
     
-    return [line.rstrip(string.whitespace)[leadingIndent:] for line in lines].join(os.linesep)
+    return NEWLINE.join([line.rstrip(string.whitespace)[leadingIndent:] for line in lines])
 
 # Indents a method using INDENTWIDTH per every 2 spaces in a string.
 def reindent(statement):
@@ -51,7 +55,7 @@ def reindent(statement):
     statement.lstrip()
     
     # should be an even number!    
-    assert (len(statement) - originalLength) % 2 == 0
+    assert (len(statement) - originalLength) % INDENTWIDTH == 0
     
-    numIndents = (len(statement) - originalLength)/2
+    numIndents = (len(statement) - originalLength)/INDENTWIDTH
     return indent(statement, numIndents)

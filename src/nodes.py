@@ -218,18 +218,21 @@ class DictComp(Base):
                 mappedTarget = "x[%d]" % i
                 keyElement = keyElement.replace(targets[i], mappedTarget)
                 valueElement = valueElement.replace(targets[i], mappedTarget)
-            return helper.multiline([
-                "(function(){",
-                "  var obj = {};",
-                "  var translated = %s.map(function(x){",
-                "    return [%s,%s];",
-                "  });",
-                "  for(var i = 0; i < translated.length; i++){",
-                "    var key = translated[i][0];",
-                "    obj[key] = translated[i][1];",
-                "  }",
-                "  return obj;",
-                "})()"]) % (iter, keyElement, valueElement)
+            return helper.multiline(
+                '''
+                (function(){
+                    var obj = {};
+                    var translated = %s.map(function(x){
+                        return [%s,%s];
+                    });
+                    for(var i = 0; i < translated.length; i++){
+                        var key = translated[i][0];
+                        obj[key] = translated[i][1];
+                    }
+                    return obj;
+                })()
+                '''                     
+            ) % (iter, keyElement, valueElement)
         else:
             '''
             Single target for cases such as:
@@ -238,18 +241,21 @@ class DictComp(Base):
                 x is the single target
             '''
             target = self.generators[0].target
-            return helper.multiline([
-                "(function(){",
-                "  var obj = {};",
-                "  var translated = %s.map(function(%s){",
-                "    return [%s,%s];",
-                "  });",
-                "  for(var i = 0; i < translated.length; i++){",
-                "    var key = translated[i][0];",
-                "    obj[key] = translated[i][1];",
-                "  }",
-                "  return obj;",
-                "})()"]) % (iter, target, keyElement, valueElement)
+            return helper.multiline(
+                '''                    
+                (function(){
+                    var obj = {};
+                    var translated = %s.map(function(%s){
+                        return [%s,%s];
+                    });
+                    for(var i = 0; i < translated.length; i++){
+                        var key = translated[i][0];
+                        obj[key] = translated[i][1];
+                    }
+                    return obj;
+                })()
+                '''
+            ) % (iter, target, keyElement, valueElement)
 
 # Placeholder so I can start DictComp
 class Tuple(Base):
@@ -391,19 +397,22 @@ class List(Base):
 
 class If(Base):
     def compile(self):
-        compiled = helper.multiline([
-                     'if(%s){',
-                     '  %s',
-                     '}'
-                   ]) % (self.test, helper.formatGroup(self.body))
+        compiled = helper.multiline(
+            '''
+            if (%s) {
+                %s
+            }
+            '''
+        ) % (self.test, helper.formatGroup(self.body))
         # **Consider:** abstract list.isEmpty() ?
         if len(self.orelse) != 0:
-            compiled = helper.multiline([
-                         compiled,
-                         'else{',
-                         '  %s',
-                         '}'
-                       ]) % (helper.formatGroup(self.orelse))
+            compiled = compiled + '\n' + helper.multiline(
+                '''
+                else {
+                    %s
+                }
+                '''
+            ) % (helper.formatGroup(self.orelse))
         return compiled
 
 #TODO: Stabilize. Obviously having inlined variable names could result in variable name conflicts
@@ -411,42 +420,49 @@ class For(Base):
     def compile(self):
         target = self.target.compile()
         iterable = self.iter.compile()
-        return helper.multiline([
-                   'var uniqueObj = Object(%s);', # Doing this because strings in python are iterable, but not in javascript
-                   'if(Object.keys(uniqueObj).length > 0){',
-                   '  var %s;',
-                   '  var uniqueCounter = 0;',
-                   '  for(uniqueVar in uniqueObj){',
-                   '    uniqueCounter++;',
-                   '    %s = uniqueObj[uniqueVar];',
-                   '    %s',
-                   '    if(uniqueCounter >= Object.keys(uniqueObj).length){',
-                   '      %s',
-                   '      break;',
-                   '    }',
-                   '  }',
-                   '}',
-                   'else{',
-                   '  %s',
-                   '}'
-                ]) % (iterable, target, target, helper.formatGroup(self.body), helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+        
+        # Note: strings in python are iterable, but not in javascript, so we
+        # convert to Object
+        return helper.multiline(
+            '''
+            var uniqueObj = Object(%s);
+            if(Object.keys(uniqueObj).length > 0){
+                var %s;
+                var uniqueCounter = 0;
+                for(uniqueVar in uniqueObj){
+                    uniqueCounter++;
+                    %s = uniqueObj[uniqueVar];
+                    %s
+                    if(uniqueCounter >= Object.keys(uniqueObj).length){
+                        %s
+                        break;
+                    }
+                }
+            }
+            else{
+                %s
+            }
+            '''
+        ) % (iterable, target, target, helper.formatGroup(self.body), helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
 
 class While(Base):
     def compile(self):
-        return helper.multiline([
-                   'if(%s){',
-                   '  while(true){',
-                   '    %s',
-                   '    if(!%s){',
-                   '      %s',
-                   '      break;',
-                   '    }',
-                   '  }'
-                   '}',
-                   'else{',
-                   '  %s',
-                   '}'
-                ]) % (self.test, helper.formatGroup(self.body), self.test, helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+        return helper.multiline(
+            '''
+            if(%s){',
+                while(true){',
+                    %s',
+                    if(!%s){',
+                        %s',
+                        break;',
+                    }',
+                }'
+            }',
+            else{',
+                %s',
+            }'
+            '''
+        ) % (self.test, helper.formatGroup(self.body), self.test, helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
 ##################################
 
 #### Functions
@@ -459,20 +475,23 @@ class arguments(Base):
 
 class Lambda(Base):
     def compile(self):
-        return helper.multiline([
-            'function(%s){',
-            '  return %s;',
-            '}'
-        ]) % (self.args, self.body)
+        return helper.multiline(
+            '''
+            function(%s) {
+                return %s;
+            }
+            '''                    
+        ) % (self.args, self.body)
 
 class FunctionDef(Base):
     def compile(self):
-        return helper.multiline([
-            #'this.%s = function(%s){',
-            'var %s = function(%s){',
-            '  %s',
-            '}'
-        ]) % (self.name, self.args, helper.formatGroup(self.body))
+        return helper.multiline(
+            '''
+            var %s = function(%s) {
+                %s
+            }
+            '''                     
+        ) % (self.name, self.args, helper.formatGroup(self.body))
 
 class Call(Base):
     def compile(self):
@@ -500,45 +519,50 @@ class TryExcept(Base):
             body = Block(handler.body, self.parent)
             exceptionType = handler.type
             if exceptionType is not None:
-                catch = helper.multiline([
-                    "if(e.message === '%s'){",
-                    "    %s",
-                    "}"
-                ]) % (exceptionType, body)
+                catch = helper.multiline(
+                    '''
+                    if (e.message === '%s') {
+                        %s
+                    }
+                    '''                     
+                ) % (exceptionType, body)
             else:
                 catch = '%s' % body
             catchStatements.append(catch)
-        return '\r\n'.join(catchStatements)
+        return '\n'.join(catchStatements)
 
     def compile(self):
         tryBody = Block(self.body, self.parent)
         catchBody = self.compileCatchStatements()
         elseBody = Block(self.orelse, self.parent)
-        return helper.multiline([
-            'try{',
-            '  %s',
-            '}',
-            'catch(e){',
-            '  var caughtException = true;',
-            '  %s',
-            '}',
-            'if(!caughtException){',
-            '  %s',
-            '}'
-        ]) % (tryBody, catchBody, elseBody)
+        return helper.multiline(
+            '''
+            try {
+                %s
+            }
+            catch(e) {
+                var caughtException = true;
+            }
+            if (!caughtException) {
+                %s
+            }
+            '''                     
+        ) % (tryBody, catchBody, elseBody)
 
 class TryFinally(Base):
     def compile(self):
         tryBody = Block(self.body, self.parent)
         finallyBody = Block(self.finalbody, self.parent)
-        return helper.multiline([
-            'try{',
-            '  %s',
-            '}',
-            'finally{',
-            '  %s',
-            '}',
-        ]) % (tryBody, finallyBody)
+        return helper.multiline(
+            '''
+            try {
+                %s
+            }
+            finally {
+                %s
+            }
+            '''                    
+        ) % (tryBody, finallyBody)
 ##################################
 
 class Block(Base):
