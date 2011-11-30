@@ -1,0 +1,73 @@
+<!DOCTYPE html>  <html> <head>   <title>integer.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="dictionary-keyiterator.html">                 dictionary-keyiterator.coffee               </a>                                           <a class="source" href="exceptions.html">                 exceptions.coffee               </a>                                           <a class="source" href="functions.html">                 functions.coffee               </a>                                           <a class="source" href="helper.html">                 helper.coffee               </a>                                           <a class="source" href="integer.html">                 integer.coffee               </a>                                           <a class="source" href="iterable.html">                 iterable.coffee               </a>                                           <a class="source" href="iterator.html">                 iterator.coffee               </a>                                           <a class="source" href="list.html">                 list.coffee               </a>                                           <a class="source" href="listiterator.html">                 listiterator.coffee               </a>                                           <a class="source" href="listreverseiterator.html">                 listreverseiterator.coffee               </a>                                           <a class="source" href="number.html">                 number.coffee               </a>                                           <a class="source" href="object.html">                 object.coffee               </a>                                           <a class="source" href="primitive.html">                 primitive.coffee               </a>                                           <a class="source" href="sequence.html">                 sequence.coffee               </a>                                           <a class="source" href="set.html">                 set.coffee               </a>                                           <a class="source" href="setiterator.html">                 setiterator.coffee               </a>                                           <a class="source" href="string.html">                 string.coffee               </a>                                           <a class="source" href="__init__.html">                 __init__.py               </a>                                           <a class="source" href="alias.html">                 alias.py               </a>                                           <a class="source" href="arguments.html">                 arguments.py               </a>                                           <a class="source" href="base.html">                 base.py               </a>                                           <a class="source" href="block.html">                 block.py               </a>                                           <a class="source" href="boolop.html">                 boolop.py               </a>                                           <a class="source" href="cmpop.html">                 cmpop.py               </a>                                           <a class="source" href="comprehension.html">                 comprehension.py               </a>                                           <a class="source" href="excepthandler.html">                 excepthandler.py               </a>                                           <a class="source" href="expr.html">                 expr.py               </a>                                           <a class="source" href="expr_context.html">                 expr_context.py               </a>                                           <a class="source" href="helper.html">                 helper.py               </a>                                           <a class="source" href="keyword.html">                 keyword.py               </a>                                           <a class="source" href="mod.html">                 mod.py               </a>                                           <a class="source" href="operator.html">                 operator.py               </a>                                           <a class="source" href="slice.html">                 slice.py               </a>                                           <a class="source" href="stmt.html">                 stmt.py               </a>                                           <a class="source" href="typing.html">                 typing.py               </a>                                           <a class="source" href="unaryop.html">                 unaryop.py               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               integer.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>http://docs.python.org/library/operator.html</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nx">Integer</span> <span class="k">extends</span> <span class="nb">Number</span>
+  <span class="nv">__and__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">@value</span> <span class="o">&amp;</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">value</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+  
+  <span class="nv">__div__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">@__floordiv__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+
+  <span class="nv">__invert__: </span><span class="o">-&gt;</span>  
+    <span class="k">return</span> <span class="o">~</span><span class="nx">@value</span>
+  
+  <span class="nv">__lshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">@value</span> <span class="o">&lt;&lt;</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">value</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+  
+  <span class="nv">__mod__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">@value</span> <span class="o">%</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">value</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+    
+  <span class="nv">__mul__: </span><span class="nf">(operand) -&gt;</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>String * Integer and Integer * String are interchangeable in Python and
+represent a form of string concatenation</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="s1">&#39;Sequence&#39;</span> <span class="k">in</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">__class__</span><span class="p">.</span><span class="nx">__bases__</span>
+      <span class="k">return</span> <span class="nx">operand</span><span class="o">::</span><span class="nx">__mul__</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="k">this</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p><strong>To-do</strong> Add another branch for lists.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+    
+  <span class="nv">__or__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">@value</span> <span class="o">|</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">value</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+  
+  <span class="nv">__rshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">@value</span> <span class="o">&gt;&gt;</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">value</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+    
+  <span class="nv">__xor__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">@value</span> <span class="o">^</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">value</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+
+  <span class="nv">__iand__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="vi">@value = </span><span class="nx">@__and__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+  
+  <span class="nv">__idiv__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="vi">@value = </span><span class="nx">@__div__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+      
+  <span class="nv">__ilshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="vi">@value = </span><span class="nx">@__lshift__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+      
+  <span class="nv">__imod__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="vi">@value = </span><span class="nx">@__mod__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+      
+  <span class="nv">__ior__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="vi">@value = </span><span class="nx">@__or__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__irshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="vi">@value = </span><span class="nx">@__rshift__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+
+  <span class="nv">__ixor__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="vi">@value = </span><span class="nx">@__xor__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

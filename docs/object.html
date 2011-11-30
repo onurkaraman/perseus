@@ -1,0 +1,141 @@
+<!DOCTYPE html>  <html> <head>   <title>object.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="dictionary-keyiterator.html">                 dictionary-keyiterator.coffee               </a>                                           <a class="source" href="exceptions.html">                 exceptions.coffee               </a>                                           <a class="source" href="functions.html">                 functions.coffee               </a>                                           <a class="source" href="helper.html">                 helper.coffee               </a>                                           <a class="source" href="integer.html">                 integer.coffee               </a>                                           <a class="source" href="iterable.html">                 iterable.coffee               </a>                                           <a class="source" href="iterator.html">                 iterator.coffee               </a>                                           <a class="source" href="list.html">                 list.coffee               </a>                                           <a class="source" href="listiterator.html">                 listiterator.coffee               </a>                                           <a class="source" href="listreverseiterator.html">                 listreverseiterator.coffee               </a>                                           <a class="source" href="number.html">                 number.coffee               </a>                                           <a class="source" href="object.html">                 object.coffee               </a>                                           <a class="source" href="primitive.html">                 primitive.coffee               </a>                                           <a class="source" href="sequence.html">                 sequence.coffee               </a>                                           <a class="source" href="set.html">                 set.coffee               </a>                                           <a class="source" href="setiterator.html">                 setiterator.coffee               </a>                                           <a class="source" href="string.html">                 string.coffee               </a>                                           <a class="source" href="__init__.html">                 __init__.py               </a>                                           <a class="source" href="alias.html">                 alias.py               </a>                                           <a class="source" href="arguments.html">                 arguments.py               </a>                                           <a class="source" href="base.html">                 base.py               </a>                                           <a class="source" href="block.html">                 block.py               </a>                                           <a class="source" href="boolop.html">                 boolop.py               </a>                                           <a class="source" href="cmpop.html">                 cmpop.py               </a>                                           <a class="source" href="comprehension.html">                 comprehension.py               </a>                                           <a class="source" href="excepthandler.html">                 excepthandler.py               </a>                                           <a class="source" href="expr.html">                 expr.py               </a>                                           <a class="source" href="expr_context.html">                 expr_context.py               </a>                                           <a class="source" href="helper.html">                 helper.py               </a>                                           <a class="source" href="keyword.html">                 keyword.py               </a>                                           <a class="source" href="mod.html">                 mod.py               </a>                                           <a class="source" href="operator.html">                 operator.py               </a>                                           <a class="source" href="slice.html">                 slice.py               </a>                                           <a class="source" href="stmt.html">                 stmt.py               </a>                                           <a class="source" href="typing.html">                 typing.py               </a>                                           <a class="source" href="unaryop.html">                 unaryop.py               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               object.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nb">Object</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p><strong>To-do</strong> Implement tuples - it's a tuple of the base classes.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="vi">@__bases__: </span><span class="o">-&gt;</span>
+  
+  <span class="vi">@__name__: </span><span class="o">-&gt;</span>
+    <span class="k">return</span> <span class="nx">getClass</span><span class="p">(</span><span class="err">@</span><span class="p">)</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>This appears to be the most accurate way to get the class of an object
+Using <code>@prototype</code> fails for simple primitives such as ints and strings.  </p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">__class__: </span><span class="o">-&gt;</span>
+    <span class="k">return</span> <span class="nx">@constructor</span><span class="p">.</span><span class="nx">prototype</span>
+  
+  <span class="nv">__cmp__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="err">@</span><span class="p">.</span><span class="nx">__lt__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="err">@</span><span class="p">.</span><span class="nx">__eq__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+      <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="err">@</span><span class="p">.</span><span class="nx">__gt__</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span>
+      <span class="k">return</span> <span class="mi">1</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>This appears to be how objects evaluate undefined operators.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">__lt__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="kc">true</span>
+    
+  <span class="nv">__le__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="kc">true</span>
+  
+  <span class="nv">__eq__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="kc">false</span>
+    
+  <span class="nv">__ne__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="kc">true</span>
+    
+  <span class="nv">__ge__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="kc">true</span>
+    
+  <span class="nv">__gt__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">return</span> <span class="kc">true</span>
+  
+  <span class="nv">__not__: </span><span class="o">-&gt;</span>
+    <span class="k">return</span> <span class="o">!</span><span class="nx">@value</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>    </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>These two functions are supposed to test for object equality.
+We need to compare memory addresses, which may be JS implementation-
+dependent.
+<a href="http://stackoverflow.com/questions/639514/how-can-i-get-the-memory-address-of-a-javascript-variable">Relevant</a></p>             </td>             <td class="code">               <div class="highlight"><pre>  </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p><strong>Unimplemented</strong></p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">__is__: </span><span class="o">-&gt;</span>
+ </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p><strong>Unimplemented</strong>   </p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">__is_not__: </span><span class="o">-&gt;</span>
+ </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre>  
+  <span class="nv">__abs__: </span><span class="o">-&gt;</span>
+    <span class="nx">raiseUnaryException</span><span class="p">(</span><span class="s1">&#39;abs()&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+  
+  <span class="nv">__add__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+  
+  <span class="nv">__and__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+  
+  <span class="nv">__div__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+  
+  <span class="nv">__floordiv__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Throw an exception, as it's only defined for integers in Python.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">__invert__: </span><span class="o">-&gt;</span>
+    <span class="nx">raiseUnaryException</span><span class="p">(</span><span class="s1">&#39;unary ~&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+    
+  <span class="nv">__lshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__mod__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+  
+  <span class="nv">__mul__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+  
+  <span class="nv">__neg__: </span><span class="o">-&gt;</span>
+    <span class="nx">raiseUnaryException</span><span class="p">(</span><span class="s1">&#39;unary -&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+
+  <span class="nv">__or__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__pos__: </span><span class="o">-&gt;</span>
+    <span class="nx">raiseUnaryException</span><span class="p">(</span><span class="s1">&#39;unary +&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
+    
+  <span class="nv">__pow__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;**&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__rshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;&gt;&gt;&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+
+  <span class="nv">__sub__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__xor__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__iadd__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;+=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+  
+  <span class="nv">__iand__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;&amp;=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__idiv__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;/=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__ifloordiv__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;//=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__ilshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+
+  <span class="nv">__imod__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;%=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__imul__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;*=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__ior__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;|=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__ipow__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;**=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__irshift__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;&gt;&gt;=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__isub__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;-=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__ixor__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseBinaryException</span><span class="p">(</span><span class="s1">&#39;^=&#39;</span><span class="p">,</span> <span class="err">@</span><span class="p">,</span> <span class="nx">operand</span><span class="p">)</span>
+    
+  <span class="nv">__contains__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="nx">raiseNotIterableException</span><span class="p">(</span><span class="err">@</span><span class="p">)</span>
+    
+  <span class="nv">__len__: </span><span class="o">-&gt;</span>
+    <span class="nv">type = </span><span class="nx">@__class__</span><span class="p">.</span><span class="nx">__name__</span>
+    <span class="p">(</span><span class="k">new</span> <span class="nx">TypeError</span><span class="p">(</span><span class="s2">&quot;object of type &#39;#{type}&#39; has no len()&quot;</span><span class="p">)).</span><span class="nx">raise</span><span class="p">()</span>
+    
+  <span class="nv">__min__: </span><span class="o">-&gt;</span>
+    <span class="nx">raiseNotIterableException</span><span class="p">(</span><span class="err">@</span><span class="p">)</span>
+    
+  <span class="nv">__max__: </span><span class="o">-&gt;</span>
+    <span class="nx">raiseNotIterableException</span><span class="p">(</span><span class="err">@</span><span class="p">)</span>
+    
+  <span class="nv">__slice__: </span><span class="o">-&gt;</span>
+    <span class="nx">raiseNotSubscriptableException</span><span class="p">(</span><span class="err">@</span><span class="p">)</span>
+    
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
