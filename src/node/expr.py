@@ -36,7 +36,7 @@ class Dict(Base):
 
 class Set(Base):
     def compile(self):
-        return 'new Set(%s)' % (self.elts)
+        return 'new Set(%s)' % self.elts
 
 # **To-do** Handle multi-comprehensions:
 # * seq1 = ['a', 'b', 'c']
@@ -193,7 +193,7 @@ class Name(Base):
     
 class List(Base):
     def compile(self):
-        return 'new List(%s)' % str([element.compile() for element in self.elts])
+        return 'new List(%s)' % self.elts
 
 # **Fix-me** Placeholder so I can start DictComp
 class Tuple(Base):
