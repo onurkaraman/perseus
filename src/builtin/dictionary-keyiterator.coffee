@@ -1,4 +1,4 @@
-class Dictionary-KeyIterator extends Iterator
+class DictionaryKeyIterator extends Iterator
   constructor: (dictionary) ->
     @iterable = dictionary.keys()
     @index = 0
