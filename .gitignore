@@ -25,6 +25,10 @@ src/test.py
 src/test.js
 src/result.txt
 
-# Compiled Coffeescript files #
-###############################
+# Compiled Coffeescript #
+#########################
 src/builtin/*.js
+
+# Compiled Python #
+###################
+*.pyc
