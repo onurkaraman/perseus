@@ -179,6 +179,8 @@ class Subscript(Base):
     
 class Name(Base):
     def compile(self):
+        # Keywords in Python, such as None, True, and False, are parsed as
+        # variables.
         try:
             conversion = {
                 'None': 'null',
