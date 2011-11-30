@@ -1,6 +1,5 @@
 build:
-	coffee -o ./ -cbj builtin/*
-	mv exceptions.js pythonScript.js
+	coffee -o ./ -cpjb builtin/* > pythonScript.js
 
 clean:
 	rm pythonScript.js
