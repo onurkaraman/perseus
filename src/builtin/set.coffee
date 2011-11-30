@@ -47,17 +47,20 @@ class Set extends Iterable
         deletedKeys.append(item)
     for deletedKey in deletedKeys
       @value.pop(deletedKey)
+    return @
   
   __init__: ->
     
   __ior__: (set) ->
     for item in set
       @add(item)
+    return @
   
   __isub__: (set) ->
     for item in set
       if @__contains__(item)
         @pop(item)
+    return @
 
   __iter__: ->
     return new Iterator(@)
@@ -73,6 +76,7 @@ class Set extends Iterable
     @clear()
     for item in xorKeys
         @add(item)
+    return @
 
   # Checks to see if this is a subset of set
   __le__: (set) ->
@@ -100,7 +104,45 @@ class Set extends Iterable
     union.append(item) for item in @value
     union.append(item) for item in set
     return new Set(union)
+
+  # Same as and since intersection is symmetric
+  __rand__: (set) ->
+    return @__and__(set)
     
+  __reduce__: ->
+  
+  __repr__: ->
+  
+  # Same as and since union is symmetric  
+  __ror__: (set) ->
+    return @__or__(set)
+
+  __rsub__: (set) ->
+    return set.__sub__(@)
+  
+  # Same as and since xor is symmetric  
+  __rxor__: (set) ->
+    return @__xor__(set)
+
+  __sizeof__: ->
+  
+  __sub__: (set) ->
+    difference = @copy()
+    for item in set
+      if @__contains__(item)
+        difference.pop(item)
+    return difference
+
+  __xor__: (set) ->
+    xorKeys = List()
+    for item in set
+      if not @__contains__(item)
+        xorKeys.append(item)
+    for item in @value
+      if not set.__contains__(item)
+        xorKeys.append(item)
+    return Set(xorKeys)
+
   # Checks to see if this and set are disjoint, meaning this intersected with set is the empty set 
   isdisjoint: (set) ->
     return @__and__(set).__len__() == 0
