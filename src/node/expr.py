@@ -166,7 +166,7 @@ class Str(Base):
             stringValue = "'%s'" % stringValue
         else:
             stringValue = '"%s"' % stringValue
-        return '%s' % stringValue
+        return 'new String(%s)' % stringValue
     
 class Attribute(Base):
     def compile(self):
