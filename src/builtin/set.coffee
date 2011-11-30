@@ -1,12 +1,11 @@
 class Set extends Iterable
   constructor: (iterable) ->
-    @value = {}
-    @length = iterable.__len__()
+    @dict = Dictionary() # set just is a wrapped version of our own Dictionary class
     for item in iterable
-      @value[item] = true
+      @dict.__setitem__(item) = true
 
   __contains__: (other) ->
-    return other in @value
+    return other in @dict
 
   __cmp__: (set) ->
     (new TypeError "cannot compare sets using cmp()").raise()
@@ -14,19 +13,19 @@ class Set extends Iterable
   __lt__: (set) ->
     if @__eq__(set)
       return false
-    for item in @value
+    for item in @dict
       if not set.__contains__(item) return false
     return true
     
   __le__: (set) ->
-    for item in @value
+    for item in @dict
       if not set.__contains__(item) return false
     return true
 
   __eq__: (set) ->
     for item in set
       if not @__contains__(item) return false
-    for item in @value
+    for item in @dict
       if not set.__contains__(item) return false
     return true
 
@@ -46,7 +45,7 @@ class Set extends Iterable
     return true
 
   isdisjoint: (set) ->
-    return @__and__(set).length == 0
+    return @__and__(set).__len__() == 0
   
   issubset: (set) ->
     return @__le__(set)
@@ -55,4 +54,4 @@ class Set extends Iterable
     return @__ge__(set)
 
   __len__: ->
-    return @value.length
+    return @dict.__len__()
