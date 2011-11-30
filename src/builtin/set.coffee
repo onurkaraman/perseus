@@ -45,8 +45,14 @@ class Set extends Iterable
       if not @__contains__(item) return false
     return true
 
+  isdisjoint: (set) ->
+    return @__and__(set).length == 0
+  
   issubset: (set) ->
     return @__le__(set)
+  
+  issuperset: (set) ->
+    return @__ge__(set)
 
   __len__: ->
     return @value.length
