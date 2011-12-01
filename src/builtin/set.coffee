@@ -1,7 +1,7 @@
 # http://docs.python.org/library/stdtypes.html#set-types-set-frozenset
 class Set extends Iterable
   constructor: (iterable) ->
-    @value = Dictionary() # set just is a wrapped version of our own Dictionary class
+    @value = Dict() # set just is a wrapped version of our own Dict class
     for item in iterable?.value # Handles empty constructor call too
       @value.__setitem__(item, true)
 
