@@ -1,5 +1,5 @@
 # http://docs.python.org/library/operator.html
-class Integer extends Number
+class Int extends Num
   __and__: (operand) ->
     if isSubInstance(operand, @)
       return @value & operand.value

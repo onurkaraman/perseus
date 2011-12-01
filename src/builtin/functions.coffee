@@ -22,7 +22,7 @@ abs: (operand) ->
   return operand.__abs__()
 
 float: (operand) ->
-  return new Number(window.Number(operand))
+  return new Num(window.Number(operand))
 
 str: (operand) ->
   if operand?

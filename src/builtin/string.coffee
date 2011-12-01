@@ -1,5 +1,5 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
-class String extends Sequence
+class Str extends Sequence
   __contains__: (operand) ->
     if isSubInstance(operand, @)
       return @value.indexOf(operand) > -1
@@ -16,7 +16,7 @@ class String extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = String('').__mul__(Math.floor(delta, 2))
+    pad = Str('').__mul__(Math.floor(delta, 2))
     if delta % 2 == 0
       return pad + @value + pad
     else
@@ -30,7 +30,7 @@ class String extends Sequence
       if substringIndex < 0
         break
       else
-        curIndex = substringIndex + String(sub).__len__()
+        curIndex = substringIndex + Str(sub).__len__()
         count++
     return count
   
@@ -112,11 +112,11 @@ class String extends Sequence
   istitle: ->
     words = @value.split ' '
     for word in words
-      if not String(word[0]).isupper()
+      if not Str(word[0]).isupper()
         return false
       if word.length == 1
         continue
-      if not String(word[0]).islower()
+      if not Str(word[0]).islower()
         return false
     return true
   
@@ -136,7 +136,7 @@ class String extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = String('').__mul__(delta)
+    pad = Str('').__mul__(delta)
     return @value + pad    
   
   lower: ->
@@ -174,7 +174,7 @@ class String extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = String('').__mul__(delta)
+    pad = Str('').__mul__(delta)
     return pad + @value
 
   rpartition: (sep) ->
@@ -198,12 +198,12 @@ class String extends Sequence
   swapcase: ->
     result = ''
     for char in @value
-      if String(char).islower()
+      if Str(char).islower()
         ascii = char.charCodeAt(0)
         upperCaseAscii = ascii - 32
         upperCaseChar = String.fromCharCode(upperCaseAscii)
         result += upperCaseChar
-      else if String(char).isupper()
+      else if Str(char).isupper()
         ascii = char.charCodeAt(0)
         lowerCaseAscii = ascii + 32
         lowerCaseChar = String.fromCharCode(lowerCaseAscii)
@@ -222,10 +222,10 @@ class String extends Sequence
     if width <= @__len__()
       return @value
     if @value.__len__() == 0
-      return String('0').__mul__(width)
+      return Str('0').__mul__(width)
     zeroCount = width - @__len__()
     if @value[0] == '-'
       remaining = @value.slice(1)
-      return '-' + String('0').__mul__(zeroCount) + remaining
+      return '-' + Str('0').__mul__(zeroCount) + remaining
     else
-      return String('0').__mul__(zeroCount) + remaining
+      return Str('0').__mul__(zeroCount) + remaining

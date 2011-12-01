@@ -1,4 +1,4 @@
-class Object
+class Obj
   # **To-do** Implement tuples - it's a tuple of the base classes.
   @__bases__: ->
   

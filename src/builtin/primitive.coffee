@@ -1,5 +1,5 @@
 # A 'Primitive' is anything that is considered a Python built-in type
-class Primitive extends Object
+class Primitive extends Obj
   constructor: (@value) ->  
   
   # For these comparison operators, we are allowed to use their new definitions

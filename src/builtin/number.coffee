@@ -1,4 +1,4 @@
-class Number extends Primitive
+class Num extends Primitive
   __abs__: ->
     if (@value < 0)
       return @__neg__()
