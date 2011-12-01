@@ -171,12 +171,12 @@ class Set extends Iterable
   intersection: (others...) ->
     intersect = @copy()
     for other in others
-      intersect.__isub__(other)
+      intersect.__iand__(other)
     return intersect
 
   intersection_update: (others...) ->
     for other in others
-      @.__isub__(other)
+      @__iand__(other)
     return
 
   # Checks to see if this and set are disjoint, meaning this intersected with set is the empty set 
@@ -191,9 +191,34 @@ class Set extends Iterable
 
   pop: ->
     if @value.__len__ == 0
-      (new KeyError "'pop from an empty set'").raise()
+      (new KeyError "pop from an empty set").raise()
     else
       keys = @value.keys()
       randomKey = keys[0]
       @value.pop(randomKey)
       return randomKey
+
+  remove: (elem) ->
+    if elem not in @value.value
+      (new KeyError "pop from an empty set").raise()
+    else
+      @value.pop(elem)
+    return
+
+  symmetric_difference: (other) ->
+    return @__xor__(other)
+
+  symmetric_difference_update: (other) ->
+    @__ixor__(other)
+    return
+
+  union: (others...) ->
+    union = @copy()
+    for other in others
+      union.__ior__(other)
+    return union
+
+  update: (others...) ->
+    for other in others
+      @__ior__(other)
+    return
