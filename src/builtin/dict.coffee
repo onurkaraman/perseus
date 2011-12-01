@@ -4,11 +4,13 @@ class Dict extends Mapping
     for key in iterable
       @value[key] = iterable[key]
 
+  # Checks if the key exists in this
   __contains__: (key) ->
     return key in @value
 
+  # Removes the key,value pair from this
   __delitem__: (key) ->
-    delete @value[key]
+    delete @__getitem__(key)
 
   # ** Unimplemented **
   __eq__: (dict) ->
@@ -59,14 +61,15 @@ class Dict extends Mapping
 
   # Returns a shallow copy of this
   copy: ->
-    copy = {}
+    copy = Dict()
     for key in @value
-      copy[key] = @value[key]
+      val = @__getitem__(key)
+      copy.__setitem__(key, val)
     return copy
 
   get: (key, d) ->
     if key in @value
-      return @value[key]
+      return @__getitem__(key)
     else
       return d
 
@@ -74,10 +77,10 @@ class Dict extends Mapping
     return key in @value
 
   items: ->
-    items = []
+    items = [] #Unsure if this should be JS list or Pythonscript List
     for key in @value
-      
-      tuple = new Tuple(key, @value[key])
+      val = @__getitem__(key)
+      tuple = new Tuple(key, val)
       items.push(tuple)
     return items
 
@@ -107,12 +110,25 @@ class Dict extends Mapping
 
   setdefault: (key, d) ->
     if key not in @keys()
-      @value[key] = d
+      @__setitem__(key, d)
     return @value[key]
 
+  # ** Unimplemented **
+  update: ->
+  
   values: ->
     keys = @keys()
     values = []
     for key in keys
-      values.push(@value[key])
+      val = @__getitem__(key)
+      values.push(val)
     return values
+
+  # ** Unimplemented **
+  viewitems: ->
+
+  # ** Unimplemented **
+  viewkeys: ->
+
+  # ** Unimplemented **
+  viewvalues: ->
