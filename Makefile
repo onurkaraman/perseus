@@ -1,5 +1,5 @@
 build:
-	coffee -o ./ -cpjb src/builtin/* > pythonScript.js
+	coffee -o ./ -cpbj src/builtin/* > pythonScript.js
 
 clean:
 	rm pythonScript.js
