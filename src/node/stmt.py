@@ -43,32 +43,47 @@ class Print(Base):
 # **To-do** Stabilize. Obviously having inlined variable names could result in variable name conflicts
 class For(Base):
     def compile(self):
-        target = self.target.compile()
-        iterable = self.iter.compile()
-        
-        # Strings in python are iterable, but not in javascript, so we
-        # convert to Object
-        return helper.multiline(
-            '''
-            var uniqueObj = Object(%s);
-            if(Object.keys(uniqueObj).length > 0){
-                var %s;
-                var uniqueCounter = 0;
-                for(uniqueVar in uniqueObj){
-                    uniqueCounter++;
-                    %s = uniqueObj[uniqueVar];
-                    %s
-                    if(uniqueCounter >= Object.keys(uniqueObj).length){
+        if (self.orelse == []):
+            return helper.multiline(
+                '''
+                var _i, _len, _ref, %(target)s;
+                _ref = %(iter)s
+                
+                for (_i = 0; _len = _ref.length; _i < _len; _i++) {
+                    %(target)s = _ref[_i];
+                    %(body)s
+                }
+                '''
+            ) % {
+                    'target': self.target, 
+                    'iter': self.iter, 
+                    'body': helper.formatGroup(self.body)
+                }
+        else:
+            return helper.multiline(
+             
+                '''
+                var _ref = %s;
+                if(_ref.__len__() > 0){
+                    var %s;
+                    var _i = 0;
+                    for(uniqueVar in _ref){
+                        _i++;
+                        %s = _ref[uniqueVar];
                         %s
-                        break;
+                        if(_i >= _ref.__len__()){
+                            %s
+                            break;
+                        }
                     }
                 }
-            }
-            else{
-                %s
-            }
-            '''
-        ) % (iterable, target, target, helper.formatGroup(self.body), helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+                else{
+                    %s
+                }
+                '''
+            ) % (self.iter, self.target, self.target, helper.formatGroup(self.body), helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+        
+        
         
 class While(Base):
     def compile(self):
