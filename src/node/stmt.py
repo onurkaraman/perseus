@@ -12,10 +12,24 @@ class FunctionDef(Base):
             '''                     
         ) % (self.name, self.args, helper.formatGroup(helper.expand(self.body)))
         
-# **Unimplemented**
+# **To-do** Add inheritance features
 class ClassDef(Base):
     def compile(self):
-        pass
+        if (self.bases == []):
+            return helper.multiline(
+                '''
+                var %(name)s;
+                
+                %(name)s = (function(){
+                    %(body)s
+                
+                    return %(name)s;
+                })();
+                '''
+            ) % {
+                    'name': self.name,
+                    'body': helper.formatGroup(self.body)
+                }
 
 class Return(Base):
     def compile(self):
