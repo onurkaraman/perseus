@@ -65,7 +65,7 @@ class Str extends Sequence
       return false
     else
       for char in @value
-        if not char in alnums
+        if not (char in alnums)
           return false
       return true
 
@@ -75,7 +75,7 @@ class Str extends Sequence
       return false
     else
       for char in @value
-        if not char in alphas
+        if not (char in alphas)
           return false
       return true
   
@@ -85,7 +85,7 @@ class Str extends Sequence
       return false
     else
       for char in @value
-        if not char in digits
+        if not (char in digits)
           return false
       return true
 
@@ -95,7 +95,7 @@ class Str extends Sequence
       return false
     else
       for char in @value
-        if not char in lowers
+        if not (char in lowers)
           return false
       return true
   
@@ -105,7 +105,7 @@ class Str extends Sequence
       return false
     else
       for char in @value
-        if not char in spaces
+        if not (char in spaces)
           return false
       return true
 
@@ -130,7 +130,7 @@ class Str extends Sequence
       return false
     else
       for char in @value
-        if not char in uppers
+        if not (char in uppers)
           return false
       return true
 
