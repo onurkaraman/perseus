@@ -2,7 +2,7 @@
 class Set extends Iterable
   constructor: (iterable) ->
     @value = Dictionary() # set just is a wrapped version of our own Dictionary class
-    for item in iterable.value
+    for item in iterable?.value # Handles empty constructor call too
       @value.__setitem__(item, true)
 
   __and__: (other) ->
