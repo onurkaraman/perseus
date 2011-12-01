@@ -93,6 +93,14 @@ class Dict extends Mapping
   keys: ->
     return Object.keys(@value)
 
+  pop: (key, d) ->
+    if key in @keys()
+      return @value.pop(key)
+    else if d?
+      return d
+    else
+      (new KeyError "#{key}").raise()
+
   values: ->
     keys = @keys()
     values = []

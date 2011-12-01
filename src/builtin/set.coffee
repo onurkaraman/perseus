@@ -217,7 +217,7 @@ class Set extends Iterable
 
   remove: (elem) ->
     if elem not in @value.value
-      (new KeyError "pop from an empty set").raise()
+      (new KeyError "#{elem}").raise()
     else
       @value.pop(elem)
     return
