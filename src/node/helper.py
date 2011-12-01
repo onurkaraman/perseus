@@ -1,8 +1,8 @@
 import string
 import typing
 
-INDENT = '\t'
-INDENTWIDTH = 1
+INDENT = ' '
+INDENTWIDTH = 4
 NEWLINE = '\n'
 
 # Wraps a chunk of code in a closure.
@@ -10,7 +10,7 @@ def closure(code):
     return multiline(
         '''
         (function(){
-            %s
+        %s
         })();
         '''
     ) % code
@@ -33,10 +33,10 @@ def expand(array):
     return expanded
 
 # Turns a list of statements into a *block* in the traditional sense, i.e.
-# appends a semicolon to the end of each statement, and concatenates the
-# statements with newlines
+# appends a semicolon to the end of each statement, concatenates the
+# statements with newlines, indents everything by one.
 def formatGroup(statementList):
-    return NEWLINE.join(map(lambda(line): line + ';', statementList))
+    return indent(NEWLINE.join(map(lambda(line): line + ';', statementList)), 1)
 
 # Removing prefixed newlines, trailing whitespace
 def multiline(multiLineString):

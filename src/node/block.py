@@ -23,7 +23,7 @@ class Block(Base):
     def calcIndent(self):
         def finishedTraversal(pointer):
             return pointer != None
-        indent = 1
+        indent = 0
         pointer = self.parent
         while(not finishedTraversal(pointer)):
             if typing.getClassName(pointer) == 'Block':
@@ -36,6 +36,7 @@ class Block(Base):
         # each have a `;` attached to their ends.  To avoid this (e.g. in if/
         # else blocks), simply concatenate the code before passing it back
         group = helper.formatGroup(helper.expand(self.children))
+        
         enclosed = helper.closure(group)
 
         # need to indent the entire block now
