@@ -49,7 +49,7 @@ class For(Base):
                 var _i, _len, _ref, %(target)s;
                 _ref = %(iter)s
                 
-                for (_i = 0; _len = _ref.length; _i < _len; _i++) {
+                for (_i = 0; _len = _ref.__len__(); _i < _len; _i++) {
                     %(target)s = _ref[_i];
                     %(body)s
                 }
@@ -61,29 +61,29 @@ class For(Base):
                 }
         else:
             return helper.multiline(
-             
                 '''
-                var _ref = %s;
-                if(_ref.__len__() > 0){
-                    var %s;
-                    var _i = 0;
-                    for(uniqueVar in _ref){
-                        _i++;
-                        %s = _ref[uniqueVar];
-                        %s
-                        if(_i >= _ref.__len__()){
-                            %s
-                            break;
+                var _i, _len, _ref, %(target)s;
+                _ref = %(iter)s
+                
+                if (_ref.__len__() > 0) {
+                    for (_i = 0; _len = _ref.__len__(); _i < _len; _i++) {
+                        %(target)s = _ref[_i];
+                        %(body)s
+                        if (_i >= _len - 1) {
+                            %(orelse)s
                         }
                     }
                 }
-                else{
-                    %s
+                else {
+                    %(orelse)s
                 }
-                '''
-            ) % (self.iter, self.target, self.target, helper.formatGroup(self.body), helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
-        
-        
+                '''          
+            ) % {
+                    'target': self.target, 
+                    'iter': self.iter, 
+                    'body': helper.formatGroup(self.body),
+                    'orelse': helper.formatGroup(self.orelse)
+                }          
         
 class While(Base):
     def compile(self):
