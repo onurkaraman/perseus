@@ -33,7 +33,7 @@ class Set extends Iterable
         return false
     return true
   
-  # ** Unimplemented **
+  # **Unimplemented**
   __getattribute__: ->
 
   # Checks to see if this is a proper superset of set
@@ -55,7 +55,7 @@ class Set extends Iterable
       @value.pop(deletedKey)
     return @
   
-  # ** Unimplemented **
+  # **Unimplemented**
   __init__: ->
   
   # Inplace set union
@@ -118,10 +118,10 @@ class Set extends Iterable
   __rand__: (set) ->
     return @__and__(set)
   
-  # ** Unimplemented **
+  # **Unimplemented**
   __reduce__: ->
   
-  # ** Unimplemented **
+  # **Unimplemented**
   __repr__: ->
   
   # Same as __or__ since union is symmetric  
@@ -136,7 +136,7 @@ class Set extends Iterable
   __rxor__: (set) ->
     return @__xor__(set)
 
-  # ** Unimplemented **
+  # **Unimplemented**
   __sizeof__: ->
   
   # Subtract new set containing this - set
