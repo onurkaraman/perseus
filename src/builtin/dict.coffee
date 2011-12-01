@@ -64,11 +64,19 @@ class Dict extends Mapping
       copy[key] = @value[key]
     return copy
 
-  get: (key, default) ->
+  get: (key, d) ->
     if key in @value
       return @value[key]
     else
-      return default
+      return d
 
   has_key: (key) ->
     return key in @value
+
+  items: ->
+    items = []
+    for key in @value
+      
+      tuple = new Tuple(key, @value[key])
+      items.push(tuple)
+    return items
