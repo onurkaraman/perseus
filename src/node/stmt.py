@@ -10,7 +10,7 @@ class FunctionDef(Base):
             %s
             }
             '''                     
-        ) % (self.name, self.args, helper.formatGroup(self.body))
+        ) % (self.name, self.args, helper.formatGroup(helper.expand(self.body)))
         
 # **Unimplemented**
 class ClassDef(Base):

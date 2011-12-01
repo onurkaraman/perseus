@@ -36,6 +36,7 @@ def expand(array):
 # appends a semicolon to the end of each statement, concatenates the
 # statements with newlines, indents everything by one.
 def formatGroup(statementList):
+    print statementList
     return indent(NEWLINE.join(map(lambda(line): line + ';', statementList)), 1)
 
 # Removing prefixed newlines, trailing whitespace
