@@ -4,19 +4,20 @@ import helper
 
 class FunctionDef(Base):
     def compile(self):
-        return helper.multiline(
+        return helper.format(
+            
             '''
-            var %s = function(%s) {
-            %s
+            var %(name)s = function(%(args)s) {
+                %(body)s
             }
-            '''                     
-        ) % (self.name, self.args, helper.formatGroup(helper.expand(self.body)))
+            ''', self
+        )
         
 # **To-do** Add inheritance features
 class ClassDef(Base):
     def compile(self):
         if (self.bases == []):
-            return helper.multiline(
+            return helper.format(
                 '''
                 var %(name)s;
                 
@@ -25,11 +26,8 @@ class ClassDef(Base):
                 
                     return %(name)s;
                 })();
-                '''
-            ) % {
-                    'name': self.name,
-                    'body': helper.formatGroup(self.body)
-                }
+                ''', self
+            )
 
 class Return(Base):
     def compile(self):
@@ -58,7 +56,7 @@ class Print(Base):
 class For(Base):
     def compile(self):
         if (self.orelse == []):
-            return helper.multiline(
+            return helper.format(
                 '''
                 var _i, _len, _ref, %(target)s;
                 _ref = %(iter)s
@@ -67,14 +65,10 @@ class For(Base):
                     %(target)s = _ref[_i];
                     %(body)s
                 }
-                '''
-            ) % {
-                    'target': self.target, 
-                    'iter': self.iter, 
-                    'body': helper.formatGroup(self.body)
-                }
+                ''', self
+            )
         else:
-            return helper.multiline(
+            return helper.format(
                 '''
                 var _i, _len, _ref, %(target)s;
                 _ref = %(iter)s
@@ -91,51 +85,46 @@ class For(Base):
                 else {
                     %(orelse)s
                 }
-                '''          
-            ) % {
-                    'target': self.target, 
-                    'iter': self.iter, 
-                    'body': helper.formatGroup(self.body),
-                    'orelse': helper.formatGroup(self.orelse)
-                }          
+                ''', self          
+            )
         
 class While(Base):
     def compile(self):
-        return helper.multiline(
+        return helper.format(
             '''
-            if(%s){',
+            if(%(test)s){',
                 while(true){',
-                    %s',
-                    if(!%s){',
-                        %s',
+                    %(body)s',
+                    if(!%(test)s){',
+                        %(orelse)s',
                         break;',
                     }',
                 }'
             }',
             else{',
-                %s',
+                %(orelse)s',
             }'
-            '''
-        ) % (self.test, helper.formatGroup(self.body), self.test, helper.formatGroup(self.orelse), helper.formatGroup(self.orelse))
+            ''', self
+        )
 
 class If(Base):
     def compile(self):
-        compiled = helper.multiline(
+        compiled = helper.format(
             '''
-            if (%s) {
-                %s
+            if (%(test)s) {
+                %(body)s
             }
-            '''
-        ) % (self.test, helper.formatGroup(self.body))
+            ''', self
+        )
         # **Consideration** abstract list.isEmpty() ?
         if len(self.orelse) != 0:
-            compiled = compiled + '\n' + helper.multiline(
+            compiled = compiled + '\n' + helper.format(
                 '''
                 else {
-                    %s
+                    %(orelse)s
                 }
-                '''
-            ) % (helper.formatGroup(self.orelse))
+                ''', self
+            )
         return compiled
 
 # **Unimplemented**
@@ -151,6 +140,7 @@ class Raise(Base):
     
 # **To-do**: Use Block abstraction and compile recursively.  We can then
 # eliminate the compileCatchStatements() inner method.
+# Use new helper.format() calls
 class TryExcept(Base):
     def compileCatchStatements(self):
         catchStatements = []
@@ -158,7 +148,7 @@ class TryExcept(Base):
             body = Block(handler.body, self.parent)
             exceptionType = handler.type
             if exceptionType is not None:
-                catch = helper.multiline(
+                catch = helper.cleanBlockString(
                     '''
                     if (e.message === '%s') {
                         %s
@@ -174,10 +164,10 @@ class TryExcept(Base):
         tryBody = Block(self.body, self.parent)
         catchBody = self.compileCatchStatements()
         elseBody = Block(self.orelse, self.parent)
-        return helper.multiline(
+        return helper.cleanBlockString(
             '''
             try {
-                %s
+                %(body)s
             }
             catch(e) {
                 var caughtException = true;
@@ -190,18 +180,16 @@ class TryExcept(Base):
         
 class TryFinally(Base):
     def compile(self):
-        tryBody = Block(self.body, self.parent)
-        finallyBody = Block(self.finalbody, self.parent)
-        return helper.multiline(
+        return helper.format(
             '''
             try {
-                %s
+                %(body)s
             }
             finally {
-                %s
+                %(finalbody)s
             }
-            '''                    
-        ) % (tryBody, finallyBody)
+            ''', self
+        )
         
 # **Unimplemented**
 class Assert(Base):

@@ -32,12 +32,13 @@ class Block(Base):
         return indent
 
     def compile(self):
+        print self.children
         # Appends `;` to statements in the body - those passed back in an array
         # each have a `;` attached to their ends.  To avoid this (e.g. in if/
         # else blocks), simply concatenate the code before passing it back
         group = helper.formatGroup(helper.expand(self.children))
         
-        enclosed = helper.closure(group)
+#        enclosed = helper.closure(group)
 
         # need to indent the entire block now
-        return helper.indent(enclosed, self.indent)
+        return helper.indent(group, self.indent)

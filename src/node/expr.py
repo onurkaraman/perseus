@@ -15,13 +15,13 @@ class UnaryOp(Base):
     
 class Lambda(Base):
     def compile(self):
-        return helper.multiline(
+        return helper.format(
             '''
-            function(%s) {
-                return %s;
+            function(%(args)s) {
+                return %(body)s;
             }
-            '''                    
-        ) % (self.args, self.body)
+            ''', self       
+        )
         
 class IfExp(Base):
     def compile(self):
@@ -83,12 +83,12 @@ class DictComp(Base):
                 mappedTarget = "x[%d]" % i
                 keyElement = keyElement.replace(targets[i], mappedTarget)
                 valueElement = valueElement.replace(targets[i], mappedTarget)
-            return helper.multiline(
+            return helper.format(
                 '''
                 (function(){
                     var obj = {};
-                    var translated = %s.map(function(x){
-                        return [%s,%s];
+                    var translated = %(iter)s.map(function(x){
+                        return [%(keyElement)s, %(valueElement)s];
                     });
                     for(var i = 0; i < translated.length; i++){
                         var key = translated[i][0];
@@ -96,8 +96,8 @@ class DictComp(Base):
                     }
                     return obj;
                 })()
-                '''                     
-            ) % (iter, keyElement, valueElement)
+                ''', self
+            )
         else:
             '''
             Single target for cases such as:
@@ -106,12 +106,12 @@ class DictComp(Base):
                 x is the single target
             '''
             target = self.generators[0].target
-            return helper.multiline(
+            return helper.format(
                 '''                    
                 (function(){
                     var obj = {};
-                    var translated = %s.map(function(%s){
-                        return [%s,%s];
+                    var translated = %(iter)s.map(function(%(target)s){
+                        return [%(keyElement)s,%(valueElement)s];
                     });
                     for(var i = 0; i < translated.length; i++){
                         var key = translated[i][0];
@@ -119,8 +119,8 @@ class DictComp(Base):
                     }
                     return obj;
                 })()
-                '''
-            ) % (iter, target, keyElement, valueElement)
+                ''', self
+            )
         
 # **Unimplemented**
 class GeneratorExpr(Base):
@@ -175,7 +175,7 @@ class Attribute(Base):
 # **Consideration** ctx, Ellipsis, ExtSlice form of slice
 class Subscript(Base):
     def compile(self):
-        return '%s' % self.slice
+        return '%s.%s' % (self.value, self.slice)
     
 class Name(Base):
     def compile(self):
