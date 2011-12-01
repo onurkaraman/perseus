@@ -71,15 +71,11 @@ class Set extends Iterable
     return new Iterator(@)
   
   __ixor__: (set) ->
-    xorKeys = List()
-    for item in set.value
-      if not @__contains__(item)
-        xorKeys.append(item)
-    for item in @value.value
-      if not set.__contains__(item)
-        xorKeys.append(item)
+    diff1 = @__sub__(set)
+    diff2 = set.__sub__(xor)
+    xor = diff1.__or__(diff2)
     @clear()
-    for item in xorKeys.value
+    for item in xor.value
         @add(item)
     return @
 
