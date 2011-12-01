@@ -1,3 +1,4 @@
+# http://docs.python.org/library/stdtypes.html#set-types-set-frozenset
 class Set extends Iterable
   constructor: (iterable) ->
     @value = Dictionary() # set just is a wrapped version of our own Dictionary class
@@ -6,21 +7,21 @@ class Set extends Iterable
 
   __and__: (other) ->
     intersect = List()
-    intersect.append(item) for item in @value when other.__contains__(item)
+    intersect.append(item) for item in @value.value when other.__contains__(item)
     return new Set(intersect)
 
   __cmp__: (set) ->
     (new TypeError "cannot compare sets using cmp()").raise()
 
   __contains__: (other) ->
-    return other in @value
+    return other in @value.value
 
   # Checks to see if this is equivalent to set
   __eq__: (set) ->
     for item in set
       if not @__contains__(item)
         return false
-    for item in @value
+    for item in @value.value
       if not set.__contains__(item)
         return false
     return true
@@ -46,7 +47,7 @@ class Set extends Iterable
   # Inplace and operation. x.__iand__(y) changes x
   __iand__: (set) ->
     deletedKeys = List()
-    for item in @value
+    for item in @value.value
       if not set.__contains__(item)
         deletedKeys.append(item)
     for deletedKey in deletedKeys
@@ -74,7 +75,7 @@ class Set extends Iterable
     for item in set
       if not @__contains__(item)
         xorKeys.append(item)
-    for item in @value
+    for item in @value.value
       if not set.__contains__(item)
         xorKeys.append(item)
     @clear()
@@ -84,7 +85,7 @@ class Set extends Iterable
 
   # Checks to see if this is a subset of set
   __le__: (set) ->
-    for item in @value
+    for item in @value.value
       if not set.__contains__(item)
         return false
     return true
@@ -96,7 +97,7 @@ class Set extends Iterable
   __lt__: (set) ->
     if @__eq__(set)
       return false
-    for item in @value
+    for item in @value.value
       if not set.__contains__(item)
         return false
     return true
@@ -107,7 +108,7 @@ class Set extends Iterable
 
   __or__: (set) ->
     union = List()
-    union.append(item) for item in @value
+    union.append(item) for item in @value.value
     union.append(item) for item in set
     return new Set(union)
 
@@ -144,7 +145,7 @@ class Set extends Iterable
     for item in set
       if not @__contains__(item)
         xorKeys.append(item)
-    for item in @value
+    for item in @value.value
       if not set.__contains__(item)
         xorKeys.append(item)
     return Set(xorKeys)
@@ -161,7 +162,15 @@ class Set extends Iterable
     return new Set(@)
   
   difference: (others) ->
-    
+    difference = @copy()
+    for other in others
+      difference = difference.__sub__(other)
+    return difference
+
+  difference_update: (others) ->
+    for other in others
+      @ = @__sub__(other)
+    return
 
   # Checks to see if this and set are disjoint, meaning this intersected with set is the empty set 
   isdisjoint: (set) ->

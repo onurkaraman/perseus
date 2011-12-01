@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 def normalize(string):
 	return ''.join(string.split()).strip()
@@ -14,15 +15,18 @@ tests = [
 i = 1
 for test in tests:
 	test = test.strip()
-	pythonCode = open('test.py', 'w')
-	pythonCode.write('print ' + test)
-	pythonCode.close()
+	pythonCodeFile = tempfile.NamedTemporaryFile()
+	pythonCodeFile.write('print ' + test)
 	pythonValue = str(eval(test))
-	
-	os.system('python compiler.py > test.js')
-	os.system('node test.js > result.txt')
+	pythonCodePath = pythonCodeFile.name
 
-	jsValue = open('result.txt', 'r').read()
+	tempResultFile = tempfile.NamedTemporaryFile()
+	os.system('python ../test/compiler.py %s > %s' % (pythonCodePath, tempResultFile))
+	os.system('node %s > %s' % (tempResultFile, tempResultFile))
+
+	pythonCodeFile.close()
+	jsValue = tempResultFile.read()
+	tempResultFile.close()
 
 	print("Test %i: '%s'") % (i, test)
 	print normalize(pythonValue)
