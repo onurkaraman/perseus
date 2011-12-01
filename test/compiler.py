@@ -1,5 +1,8 @@
 import ast
-import node
+import sys
+
+sys.path.append('../src/')
+import node.mod
 
 class PythonScript:
     @staticmethod
