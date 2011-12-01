@@ -1,3 +1,4 @@
+import re
 import string
 import typing
 
@@ -7,10 +8,10 @@ NEWLINE = '\n'
 
 # Wraps a chunk of code in a closure.
 def closure(code):
-    return multiline(
+    return cleanBlockString(
         '''
         (function(){
-        %s
+            %s
         }).call(this);
         '''
     ) % code
@@ -32,6 +33,37 @@ def expand(array):
             expanded.append(element)
     return expanded
 
+def format(string, dictionary):
+    
+    # Automatically create block strings out of lists of statements
+    for index in dictionary.keys():
+        if typing.isList(dictionary[index]):
+            dictionary[index] = block(dictionary[index])
+    
+    string = cleanBlockString(string)
+    re_replacement = re.compile(r'%\(([a-zA-Z_0-9]+)\)s')
+    lines = string.split(NEWLINE)
+    mappedLines = []
+    
+    for line in lines:
+        newLine = line
+        if (line.lstrip().startswith('%')):
+            indents = (len(line) - len(line.lstrip()))/INDENTWIDTH
+            if (re_replacement.search(line) != None):
+                match = re_replacement.search(line).group(1)
+                newLine = re.sub(match, match + str(indents), line)
+                dictionary[match + str(indents)] = indent_alt(dictionary[match], indents)
+        mappedLines.append(newLine)
+        
+    string = NEWLINE.join(mappedLines)
+    return string % dictionary
+
+def indent_alt(code, level):
+    return code.replace(NEWLINE, (NEWLINE + '%s') % (INDENT * INDENTWIDTH * level))
+
+def block(statementList):
+    return NEWLINE.join(map(lambda(line): line + ';', expand(statementList)))
+
 # Turns a list of statements into a *block* in the traditional sense, i.e.
 # appends a semicolon to the end of each statement, concatenates the
 # statements with newlines, indents everything by one.
@@ -39,23 +71,12 @@ def formatGroup(statementList):
     return indent(NEWLINE.join(map(lambda(line): line + ';', statementList)), 1)
 
 # Removing prefixed newlines, trailing whitespace
-def multiline(multiLineString):
+def cleanBlockString(block):
     newLineChars = '\r\n\f\t'
-    strippedLeadingEnding = multiLineString.lstrip(newLineChars).rstrip(string.whitespace)
+    strippedLeadingEnding = block.lstrip(newLineChars).rstrip(string.whitespace)
     
     lines = strippedLeadingEnding.split(NEWLINE)
     
     leadingIndent = len(lines[0]) - len(lines[0].lstrip(string.whitespace))
     
     return NEWLINE.join([line.rstrip(string.whitespace)[leadingIndent:] for line in lines])
-
-# Indents a method using INDENTWIDTH per every 2 spaces in a string.
-def reindent(statement):
-    originalLength = len(statement)
-    statement.lstrip()
-    
-    # should be an even number!    
-    assert (len(statement) - originalLength) % INDENTWIDTH == 0
-    
-    numIndents = (len(statement) - originalLength)/INDENTWIDTH
-    return indent(statement, numIndents)

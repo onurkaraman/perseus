@@ -15,7 +15,7 @@ class UnaryOp(Base):
     
 class Lambda(Base):
     def compile(self):
-        return helper.multiline(
+        return helper.cleanBlockString(
             '''
             function(%s) {
                 return %s;
@@ -83,7 +83,7 @@ class DictComp(Base):
                 mappedTarget = "x[%d]" % i
                 keyElement = keyElement.replace(targets[i], mappedTarget)
                 valueElement = valueElement.replace(targets[i], mappedTarget)
-            return helper.multiline(
+            return helper.cleanBlockString(
                 '''
                 (function(){
                     var obj = {};
@@ -106,7 +106,7 @@ class DictComp(Base):
                 x is the single target
             '''
             target = self.generators[0].target
-            return helper.multiline(
+            return helper.cleanBlockString(
                 '''                    
                 (function(){
                     var obj = {};

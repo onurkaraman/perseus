@@ -4,19 +4,25 @@ import helper
 
 class FunctionDef(Base):
     def compile(self):
-        return helper.multiline(
+        return helper.format(
+            
             '''
-            var %s = function(%s) {
-            %s
+            var %(name)s = function(%(args)s) {
+                %(body)s
             }
-            '''                     
-        ) % (self.name, self.args, helper.formatGroup(helper.expand(self.body)))
+            ''',
+            {
+                'name': self.name,
+                'args': self.args,
+                'body': self.body
+            }
+        )
         
 # **To-do** Add inheritance features
 class ClassDef(Base):
     def compile(self):
         if (self.bases == []):
-            return helper.multiline(
+            return helper.format(
                 '''
                 var %(name)s;
                 
@@ -25,11 +31,12 @@ class ClassDef(Base):
                 
                     return %(name)s;
                 })();
-                '''
-            ) % {
+                ''',
+                {
                     'name': self.name,
-                    'body': helper.formatGroup(self.body)
+                    'body': helper.block(self.body)
                 }
+            )
 
 class Return(Base):
     def compile(self):
@@ -58,7 +65,7 @@ class Print(Base):
 class For(Base):
     def compile(self):
         if (self.orelse == []):
-            return helper.multiline(
+            return helper.cleanBlockString(
                 '''
                 var _i, _len, _ref, %(target)s;
                 _ref = %(iter)s
@@ -71,10 +78,10 @@ class For(Base):
             ) % {
                     'target': self.target, 
                     'iter': self.iter, 
-                    'body': helper.formatGroup(self.body)
+                    'body': self.body
                 }
         else:
-            return helper.multiline(
+            return helper.cleanBlockString(
                 '''
                 var _i, _len, _ref, %(target)s;
                 _ref = %(iter)s
@@ -95,13 +102,13 @@ class For(Base):
             ) % {
                     'target': self.target, 
                     'iter': self.iter, 
-                    'body': helper.formatGroup(self.body),
-                    'orelse': helper.formatGroup(self.orelse)
+                    'body': self.body,
+                    'orelse': self.orelse
                 }          
         
 class While(Base):
     def compile(self):
-        return helper.multiline(
+        return helper.cleanBlockString(
             '''
             if(%s){',
                 while(true){',
@@ -120,7 +127,7 @@ class While(Base):
 
 class If(Base):
     def compile(self):
-        compiled = helper.multiline(
+        compiled = helper.cleanBlockString(
             '''
             if (%s) {
                 %s
@@ -129,7 +136,7 @@ class If(Base):
         ) % (self.test, helper.formatGroup(self.body))
         # **Consideration** abstract list.isEmpty() ?
         if len(self.orelse) != 0:
-            compiled = compiled + '\n' + helper.multiline(
+            compiled = compiled + '\n' + helper.cleanBlockString(
                 '''
                 else {
                     %s
@@ -158,7 +165,7 @@ class TryExcept(Base):
             body = Block(handler.body, self.parent)
             exceptionType = handler.type
             if exceptionType is not None:
-                catch = helper.multiline(
+                catch = helper.cleanBlockString(
                     '''
                     if (e.message === '%s') {
                         %s
@@ -174,7 +181,7 @@ class TryExcept(Base):
         tryBody = Block(self.body, self.parent)
         catchBody = self.compileCatchStatements()
         elseBody = Block(self.orelse, self.parent)
-        return helper.multiline(
+        return helper.cleanBlockString(
             '''
             try {
                 %s
@@ -192,7 +199,7 @@ class TryFinally(Base):
     def compile(self):
         tryBody = Block(self.body, self.parent)
         finallyBody = Block(self.finalbody, self.parent)
-        return helper.multiline(
+        return helper.cleanBlockString(
             '''
             try {
                 %s
