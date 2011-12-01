@@ -195,8 +195,8 @@ class Name(Base):
     
 class List(Base):
     def compile(self):
-        return 'new List(%s)' % self.elts
+        return 'new List([%s])' % ', '.join(self.elts)
 
 class Tuple(Base):
     def compile(self):
-        return 'new Tuple(%s)' % self.elts
+        return 'new Tuple([%s])' % ', '.join(self.elts)
