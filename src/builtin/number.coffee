@@ -1,4 +1,4 @@
-class Number extends Primitive
+class Num extends Primitive
   __abs__: ->
     if (@value < 0)
       return @__neg__()
@@ -6,25 +6,25 @@ class Number extends Primitive
       return @value
       
   __add__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value + operand.value
     else
       super operand
   
   __div__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value / operand.value
     else
       super operand
       
   __floordiv__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return Math.floor(@value / operand.value)
     else
       super operand
   
   __mul__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value * operand.value
     else
       super operand
@@ -36,13 +36,13 @@ class Number extends Primitive
     return +@value
     
   __pow__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return Math.pow(@value, operand.value)
     else
       super operand
     
   __sub__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value - operand.value
     else
       super operand

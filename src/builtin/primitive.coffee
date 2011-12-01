@@ -1,5 +1,5 @@
 # A 'Primitive' is anything that is considered a Python built-in type
-class Primitive extends Object
+class Primitive extends Obj
   constructor: (@value) ->  
   
   # For these comparison operators, we are allowed to use their new definitions
@@ -7,37 +7,37 @@ class Primitive extends Object
   # would make sense in that context.  However, if it doesn't, we default to the
   # quirky implementation used by Python for generic objects.
   __lt__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value < operand.value
     else
       super operand
     
   __le__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value <= operand.value
     else
       super operand
   
   __eq__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value == operand.value
     else
       super operand
     
   __ne__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value != operand.value
     else
       super operand
     
   __ge__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value >= operand.value
     else
       super operand
     
   __gt__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value > operand.value
     else
       super operand
