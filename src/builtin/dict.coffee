@@ -83,3 +83,9 @@ class Dict extends Mapping
 
   iteritems: ->
     return new DictionaryItemIterator(@)
+
+  iterkeys: ->
+    return new DictionaryKeyIterator(@)
+
+  itervalues: ->
+    return new DictionaryKeyIterator(@)
