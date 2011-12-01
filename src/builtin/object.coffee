@@ -58,103 +58,103 @@ class Obj
     .raise()
   
   __abs__: ->
-    raiseUnaryException('abs()', @)
+    Helper::raiseUnaryException('abs()', @)
   
   __add__: (operand) ->
-    raiseBinaryException('+', @, operand)
+    Helper::raiseBinaryException('+', @, operand)
   
   __and__: (operand) ->
-    raiseBinaryException('&', @, operand)
+    Helper::raiseBinaryException('&', @, operand)
   
   __div__: (operand) ->
-    raiseBinaryException('/', @, operand)
+    Helper::raiseBinaryException('/', @, operand)
   
   __floordiv__: (operand) ->
-    raiseBinaryException('//', @, operand)
+    Helper::raiseBinaryException('//', @, operand)
   
   # Throw an exception, as it's only defined for integers in Python.
   __invert__: ->
-    raiseUnaryException('unary ~', @)
+    Helper::raiseUnaryException('unary ~', @)
     
   __lshift__: (operand) ->
-    raiseBinaryException('<<', @, operand)
+    Helper::raiseBinaryException('<<', @, operand)
     
   __mod__: (operand) ->
-    raiseBinaryException('%', @, operand)
+    Helper::raiseBinaryException('%', @, operand)
   
   __mul__: (operand) ->
-    raiseBinaryException('*', @, operand)
+    Helper::raiseBinaryException('*', @, operand)
   
   __neg__: ->
-    raiseUnaryException('unary -', @)
+    Helper::raiseUnaryException('unary -', @)
 
   __or__: (operand) ->
-    raiseBinaryException('|', @, operand)
+    Helper::raiseBinaryException('|', @, operand)
     
   __pos__: ->
-    raiseUnaryException('unary +', @)
+    Helper::raiseUnaryException('unary +', @)
     
   __pow__: (operand) ->
-    raiseBinaryException('**', @, operand)
+    Helper::raiseBinaryException('**', @, operand)
     
   __rshift__: (operand) ->
-    raiseBinaryException('>>', @, operand)
+    Helper::raiseBinaryException('>>', @, operand)
 
   __sub__: (operand) ->
-    raiseBinaryException('-', @, operand)
+    Helper::raiseBinaryException('-', @, operand)
     
   __xor__: (operand) ->
-    raiseBinaryException('^', @, operand)
+    Helper::raiseBinaryException('^', @, operand)
     
   __iadd__: (operand) ->
-    raiseBinaryException('+=', @, operand)
+    Helper::raiseBinaryException('+=', @, operand)
   
   __iand__: (operand) ->
-    raiseBinaryException('&=', @, operand)
+    Helper::raiseBinaryException('&=', @, operand)
     
   __idiv__: (operand) ->
-    raiseBinaryException('/=', @, operand)
+    Helper::raiseBinaryException('/=', @, operand)
     
   __ifloordiv__: (operand) ->
-    raiseBinaryException('//=', @, operand)
+    Helper::raiseBinaryException('//=', @, operand)
     
   __ilshift__: (operand) ->
-    raiseBinaryException('<<=', @, operand)
+    Helper::raiseBinaryException('<<=', @, operand)
 
   __imod__: (operand) ->
-    raiseBinaryException('%=', @, operand)
+    Helper::raiseBinaryException('%=', @, operand)
     
   __imul__: (operand) ->
-    raiseBinaryException('*=', @, operand)
+    Helper::raiseBinaryException('*=', @, operand)
     
   __ior__: (operand) ->
-    raiseBinaryException('|=', @, operand)
+    Helper::raiseBinaryException('|=', @, operand)
     
   __ipow__: (operand) ->
-    raiseBinaryException('**=', @, operand)
+    Helper::raiseBinaryException('**=', @, operand)
     
   __irshift__: (operand) ->
-    raiseBinaryException('>>=', @, operand)
+    Helper::raiseBinaryException('>>=', @, operand)
     
   __isub__: (operand) ->
-    raiseBinaryException('-=', @, operand)
+    Helper::raiseBinaryException('-=', @, operand)
     
   __ixor__: (operand) ->
-    raiseBinaryException('^=', @, operand)
+    Helper::raiseBinaryException('^=', @, operand)
     
   __contains__: (operand) ->
-    raiseNotIterableException(@)
+    Helper::raiseNotIterableException(@)
     
   __len__: ->
     type = @__class__.__name__
     (new TypeError("object of type '#{type}' has no len()")).raise()
     
   __min__: ->
-    raiseNotIterableException(@)
+    Helper::raiseNotIterableException(@)
     
   __max__: ->
-    raiseNotIterableException(@)
+    Helper::raiseNotIterableException(@)
     
   __slice__: ->
-    raiseNotSubscriptableException(@)
+    Helper::raiseNotSubscriptableException(@)
     

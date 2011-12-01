@@ -1,7 +1,7 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
 class Str extends Sequence
   __contains__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value.indexOf(operand) > -1
     else
       super operand
@@ -37,7 +37,11 @@ class Str extends Sequence
   decode: -> return
   encode: -> return
   endswith: (suffix, start, end) ->
-    return @value.slice(start, end).lastIndexOf(suffix) > -1
+    slicedStr = @value.slice(start, end)
+    index = slicedStr.lastIndexOf(suffix)
+    if index < 0
+      return false 
+    return index + suffix.length == @value.length
 
   expandtabs: -> return
   
@@ -191,7 +195,7 @@ class Str extends Sequence
   split: -> return
   splitlines: -> return
   startswith: (prefix, start = 0, end = @__len__()) ->
-    return @value.slice(start, end).indexOf(suffix) == 0
+    return @value.slice(start, end).indexOf(prefix) == 0
 
   strip: -> return
 

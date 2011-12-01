@@ -1,13 +1,13 @@
 # http://docs.python.org/library/operator.html
 class Int extends Num
   __and__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value & operand.value
     else
       super operand
   
   __div__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @__floordiv__(operand)
     else
       super operand
@@ -16,13 +16,13 @@ class Int extends Num
     return ~@value
   
   __lshift__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value << operand.value
     else
       super operand
   
   __mod__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value % operand.value
     else
       super operand
@@ -37,19 +37,19 @@ class Int extends Num
       super operand
     
   __or__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value | operand.value
     else
       super operand
   
   __rshift__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value >> operand.value
     else
       super operand
     
   __xor__: (operand) ->
-    if isSubInstance(operand, @)
+    if Helper::isSubInstance(operand, @)
       return @value ^ operand.value
     else
       super operand

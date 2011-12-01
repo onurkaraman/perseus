@@ -1,6 +1,6 @@
 class Sequence extends Primitive
   __add__: (operand) ->
-    if isSubInstance operand, @
+    if Helper::isSubInstance operand, @
       return @value.concat(operand.value)
     else
       super operand
