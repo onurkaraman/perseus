@@ -141,8 +141,9 @@ class Set extends Iterable
     return difference
 
   __xor__: (set) ->
-    xor = @__sub__(set)
-    xor = set.__sub__(xor)
+    diff1 = @__sub__(set)
+    diff2 = set.__sub__(xor)
+    xor = diff1.__or__(diff2)
     return xor
   
   add: (element) ->
