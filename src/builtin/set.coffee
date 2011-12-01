@@ -72,7 +72,7 @@ class Set extends Iterable
     return @
 
   __iter__: ->
-    return new Iterator(@)
+    return new SetIterator(@)
   
   # Inplace xor
   __ixor__: (set) ->
@@ -211,14 +211,13 @@ class Set extends Iterable
     if @value.__len__ == 0
       (new KeyError "pop from an empty set").raise()
     else
-      keys = @value.keys()
-      randomKey = keys[0]
-      @value.pop(randomKey)
+      randomItem = @value.popitem() # dict.popitem() pops a random item
+      randomKey = randomItem.__getitem__(0)
       return randomKey
 
   remove: (elem) ->
     if elem not in @value.value
-      (new KeyError "pop from an empty set").raise()
+      (new KeyError "#{elem}").raise()
     else
       @value.pop(elem)
     return
