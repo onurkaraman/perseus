@@ -72,7 +72,7 @@ class Set extends Iterable
     return @
 
   __iter__: ->
-    return new Iterator(@)
+    return new SetIterator(@)
   
   # Inplace xor
   __ixor__: (set) ->

@@ -29,7 +29,7 @@ class Dict extends Mapping
   __init__: ->
 
   __iter__: ->
-    return new Iterator(@)
+    return new DictionaryKeyIterator(@)
 
   # ** Unimplemented **
   __le__: (dict) ->
@@ -80,3 +80,6 @@ class Dict extends Mapping
       tuple = new Tuple(key, @value[key])
       items.push(tuple)
     return items
+
+  iteritems: ->
+    return new DictionaryItemIterator(@)
