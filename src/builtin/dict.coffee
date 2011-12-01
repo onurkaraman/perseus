@@ -89,3 +89,13 @@ class Dict extends Mapping
 
   itervalues: ->
     return new DictionaryValueIterator(@)
+
+  keys: ->
+    return Object.keys(@value)
+
+  values: ->
+    keys = @keys()
+    values = []
+    for key in keys
+      values.push(@value[key])
+    return values
