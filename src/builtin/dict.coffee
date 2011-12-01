@@ -88,4 +88,4 @@ class Dict extends Mapping
     return new DictionaryKeyIterator(@)
 
   itervalues: ->
-    return new DictionaryKeyIterator(@)
+    return new DictionaryValueIterator(@)
