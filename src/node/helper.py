@@ -11,7 +11,7 @@ def closure(code):
         '''
         (function(){
         %s
-        })();
+        }).call(this);
         '''
     ) % code
 
