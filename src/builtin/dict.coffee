@@ -1,23 +1,26 @@
 class Dict extends Mapping
   constructor: (iterable) ->
     @value = {}
-    for key in iterable
-      @value[key] = iterable[key]
+    if iterable?
+      for key in iterable # TODO: Coffeescript uses in when using array, of when using object
+        @value[key] = iterable[key]
 
   # Checks if the key exists in this
   __contains__: (key) ->
-    return key in @value
+    return key of @value
 
   # Removes the key,value pair from this
   __delitem__: (key) ->
-    delete @__getitem__(key)
+    delete @value[key]
 
   __eq__: (dict) ->
     keys = Object.keys(@value)
     otherKeys = Object.keys(dict.value)
-    if Set(keys).__ne__(Set(otherKeys)) #if keys are different, not equal
+    set = new Set(keys)
+    otherSet = new Set(otherKeys)
+    if set.__ne__(otherSet) #if keys are different, not equal
       return false
-    for key in @value
+    for key in keys
       val = @__getitem__(key)
       otherVal = dict.__getitem__(key)
       if val != otherVal #if values differ, not equal. Unsure if this should be __ne__
@@ -86,15 +89,12 @@ class Dict extends Mapping
 
   # Returns a shallow copy of this
   copy: ->
-    copy = Dict()
-    for key in @value
-      val = @__getitem__(key)
-      copy.__setitem__(key, val)
+    copy = new Dict(@)
     return copy
 
   # Gets the value of the `key` if key exists. Otherwise return default `d`
   get: (key, d) ->
-    if key in @value
+    if key of @value
       return @__getitem__(key)
     else
       return d
@@ -104,7 +104,7 @@ class Dict extends Mapping
 
   items: ->
     items = [] #Unsure if this should be JS list or Pythonscript List
-    for key in @value
+    for key of @value
       val = @__getitem__(key)
       tuple = new Tuple([key, val])
       items.push(tuple)

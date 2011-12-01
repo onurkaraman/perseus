@@ -1,5 +1,6 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
 class Str extends Sequence
+
   __contains__: (operand) ->
     if Helper::isSubInstance(operand, @)
       return @value.indexOf(operand) > -1
@@ -16,7 +17,7 @@ class Str extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = Str('').__mul__(Math.floor(delta, 2))
+    pad = (new Str('')).__mul__(Math.floor(delta, 2))
     if delta % 2 == 0
       return pad + @value + pad
     else

@@ -1,9 +1,10 @@
 # http://docs.python.org/library/stdtypes.html#set-types-set-frozenset
 class Set extends Iterable
   constructor: (iterable) ->
-    @value = Dict() # set just is a wrapped version of our own Dict class
-    for item in iterable?.value # Handles empty constructor call too
-      @value.__setitem__(item, true)
+    @value = new Dict() # set just is a wrapped version of our own Dict class
+    if iterable?
+      for item in iterable.value # Handles empty constructor call too
+        @value.__setitem__(item, true)
 
   __and__: (other) ->
     intersect = List()
@@ -14,14 +15,14 @@ class Set extends Iterable
     (new TypeError "cannot compare sets using cmp()").raise()
 
   __contains__: (other) ->
-    return other in @value.value
+    return @value.__contains__(other)
 
   # Checks to see if this is equivalent to set
   __eq__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       if not @__contains__(item)
         return false
-    for item in @value.value
+    for item in @value.keys()
       if not set.__contains__(item)
         return false
     return true
@@ -155,7 +156,7 @@ class Set extends Iterable
     return xor
   
   add: (element) ->
-    @value.__setitem__(item, true)
+    @value.__setitem__(element, true)
     return
     
   clear: ->
