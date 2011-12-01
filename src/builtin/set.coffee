@@ -2,7 +2,7 @@
 class Set extends Iterable
   constructor: (iterable) ->
     @value = Dictionary() # set just is a wrapped version of our own Dictionary class
-    for item in iterable
+    for item in iterable.value
       @value.__setitem__(item, true)
 
   __and__: (other) ->
@@ -18,7 +18,7 @@ class Set extends Iterable
 
   # Checks to see if this is equivalent to set
   __eq__: (set) ->
-    for item in set
+    for item in set.value
       if not @__contains__(item)
         return false
     for item in @value.value
@@ -28,7 +28,7 @@ class Set extends Iterable
 
   # Checks to see if this is a superset of set
   __ge__: (set) ->
-    for item in set
+    for item in set.value
       if not @__contains__(item)
         return false
     return true
@@ -39,7 +39,7 @@ class Set extends Iterable
   __gt__: (set) ->
     if @__eq__(set)
       return false
-    for item in set
+    for item in set.value
       if not @__contains__(item)
         return false
     return true
@@ -50,19 +50,19 @@ class Set extends Iterable
     for item in @value.value
       if not set.__contains__(item)
         deletedKeys.append(item)
-    for deletedKey in deletedKeys
+    for deletedKey in deletedKeys.value
       @value.pop(deletedKey)
     return @
   
   __init__: ->
     
   __ior__: (set) ->
-    for item in set
+    for item in set.value
       @add(item)
     return @
   
   __isub__: (set) ->
-    for item in set
+    for item in set.value
       if @__contains__(item)
         @pop(item)
     return @
@@ -72,14 +72,14 @@ class Set extends Iterable
   
   __ixor__: (set) ->
     xorKeys = List()
-    for item in set
+    for item in set.value
       if not @__contains__(item)
         xorKeys.append(item)
     for item in @value.value
       if not set.__contains__(item)
         xorKeys.append(item)
     @clear()
-    for item in xorKeys
+    for item in xorKeys.value
         @add(item)
     return @
 
@@ -109,7 +109,7 @@ class Set extends Iterable
   __or__: (set) ->
     union = List()
     union.append(item) for item in @value.value
-    union.append(item) for item in set
+    union.append(item) for item in set.value
     return new Set(union)
 
   # Same as and since intersection is symmetric
@@ -135,14 +135,14 @@ class Set extends Iterable
   
   __sub__: (set) ->
     difference = @copy()
-    for item in set
+    for item in set.value
       if @__contains__(item)
         difference.pop(item)
     return difference
 
   __xor__: (set) ->
     xorKeys = List()
-    for item in set
+    for item in set.value
       if not @__contains__(item)
         xorKeys.append(item)
     for item in @value.value
