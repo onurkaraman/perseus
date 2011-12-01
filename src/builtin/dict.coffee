@@ -24,38 +24,52 @@ class Dict extends Mapping
         return false
     return true
     
-  # ** Unimplemented **
   __ge__: (dict) ->
+    return @__gt__(dict) or @__eq__(dict)
 
-  # ** Unimplemented **
   __getattribute__: (attr) ->
 
   # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
     return @value[key]
 
-  # ** Unimplemented **
   __gt__: (dict) ->
+    return not @__le__(dict)
 
-  # ** Unimplemented **
+  # **Unimplemented**
   __init__: ->
 
   __iter__: ->
     return new DictionaryKeyIterator(@)
 
-  # ** Unimplemented **
   __le__: (dict) ->
+    return @__lt__(dict) or @__eq__(dict)
 
   __len__: ->
     return Object.keys(Object(@value)).length
 
-  # ** Unimplemented **
+  # First checks length of dictionary, then compares sorted keys and their associated values
   __lt__: (dict) ->
+    if @__len__() < dict.__len__()
+      return true
+    else if @__len__() > dict.__len__()
+      return false
+    else
+      keys = Object.keys(@value).sort()
+      otherKeys = Object.keys(dict.value).sort()
+      for key,i in keys
+        if key >= otherKeys[i]
+          return false
+        val = @__getitem__(key)
+        otherVal = @__getitem__(otherKeys[i])
+        if val >= otherVal
+          return false
+      return true
 
   __ne__: (dict) ->
     return not @__eq__(dict)
 
-  # ** Unimplemented **
+  # **Unimplemented**
   __repr__: ->
 
   # Sets a value to the key in this: like `x[key] = value`
@@ -133,7 +147,7 @@ class Dict extends Mapping
       @__setitem__(key, d)
     return @value[key]
 
-  # ** Unimplemented **
+  # **Unimplemented**
   update: ->
   
   # Returns a list of values of this
@@ -145,11 +159,11 @@ class Dict extends Mapping
       values.push(val)
     return values
 
-  # ** Unimplemented **
+  # **Unimplemented**
   viewitems: ->
 
-  # ** Unimplemented **
+  # **Unimplemented**
   viewkeys: ->
 
-  # ** Unimplemented **
+  # **Unimplemented**
   viewvalues: ->
