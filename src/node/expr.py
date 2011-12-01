@@ -34,10 +34,9 @@ class Dict(Base):
     def compile(self):
         return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
 
-# **Unimplemented**
 class Set(Base):
     def compile(self):
-        pass
+        return 'new Set(%s)' % self.elts
 
 # **To-do** Handle multi-comprehensions:
 # * seq1 = ['a', 'b', 'c']
@@ -153,7 +152,12 @@ class Repr(Base):
     
 class Num(Base):
     def compile(self):
-        return self.n
+        value = self.n
+        # Floats and integers have different meanings for division!
+        if ('.' in str(value)):
+            return 'new Number(%s)' % value
+        else:
+            return 'new Integer(%s)' % value
 
 class Str(Base):
     def compile(self):
@@ -162,7 +166,7 @@ class Str(Base):
             stringValue = "'%s'" % stringValue
         else:
             stringValue = '"%s"' % stringValue
-        return '%s' % stringValue
+        return 'new String(%s)' % stringValue
     
 class Attribute(Base):
     def compile(self):
@@ -175,6 +179,8 @@ class Subscript(Base):
     
 class Name(Base):
     def compile(self):
+        # Keywords in Python, such as None, True, and False, are parsed as
+        # variables.
         try:
             conversion = {
                 'None': 'null',
@@ -189,9 +195,8 @@ class Name(Base):
     
 class List(Base):
     def compile(self):
-        return '[%s]' % ', '.join(value for value in self.elts)
+        return 'new List(%s)' % self.elts
 
-# **Fix-me** Placeholder so I can start DictComp
 class Tuple(Base):
     def compile(self):
-        return List(self.ast, self.parent).compile()
+        return 'new Tuple(%s)' % self.elts
