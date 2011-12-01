@@ -165,7 +165,8 @@ class Set extends Iterable
     return
 
   discard: (elem) ->
-    @value.pop(elem)
+    if @value.__contains__(elem)
+      @value.pop(elem)
     return
 
   intersection: (others...) ->
