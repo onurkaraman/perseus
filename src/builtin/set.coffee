@@ -33,6 +33,7 @@ class Set extends Iterable
         return false
     return true
   
+  # ** Unimplemented **
   __getattribute__: ->
 
   # Checks to see if this is a proper superset of set
@@ -54,13 +55,16 @@ class Set extends Iterable
       @value.pop(deletedKey)
     return @
   
+  # ** Unimplemented **
   __init__: ->
-    
+  
+  # Inplace set union
   __ior__: (set) ->
     for item in set.value
       @add(item)
     return @
   
+  # Inplace set difference
   __isub__: (set) ->
     for item in set.value
       if @__contains__(item)
@@ -70,6 +74,7 @@ class Set extends Iterable
   __iter__: ->
     return new Iterator(@)
   
+  # Inplace xor
   __ixor__: (set) ->
     diff1 = @__sub__(set)
     diff2 = set.__sub__(xor)
@@ -102,33 +107,39 @@ class Set extends Iterable
   __ne__: (set) ->
     return not @__eq__(set)
 
+  # Returns a new Set containing items from this or set
   __or__: (set) ->
     union = List()
     union.append(item) for item in @value.value
     union.append(item) for item in set.value
     return new Set(union)
 
-  # Same as and since intersection is symmetric
+  # Same as __and__ since intersection is symmetric
   __rand__: (set) ->
     return @__and__(set)
-    
+  
+  # ** Unimplemented **
   __reduce__: ->
   
+  # ** Unimplemented **
   __repr__: ->
   
-  # Same as and since union is symmetric  
+  # Same as __or__ since union is symmetric  
   __ror__: (set) ->
     return @__or__(set)
 
+  # Subtract this from set
   __rsub__: (set) ->
     return set.__sub__(@)
   
-  # Same as and since xor is symmetric  
+  # Same as __xor__ since xor is symmetric  
   __rxor__: (set) ->
     return @__xor__(set)
 
+  # ** Unimplemented **
   __sizeof__: ->
   
+  # Subtract new set containing this - set
   __sub__: (set) ->
     difference = @copy()
     for item in set.value
@@ -136,6 +147,7 @@ class Set extends Iterable
         difference.value.pop(item)
     return difference
 
+  # Returns new Set containing items in this or set, but not both
   __xor__: (set) ->
     diff1 = @__sub__(set)
     diff2 = set.__sub__(xor)
@@ -153,28 +165,33 @@ class Set extends Iterable
   copy: ->
     return new Set(@)
   
+  # Returns a new set containing items in this but not any set in others
   difference: (others...) ->
     difference = @copy()
     for other in others
       difference.__isub__(other)
     return difference
-
+  
+  # Inplace difference of this and every set in others
   difference_update: (others...) ->
     for other in others
       @__isub__(other)
     return
 
+  # Removes an element from the this if it can, otherwise does nothing
   discard: (elem) ->
     if @value.__contains__(elem)
       @value.pop(elem)
     return
 
+  # Returns new set containing elements in common with this and each set in others
   intersection: (others...) ->
     intersect = @copy()
     for other in others
       intersect.__iand__(other)
     return intersect
 
+  # Inplace update of this, keeping values only found in it and all others
   intersection_update: (others...) ->
     for other in others
       @__iand__(other)
