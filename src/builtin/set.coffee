@@ -137,18 +137,13 @@ class Set extends Iterable
     difference = @copy()
     for item in set.value
       if @__contains__(item)
-        difference.pop(item)
+        difference.value.pop(item)
     return difference
 
   __xor__: (set) ->
-    xorKeys = List()
-    for item in set.value
-      if not @__contains__(item)
-        xorKeys.append(item)
-    for item in @value.value
-      if not set.__contains__(item)
-        xorKeys.append(item)
-    return Set(xorKeys)
+    xor = @__sub__(set)
+    xor = set.__sub__(xor)
+    return xor
   
   add: (element) ->
     @value.__setitem__(item, true)
