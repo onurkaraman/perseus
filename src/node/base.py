@@ -20,8 +20,10 @@ class Base:
         for lists.
         '''
         # Handling primitive children
-        if typing.isNone(element) or typing.isBoolean(element):
-            return element
+        if typing.isNone(element):
+            return 'null'
+        elif typing.isBoolean(element):
+            return str(element).lower()
         elif typing.isPrimitive(element):
             return str(element)
         # Expression contexts appear to be an argument-less instance of a class
@@ -33,7 +35,6 @@ class Base:
         else:
             from alias import *
             from arguments import *
-            from block import *
             from boolop import *
             from cmpop import *
             from comprehension import *

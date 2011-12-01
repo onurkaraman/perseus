@@ -1,5 +1,4 @@
 from base import Base
-from block import Block
 import helper
 
 class FunctionDef(Base):
@@ -138,6 +137,7 @@ class Raise(Base):
         exceptionType = self.type
         return 'throw Error("%s")' % exceptionType
     
+# **Unimplemented**
 # **To-do**: Use Block abstraction and compile recursively.  We can then
 # eliminate the compileCatchStatements() inner method.
 # Use new helper.format() calls

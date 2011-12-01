@@ -1,5 +1,4 @@
 from base import Base
-from block import Block
 import helper
 
 class Module(Base):

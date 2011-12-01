@@ -71,12 +71,6 @@ def indent_alt(code, level):
 def block(statementList):
     return NEWLINE.join(map(lambda(line): line + ';', expand(statementList)))
 
-# Turns a list of statements into a *block* in the traditional sense, i.e.
-# appends a semicolon to the end of each statement, concatenates the
-# statements with newlines, indents everything by one.
-def formatGroup(statementList):
-    return indent(NEWLINE.join(map(lambda(line): line + ';', statementList)), 1)
-
 # Removing prefixed newlines, trailing whitespace
 def cleanBlockString(block):
     newLineChars = '\r\n\f\t'
