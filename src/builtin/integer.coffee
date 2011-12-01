@@ -6,6 +6,12 @@ class Int extends Num
     else
       super operand
   
+  __add__: (operand) ->
+    if Helper::isSubInstance(operand, @)
+      return @value + operand.value
+    else
+      super operand
+
   __div__: (operand) ->
     if Helper::isSubInstance(operand, @)
       return @__floordiv__(operand)
