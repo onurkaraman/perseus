@@ -35,7 +35,7 @@ class Slice(Base):
                                     "}" + 
                                 ").reverse()") % (self.step)
             elif step == 0:
-                return "ValueError: slice step cannot be zero"
+                return "(new ValueError('slice step cannot be zero')).raise()"
         return slicedArray
     
 # **Unimplemented**
