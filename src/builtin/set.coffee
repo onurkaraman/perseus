@@ -64,7 +64,7 @@ class Set extends Iterable
   __isub__: (set) ->
     for item in set.value
       if @__contains__(item)
-        @pop(item)
+        @value.pop(item)
     return @
 
   __iter__: ->
@@ -161,15 +161,30 @@ class Set extends Iterable
   copy: ->
     return new Set(@)
   
-  difference: (others) ->
+  difference: (others...) ->
     difference = @copy()
     for other in others
-      difference = difference.__sub__(other)
+      difference.__isub__(other)
     return difference
 
-  difference_update: (others) ->
+  difference_update: (others...) ->
     for other in others
-      @ = @__sub__(other)
+      @__isub__(other)
+    return
+
+  discard: (elem) ->
+    @value.pop(elem)
+    return
+
+  intersection: (others...) ->
+    intersect = @copy()
+    for other in others
+      intersect.__isub__(other)
+    return intersect
+
+  intersection_update: (others...) ->
+    for other in others
+      @.__isub__(other)
     return
 
   # Checks to see if this and set are disjoint, meaning this intersected with set is the empty set 
@@ -181,3 +196,12 @@ class Set extends Iterable
   
   issuperset: (set) ->
     return @__ge__(set)
+
+  pop: ->
+    if @value.__len__ == 0
+      (new KeyError "'pop from an empty set'").raise()
+    else
+      keys = @value.keys()
+      randomKey = keys[0]
+      @value.pop(randomKey)
+      return randomKey
