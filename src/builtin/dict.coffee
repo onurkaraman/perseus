@@ -12,8 +12,17 @@ class Dict extends Mapping
   __delitem__: (key) ->
     delete @__getitem__(key)
 
-  # ** Unimplemented **
   __eq__: (dict) ->
+    keys = Object.keys(@value)
+    otherKeys = Object.keys(dict.value)
+    if Set(keys).__ne__(Set(otherKeys)) #if keys are different, not equal
+      return false
+    for key in @value
+      val = @__getitem__(key)
+      otherVal = dict.__getitem__(key)
+      if val != otherVal #if values differ, not equal. Unsure if this should be __ne__
+        return false
+    return true
     
   # ** Unimplemented **
   __ge__: (dict) ->
