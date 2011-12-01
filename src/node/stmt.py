@@ -7,7 +7,7 @@ class FunctionDef(Base):
         return helper.multiline(
             '''
             var %s = function(%s) {
-                %s
+            %s
             }
             '''                     
         ) % (self.name, self.args, helper.formatGroup(self.body))
@@ -201,7 +201,7 @@ class Global(Base):
     
 class Expr(Base):
     def compile(self):
-        return '%s' % self.value
+        return '(%s).value' % self.value
     
 class Pass(Base):
     def compile(self):
