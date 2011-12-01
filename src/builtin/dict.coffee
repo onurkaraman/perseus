@@ -21,6 +21,7 @@ class Dict extends Mapping
   # ** Unimplemented **
   __getattribute__: (attr) ->
 
+  # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
     return @value[key]
 
@@ -48,6 +49,7 @@ class Dict extends Mapping
   # ** Unimplemented **
   __repr__: ->
 
+  # Sets a value to the key in this: like `x[key] = value`
   __setitem__: (key, value) ->
     @value[key] = value
     return
@@ -67,6 +69,7 @@ class Dict extends Mapping
       copy.__setitem__(key, val)
     return copy
 
+  # Gets the value of the `key` if key exists. Otherwise return default `d`
   get: (key, d) ->
     if key in @value
       return @__getitem__(key)
@@ -80,7 +83,7 @@ class Dict extends Mapping
     items = [] #Unsure if this should be JS list or Pythonscript List
     for key in @value
       val = @__getitem__(key)
-      tuple = new Tuple(key, val)
+      tuple = new Tuple([key, val])
       items.push(tuple)
     return items
 
@@ -93,9 +96,13 @@ class Dict extends Mapping
   itervalues: ->
     return new DictionaryValueIterator(@)
 
+  # Returns a list of keys of this
   keys: ->
     return Object.keys(@value)
 
+  # Returns the popped value at key if key exists. 
+  # Else returns `d` if default `d` exists
+  # Else raises `KeyError`
   pop: (key, d) ->
     if key in @keys()
       return @value.pop(key)
@@ -104,9 +111,13 @@ class Dict extends Mapping
     else
       (new KeyError "#{key}").raise()
 
+  # Pops random item from this and returns a 2-tuple
   popitem: ->
     if @__len__() == 0
       (new KeyError "popitem(): dictionary is empty").raise()
+    randomKey = @keys[0]
+    randomValue = @__getitem__(randomKey)
+    return new Tuple([randomKey, randomValue])
 
   setdefault: (key, d) ->
     if key not in @keys()
@@ -116,6 +127,7 @@ class Dict extends Mapping
   # ** Unimplemented **
   update: ->
   
+  # Returns a list of values of this
   values: ->
     keys = @keys()
     values = []
