@@ -9,8 +9,5 @@ class Module(Base):
             (function(){
                 %(body)s
             }).call(this)
-            ''',
-            {
-                'body': self.body
-            }
+            ''', self
         )

@@ -33,30 +33,37 @@ def expand(array):
             expanded.append(element)
     return expanded
 
-def format(string, dictionary):
-    
-    # Automatically create block strings out of lists of statements
-    for index in dictionary.keys():
-        if typing.isList(dictionary[index]):
-            dictionary[index] = block(dictionary[index])
+def format(string, obj):
+    codeMap = {}
     
     string = cleanBlockString(string)
     re_replacement = re.compile(r'%\(([a-zA-Z_0-9]+)\)s')
     lines = string.split(NEWLINE)
     mappedLines = []
     
+    for attr in re_replacement.findall(string):
+        code = getattr(obj, attr)
+        
+        # Automatically create block strings out of lists of statements
+        if typing.isList(code):
+            code = block(code)
+            
+        codeMap[attr] = code
+    
     for line in lines:
         newLine = line
         if (line.lstrip().startswith('%')):
             indents = (len(line) - len(line.lstrip()))/INDENTWIDTH
+            
             if (re_replacement.search(line) != None):
                 match = re_replacement.search(line).group(1)
                 newLine = re.sub(match, match + str(indents), line)
-                dictionary[match + str(indents)] = indent_alt(dictionary[match], indents)
+                codeMap[match + str(indents)] = indent_alt(codeMap[match], indents)
+                
         mappedLines.append(newLine)
         
     string = NEWLINE.join(mappedLines)
-    return string % dictionary
+    return string % codeMap
 
 def indent_alt(code, level):
     return code.replace(NEWLINE, (NEWLINE + '%s') % (INDENT * INDENTWIDTH * level))

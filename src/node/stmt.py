@@ -10,12 +10,7 @@ class FunctionDef(Base):
             var %(name)s = function(%(args)s) {
                 %(body)s
             }
-            ''',
-            {
-                'name': self.name,
-                'args': self.args,
-                'body': self.body
-            }
+            ''', self
         )
         
 # **To-do** Add inheritance features
@@ -31,11 +26,7 @@ class ClassDef(Base):
                 
                     return %(name)s;
                 })();
-                ''',
-                {
-                    'name': self.name,
-                    'body': helper.block(self.body)
-                }
+                ''', self
             )
 
 class Return(Base):
