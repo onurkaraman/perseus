@@ -101,6 +101,15 @@ class Dict extends Mapping
     else
       (new KeyError "#{key}").raise()
 
+  popitem: ->
+    if @__len__() == 0
+      (new KeyError "popitem(): dictionary is empty").raise()
+
+  setdefault: (key, d) ->
+    if key not in @keys()
+      @value[key] = d
+    return @value[key]
+
   values: ->
     keys = @keys()
     values = []
