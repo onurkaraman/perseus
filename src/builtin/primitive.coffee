@@ -7,38 +7,38 @@ class Primitive extends Obj
   # would make sense in that context.  However, if it doesn't, we default to the
   # quirky implementation used by Python for generic objects.
   __lt__: (operand) ->
-    if Helper::isSubInstance operand, @
-      return @value < operand.value
+    if issubinstance operand, @
+      new Bool @value < operand.value
     else
       super operand
     
   __le__: (operand) ->
-    if Helper::isSubInstance operand, @
-      return @value <= operand.value
+    if issubinstance operand, @
+      new Bool <= operand.value
     else
       super operand
   
   __eq__: (operand) ->
-    if Helper::isSubInstance operand, @
-      return @value == operand.value
+    if issubinstance operand, @
+      new Bool @value == operand.value
     else
       super operand
     
   __ne__: (operand) ->
-    if Helper::isSubInstance operand, @
-      return @value != operand.value
+    if issubinstance operand, @
+      new Bool @value != operand.value
     else
       super operand
     
   __ge__: (operand) ->
-    if Helper::isSubInstance operand, @
-      return @value >= operand.value
+    if issubinstance operand, @
+      new Bool @value >= operand.value
     else
       super operand
     
   __gt__: (operand) ->
-    if Helper::isSubInstance operand, @
-      return @value > operand.value
+    if issubinstance operand, @
+      new Bool @value > operand.value
     else
       super operand
       
@@ -109,4 +109,4 @@ class Primitive extends Obj
   # **Consideration** What is the difference between __repr__ and __str__?
   # How does this affect console.log / print / concatenation?
   __str__: ->
-    return @value.toString()
+    new Str @value.toString()
