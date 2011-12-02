@@ -40,11 +40,11 @@ class Str extends Sequence
     else
       new (type(@)) pad + @value + pad + fillchar
 
-  count: (sub, start = 0, end = @__len__()) ->
+  count: (sub, start = 0, end = @__len__().value) ->
     count = 0
     curIndex = 0
     slicedStr = @value.slice(start, end)
-    substringLen = (new Str(sub)).__len__()
+    substringLen = (new Str sub).__len__().value
     while curIndex < slicedStr.length
       substringIndex = slicedStr.indexOf(sub, curIndex)
       if substringIndex < 0
@@ -52,7 +52,7 @@ class Str extends Sequence
       else
         curIndex = substringIndex + substringLen
         count++
-    return count
+    return new Int count
   
   decode: -> return
   encode: -> return
