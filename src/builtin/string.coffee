@@ -1,5 +1,15 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
 class Str extends Sequence
+  constructor: (@value = '') ->
+  
+  # **Consideration** Overriding Sequence's inherited __add__ smells of bad
+  # design.
+  __add__: (operand) ->
+    if issubinstance operand, @
+      new (type(@)) @value + operand.value
+    else
+      super operand
+  
   __contains__: (operand) ->
     if issubinstance operand, @
       new Bool @value.indexOf(operand) > -1
