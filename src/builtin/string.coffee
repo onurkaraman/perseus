@@ -1,33 +1,50 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
 class Str extends Sequence
-
+  constructor: (@value = '') ->
+  
+  # **Consideration** Overriding Sequence's inherited __add__ smells of bad
+  # design.
+  __add__: (operand) ->
+    if issubinstance operand, @
+      new (type(@)) @value + operand.value
+    else
+      super operand
+  
   __contains__: (operand) ->
-    if Helper::isSubInstance(operand, @)
-      return @value.indexOf(operand) > -1
+    if issubinstance operand, @
+      new Bool @value.indexOf(operand) > -1
     else
       super operand
   
   capitalize: ->
-    if @__len__ is 0
-      return @value
+    if @__len__().value is 0
+      @
     else
-      return @value[0].toUpperCase() + @.lower().slice(1)
+      new (type(@)) @value[0].toUpperCase() + @value.slice(1)
 
-  center: (width, fillchar = " ") ->
-    if width <= @__len__()
-      return @value
-    delta = width - @__len__()
-    pad = (new Str('')).__mul__(Math.floor(delta, 2))
+  center: (width, fillchar = new Str ' ') ->
+    if (type width) isnt Int
+      raise new TypeError 'an integer is required'
+    if (type fillchar) isnt Str
+      raise new TypeError 'must be char, not #{type(fillchar).__name__()}'
+    if width.value <= @__len__().value
+      @
+    delta = width.value - @__len__().value
+    pad = 
+      fillchar
+      .__mul__(
+        new Int Math.floor(delta, 2))
+      .value
     if delta % 2 == 0
-      return pad + @value + pad
+      new (type(@)) pad + @value + pad
     else
-      return pad + @value + pad + fillchar
+      new (type(@)) pad + @value + pad + fillchar
 
-  count: (sub, start = 0, end = @__len__()) ->
+  count: (sub, start = 0, end = @__len__().value) ->
     count = 0
     curIndex = 0
     slicedStr = @value.slice(start, end)
-    substringLen = (new Str(sub)).__len__()
+    substringLen = (new Str sub).__len__().value
     while curIndex < slicedStr.length
       substringIndex = slicedStr.indexOf(sub, curIndex)
       if substringIndex < 0
@@ -35,20 +52,22 @@ class Str extends Sequence
       else
         curIndex = substringIndex + substringLen
         count++
-    return count
+    new Int count
   
-  decode: -> return
-  encode: -> return
-  endswith: (suffix, start, end) ->
+  decode: ->
+    
+  encode: ->
+    
+  endswith: (suffix, start = 0, end = @__len__().value) ->
     slicedStr = @value.slice(start, end)
     index = slicedStr.lastIndexOf(suffix)
     if index < 0
       return false 
-    return index + suffix.length == @value.length
+    return (index + suffix.length) == end
 
   expandtabs: -> return
   
-  find: (sub, start = 0, end = @__len__()) ->
+  find: (sub, start = 0, end = @__len__().value) ->
     index = @value.indexOf(sub)
     withinBounds = start <= index < end
     if withinBounds
@@ -62,7 +81,7 @@ class Str extends Sequence
     substr = @value.slice(start, end)
     index = substr.indexOf(sub)
     if index == -1
-      (new ValueError "substring not found").raise()
+      raise new ValueError "substring not found"
     else
       return index
 
@@ -190,7 +209,7 @@ class Str extends Sequence
   rindex: (sub, start = 0, end = @__len__()) ->
     lastIndex = substr.lastIndexOf(sub)
     if lastIndex == -1
-      (new ValueError "substring not found").raise()
+      raise new ValueError "substring not found"
     else
       return lastIndex
       

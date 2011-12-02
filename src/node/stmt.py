@@ -30,7 +30,7 @@ class ClassDef(Base):
 
 class Return(Base):
     def compile(self):
-        return 'return %s' % self.value
+        return 'return %s.value' % self.value
     
 class Delete(Base):
     def compile(self):
@@ -218,7 +218,7 @@ class Global(Base):
     
 class Expr(Base):
     def compile(self):
-        return '(%s).value' % self.value
+        return '%s' % self.value
     
 class Pass(Base):
     def compile(self):

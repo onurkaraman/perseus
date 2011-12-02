@@ -1,9 +1,7 @@
 # [Relevant](http://docs.python.org/library/exceptions.html#exception-hierarchy)
 
-class BaseException
+class BaseException extends Primitive
   constructor: (@message) ->
-    
-  raise: -> throw new Error("#{type(@).__name__()}: #{@message}")
   
 class SystemExit extends BaseException
   

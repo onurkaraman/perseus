@@ -23,9 +23,9 @@ class List extends Sequence
     
   pop: (index = new Int @__len__().value - 1) ->
     if @__len__().value == 0
-      (new IndexError "pop from empty list").raise()
+      raise new IndexError "pop from empty list"
     else if index.value < 0 or index.value >= @__len__().value
-      (new IndexError "pop index out of range").raise()
+      raise new IndexError "pop index out of range"
     else
       [removed] = @value.splice index.value, 1 # Javascript returns array. Just want element
       removed
