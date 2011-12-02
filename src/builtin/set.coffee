@@ -29,7 +29,7 @@ class Set extends Iterable
 
   # Checks to see if this is a superset of set
   __ge__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       if not @__contains__(item)
         return false
     return true
@@ -41,7 +41,7 @@ class Set extends Iterable
   __gt__: (set) ->
     if @__eq__(set)
       return false
-    for item in set.value
+    for item in set.value.keys()
       if not @__contains__(item)
         return false
     return true
@@ -49,7 +49,7 @@ class Set extends Iterable
   # Inplace and operation. x.__iand__(y) changes x
   __iand__: (set) ->
     deletedKeys = List()
-    for item in @value.value
+    for item in @value.keys()
       if not set.__contains__(item)
         deletedKeys.append(item)
     for deletedKey in deletedKeys.value
