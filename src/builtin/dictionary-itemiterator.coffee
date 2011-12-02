@@ -1,13 +1,13 @@
 class DictionaryItemIterator extends Iterator
   constructor: (dictionary) ->
-    @iterable = []
-    for key in dictionary
-      tuple = new Tuple(key, @dictionary[key])
-      iterable.push(tuple)
+    @iterable = List()
+    for key in dictionary.value
+      tuple = new Tuple(key, dictionary.__getitem__(key])
+      iterable.append(tuple)
     @index = 0
 
   next: ->
-    if @index >= @iterable.length
+    if @index >= len(@iterable)
       raise new StopIteration "StopIteration"
     else
-      return @iterable[@index++]
+      return @iterable.__getitem__(@index++)

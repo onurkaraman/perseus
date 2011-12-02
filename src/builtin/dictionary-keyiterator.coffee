@@ -4,7 +4,7 @@ class DictionaryKeyIterator extends Iterator
     @index = 0
 
   next: ->
-    if @index >= @iterable.length
+    if @index >= len(@iterable)
       raise new StopIteration "StopIteration"
     else
-      return @iterable[@index++]
+      return @iterable.__getitem__(@index++)
