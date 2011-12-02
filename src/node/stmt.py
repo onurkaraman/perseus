@@ -30,7 +30,7 @@ class ClassDef(Base):
 
 class Return(Base):
     def compile(self):
-        return 'return %s.value' % self.value
+        return 'return %s' % self.value
     
 class Delete(Base):
     def compile(self):
