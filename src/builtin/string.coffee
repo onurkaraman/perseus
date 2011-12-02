@@ -49,8 +49,12 @@ class Str extends Sequence
   expandtabs: -> return
   
   find: (sub, start = 0, end = @__len__()) ->
-    substr = @value.slice(start, end)
-    return substr.indexOf(sub)
+    index = @value.indexOf(sub)
+    withinBounds = start <= index < end
+    if withinBounds
+      return index
+    else
+      return -1
 
   format: -> return
   
