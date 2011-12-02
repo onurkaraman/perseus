@@ -32,16 +32,19 @@ class IfExp(Base):
 
 class Dict(Base):
     def compile(self):
-        return 'new Dict(%s)' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
+        return 'new Dict({%s})' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
 
 class Set(Base):
     def compile(self):
         return 'new Set(%s)' % self.elts
 
-# **To-do** Handle multi-comprehensions:
-# * seq1 = ['a', 'b', 'c']
-# * seq2 = [1, 2, 3]
-# * [(x, y) for x in seq1 for y in seq2]
+#**To-do**
+# 
+# Handle multi-comprehensions:
+#
+# * `seq1 = ['a', 'b', 'c']`
+# * `seq2 = [1, 2, 3]`
+# * `[(x, y) for x in seq1 for y in seq2]`
 class ListComp(Base):
     def compile(self):
         element = str(self.elt)
@@ -172,7 +175,9 @@ class Attribute(Base):
     def compile(self):
         return "%s.%s" % (self.value, self.attr)
 
-# **Consideration** ctx, Ellipsis, ExtSlice form of slice
+# **Consideration**
+#
+# ctx, Ellipsis, ExtSlice form of slice
 class Subscript(Base):
     def compile(self):
         return '%s.%s' % (self.value, self.slice)
