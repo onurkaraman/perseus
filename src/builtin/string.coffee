@@ -148,12 +148,13 @@ class Str extends Sequence
   istitle: ->
     words = @value.split ' '
     for word in words
-      firstChar = new String(word[0])
-      if not firstChar.isupper()
-        return false
+      firstChar = new Str word[0]
+      if not firstChar.isupper().value
+        return new Bool false
       if word.length is 1
         continue
-      if not firstChar.islower()
+      remaining = new Str word.slice(1)
+      if not remaining.islower().value
         return new Bool false
     return new Bool true
   
