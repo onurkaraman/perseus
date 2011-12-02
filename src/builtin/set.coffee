@@ -1,12 +1,13 @@
 # http://docs.python.org/library/stdtypes.html#set-types-set-frozenset
 class Set extends Iterable
   constructor: (iterable) ->
-    @value = Dict() # set just is a wrapped version of our own Dict class
-    for item in iterable?.value # Handles empty constructor call too
-      @value.__setitem__(item, true)
+    @value = new Dict() # set just is a wrapped version of our own Dict class
+    if iterable?
+      for item in iterable.value # Handles empty constructor call too
+        @value.__setitem__(item, true)
 
   __and__: (other) ->
-    intersect = List()
+    intersect = new List()
     intersect.append(item) for item in @value.value when other.__contains__(item)
     return new Set(intersect)
 
@@ -14,21 +15,21 @@ class Set extends Iterable
     (new TypeError "cannot compare sets using cmp()").raise()
 
   __contains__: (other) ->
-    return other in @value.value
+    return @value.__contains__(other)
 
   # Checks to see if this is equivalent to set
   __eq__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       if not @__contains__(item)
         return false
-    for item in @value.value
+    for item in @value.keys()
       if not set.__contains__(item)
         return false
     return true
 
   # Checks to see if this is a superset of set
   __ge__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       if not @__contains__(item)
         return false
     return true
@@ -40,15 +41,15 @@ class Set extends Iterable
   __gt__: (set) ->
     if @__eq__(set)
       return false
-    for item in set.value
+    for item in set.value.keys()
       if not @__contains__(item)
         return false
     return true
   
   # Inplace and operation. x.__iand__(y) changes x
   __iand__: (set) ->
-    deletedKeys = List()
-    for item in @value.value
+    deletedKeys = new List()
+    for item in @value.keys()
       if not set.__contains__(item)
         deletedKeys.append(item)
     for deletedKey in deletedKeys.value
@@ -60,13 +61,13 @@ class Set extends Iterable
   
   # Inplace set union
   __ior__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       @add(item)
     return @
   
   # Inplace set difference
   __isub__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       if @__contains__(item)
         @value.pop(item)
     return @
@@ -80,13 +81,13 @@ class Set extends Iterable
     diff2 = set.__sub__(xor)
     xor = diff1.__or__(diff2)
     @clear()
-    for item in xor.value
+    for item in xor.value.keys()
         @add(item)
     return @
 
   # Checks to see if this is a subset of set
   __le__: (set) ->
-    for item in @value.value
+    for item in @value.keys()
       if not set.__contains__(item)
         return false
     return true
@@ -98,7 +99,7 @@ class Set extends Iterable
   __lt__: (set) ->
     if @__eq__(set)
       return false
-    for item in @value.value
+    for item in @value.keys()
       if not set.__contains__(item)
         return false
     return true
@@ -110,8 +111,8 @@ class Set extends Iterable
   # Returns a new Set containing items from this or set
   __or__: (set) ->
     union = List()
-    union.append(item) for item in @value.value
-    union.append(item) for item in set.value
+    union.append(item) for item in @value.keys()
+    union.append(item) for item in set.value.keys()
     return new Set(union)
 
   # Same as __and__ since intersection is symmetric
@@ -142,7 +143,7 @@ class Set extends Iterable
   # Subtract new set containing this - set
   __sub__: (set) ->
     difference = @copy()
-    for item in set.value
+    for item in set.value.keys()
       if @__contains__(item)
         difference.value.pop(item)
     return difference
@@ -155,7 +156,7 @@ class Set extends Iterable
     return xor
   
   add: (element) ->
-    @value.__setitem__(item, true)
+    @value.__setitem__(element, true)
     return
     
   clear: ->

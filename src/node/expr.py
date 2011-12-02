@@ -4,15 +4,15 @@ import helper
 class BoolOp(Base):
     def compile(self):
         return  (' %s ' % self.op).join(self.values)
-    
+
 class BinOp(Base):
     def compile(self):
         return '%s.%s(%s)' % (self.left, self.op, self.right)
-    
+
 class UnaryOp(Base):
     def compile(self):
         return '%s.%s()' % (self.operand, self.op)
-    
+
 class Lambda(Base):
     def compile(self):
         return helper.format(
@@ -20,16 +20,16 @@ class Lambda(Base):
             function(%(args)s) {
                 return %(body)s;
             }
-            ''', self       
+            ''', self
         )
-        
+
 class IfExp(Base):
     def compile(self):
         condition = self.test.compile()
         ifBody = self.body.compile()
         elseBody = self.orelse.compile()
         return '%s ? %s : %s' % (condition, ifBody, elseBody)
-    
+
 class Dict(Base):
     def compile(self):
         return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
@@ -62,7 +62,7 @@ class ListComp(Base):
 class SetComp(Base):
     def compile(self):
         pass
-    
+
 class DictComp(Base):
     def compile(self):
         keyElement = str(self.key)
@@ -121,7 +121,7 @@ class DictComp(Base):
                 })()
                 ''', self
             )
-        
+
 # **Unimplemented**
 class GeneratorExpr(Base):
     def compile(self):
@@ -131,7 +131,7 @@ class GeneratorExpr(Base):
 class Yield(Base):
     def compile(self):
         pass
-    
+
 class Compare(Base):
     def compile(self):
         allComparators = [self.left.compile()]
@@ -144,20 +144,20 @@ class Call(Base):
     def compile(self):
         argument = ', '.join(arg for arg in self.args)
         return '%s(%s)' % (self.func, argument)
-    
+
 # **Unimplemented**
 class Repr(Base):
     def compile(self):
         pass
-    
+
 class Num(Base):
     def compile(self):
         value = self.n
         # Floats and integers have different meanings for division!
         if ('.' in str(value)):
-            return 'new Number(%s)' % value
+            return 'new Num(%s)' % value
         else:
-            return 'new Integer(%s)' % value
+            return 'new Int(%s)' % value
 
 class Str(Base):
     def compile(self):
@@ -166,17 +166,17 @@ class Str(Base):
             stringValue = "'%s'" % stringValue
         else:
             stringValue = '"%s"' % stringValue
-        return 'new String(%s)' % stringValue
-    
+        return 'new Str(%s)' % stringValue
+
 class Attribute(Base):
     def compile(self):
         return "%s.%s" % (self.value, self.attr)
-    
+
 # **Consideration** ctx, Ellipsis, ExtSlice form of slice
 class Subscript(Base):
     def compile(self):
         return '%s.%s' % (self.value, self.slice)
-    
+
 class Name(Base):
     def compile(self):
         # Keywords in Python, such as None, True, and False, are parsed as
@@ -192,7 +192,7 @@ class Name(Base):
             pass
 
         return '%s' % self.id
-    
+
 class List(Base):
     def compile(self):
         return 'new List([%s])' % ', '.join(self.elts)

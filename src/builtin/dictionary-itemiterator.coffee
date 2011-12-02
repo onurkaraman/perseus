@@ -7,7 +7,7 @@ class DictionaryItemIterator extends Iterator
     @index = 0
 
   next: ->
-    if @index >= @iterable.__len__()
+    if @index >= @iterable.length
       (new StopIteration "StopIteration").raise()
     else
-      return @iterable.index(@index++)
+      return @iterable[@index++]

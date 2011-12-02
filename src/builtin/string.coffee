@@ -1,5 +1,6 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
 class Str extends Sequence
+
   __contains__: (operand) ->
     if Helper::isSubInstance(operand, @)
       return @value.indexOf(operand) > -1
@@ -16,7 +17,7 @@ class Str extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = Str('').__mul__(Math.floor(delta, 2))
+    pad = (new Str('')).__mul__(Math.floor(delta, 2))
     if delta % 2 == 0
       return pad + @value + pad
     else
@@ -24,13 +25,15 @@ class Str extends Sequence
 
   count: (sub, start = 0, end = @__len__()) ->
     count = 0
-    curIndex = start
-    while curIndex < end
-      substringIndex = @value.indexOf(sub, curIndex)
+    curIndex = 0
+    slicedStr = @value.slice(start, end)
+    substringLen = (new Str(sub)).__len__()
+    while curIndex < slicedStr.length
+      substringIndex = slicedStr.indexOf(sub, curIndex)
       if substringIndex < 0
         break
       else
-        curIndex = substringIndex + Str(sub).__len__()
+        curIndex = substringIndex + substringLen
         count++
     return count
   
@@ -46,8 +49,12 @@ class Str extends Sequence
   expandtabs: -> return
   
   find: (sub, start = 0, end = @__len__()) ->
-    substr = @value.slice(start, end)
-    return substr.indexOf(sub)
+    index = @value.indexOf(sub)
+    withinBounds = start <= index < end
+    if withinBounds
+      return index
+    else
+      return -1
 
   format: -> return
   
@@ -64,8 +71,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in alnums)
+      for c in @value
+        if not (c in alnums)
           return false
       return true
 
@@ -74,8 +81,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in alphas)
+      for c in @value
+        if not (c in alphas)
           return false
       return true
   
@@ -84,8 +91,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in digits)
+      for c in @value
+        if not (c in digits)
           return false
       return true
 
@@ -94,8 +101,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in lowers)
+      for c in @value
+        if not (c in lowers)
           return false
       return true
   
@@ -104,8 +111,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in spaces)
+      for c in @value
+        if not (c in spaces)
           return false
       return true
 
@@ -116,11 +123,12 @@ class Str extends Sequence
   istitle: ->
     words = @value.split ' '
     for word in words
-      if not Str(word[0]).isupper()
+      firstChar = new String(word[0])
+      if not firstChar.isupper()
         return false
       if word.length == 1
         continue
-      if not Str(word[0]).islower()
+      if not firstChar.islower()
         return false
     return true
   
@@ -129,8 +137,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in uppers)
+      for c in @value
+        if not (c in uppers)
           return false
       return true
 
@@ -140,7 +148,7 @@ class Str extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = Str('').__mul__(delta)
+    pad = (new Str('')).__mul__(delta)
     return @value + pad    
   
   lower: ->
@@ -178,7 +186,7 @@ class Str extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = Str('').__mul__(delta)
+    pad = (new Str('')).__mul__(delta)
     return pad + @value
 
   rpartition: (sep) ->
@@ -201,19 +209,20 @@ class Str extends Sequence
 
   swapcase: ->
     result = ''
-    for char in @value
-      if Str(char).islower()
-        ascii = char.charCodeAt(0)
+    for c in @value
+      cStr = new Str(c)
+      if cStr.islower()
+        ascii = c.charCodeAt(0)
         upperCaseAscii = ascii - 32
         upperCaseChar = String.fromCharCode(upperCaseAscii)
         result += upperCaseChar
-      else if Str(char).isupper()
-        ascii = char.charCodeAt(0)
+      else if cStr.isupper()
+        ascii = c.charCodeAt(0)
         lowerCaseAscii = ascii + 32
         lowerCaseChar = String.fromCharCode(lowerCaseAscii)
         result += lowerCaseChar
       else
-        result += char
+        result += c
     return result
 
   title: -> return
@@ -225,11 +234,12 @@ class Str extends Sequence
   zfill: (width) ->
     if width <= @__len__()
       return @value
+    zeroStr = new Str('0')
     if @value.__len__() == 0
-      return Str('0').__mul__(width)
+      return zeroStr.__mul__(width)
     zeroCount = width - @__len__()
     if @value[0] == '-'
       remaining = @value.slice(1)
-      return '-' + Str('0').__mul__(zeroCount) + remaining
+      return '-' + zeroStr.__mul__(zeroCount) + remaining
     else
-      return Str('0').__mul__(zeroCount) + remaining
+      return zeroStr.__mul__(zeroCount) + remaining
