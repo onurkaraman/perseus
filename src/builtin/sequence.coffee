@@ -14,11 +14,11 @@ class Sequence extends Primitive
     
   __min__: ->
     @value.reduce (a, b) ->
-      a if a <= b else b
+      a if a.__le__(b).value is true else b
       
   __max__: ->
     @value.reduce (a, b) ->
-      a if a >= b else b
+      a if a.__ge__(b).value is true else b
   
   __mul__: (operand) ->
     if Int in operand.__class__().__bases__()
