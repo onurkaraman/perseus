@@ -1,7 +1,7 @@
 class ListReverseIterator extends Iterator
   constructor: (list) ->
     @iterable = list.copy()
-    @index = len(list) - 1
+    @index = len(list).value - 1
 
   next: ->
     if @index < 0

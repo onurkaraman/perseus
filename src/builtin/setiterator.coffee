@@ -4,7 +4,7 @@ class SetIterator extends Iterator
     @index = 0
 
   next: ->
-    if @index >= @iterable.length
+    if @index >= len(@iterable).value
       raise new StopIteration "StopIteration"
     else
-      return @iterable[@index++]
+      return @iterable.__getitem__(@index++)
