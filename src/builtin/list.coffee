@@ -1,4 +1,10 @@
 class List extends Sequence
+  constructor: (elements) ->
+    if not elements?
+      @value = []
+    else
+      @value = elements
+  
   append: (element) ->
     @value.push(element)
     return
@@ -8,16 +14,21 @@ class List extends Sequence
     return
     
   insert: (index, element) ->
-    @value = @value.splice(index, 0, element)
+    @value.splice(index, 0, element)
     return
     
   remove: (element) ->
     @value = @pop(@index(element))
     return
     
-  pop: (index)  ->
-    @value = @value.splice(index, 1)
-    return
+  pop: (index = @__len__() - 1) ->
+    if @__len__() == 0
+      (new IndexError "pop from empty list").raise()
+    else if index < 0 or index >= @__len__()
+      (new IndexError "pop index out of range").raise()
+    else
+      [removed] = @value.splice(index, 1) # Javascript returns array. Just want element
+      return removed
     
   sort: ->
     @value = 

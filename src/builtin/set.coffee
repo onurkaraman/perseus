@@ -3,12 +3,12 @@ class Set extends Iterable
   constructor: (iterable) ->
     @value = new Dict() # set just is a wrapped version of our own Dict class
     if iterable?
-      for item in iterable.value # Handles empty constructor call too
+      for item in iterable # Handles empty constructor call too
         @value.__setitem__(item, true)
 
   __and__: (other) ->
-    intersect = new List()
-    intersect.append(item) for item in @value.value when other.__contains__(item)
+    intersect = []
+    intersect.push(item) for item in @value.value when other.__contains__(item)
     return new Set(intersect)
 
   __cmp__: (set) ->
@@ -48,11 +48,11 @@ class Set extends Iterable
   
   # Inplace and operation. x.__iand__(y) changes x
   __iand__: (set) ->
-    deletedKeys = new List()
+    deletedKeys = []
     for item in @value.keys()
       if not set.__contains__(item)
-        deletedKeys.append(item)
-    for deletedKey in deletedKeys.value
+        deletedKeys.push(item)
+    for deletedKey in deletedKeys
       @value.pop(deletedKey)
     return @
   
@@ -110,9 +110,9 @@ class Set extends Iterable
 
   # Returns a new Set containing items from this or set
   __or__: (set) ->
-    union = List()
-    union.append(item) for item in @value.keys()
-    union.append(item) for item in set.value.keys()
+    union = []
+    union.push(item) for item in @value.keys()
+    union.push(item) for item in set.value.keys()
     return new Set(union)
 
   # Same as __and__ since intersection is symmetric
@@ -164,7 +164,8 @@ class Set extends Iterable
   
   # Returns a shallow copy of this
   copy: ->
-    return new Set(@)
+    keys = @keys()
+    return new Set(keys)
   
   # Returns a new set containing items in this but not any set in others
   difference: (others...) ->
