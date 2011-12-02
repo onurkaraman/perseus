@@ -138,7 +138,7 @@ class Compare(Base):
         allComparators.extend(self.comparators[:])
         leftComparators = allComparators[:-1]
         rightComparators = allComparators[1:]
-        return ' && '.join('(%s %s %s)' % (left, op, right) for (left, op, right) in zip(leftComparators, self.ops, rightComparators))
+        return ' && '.join('%s.%s(%s)' % (left, op, right) for (left, op, right) in zip(leftComparators, self.ops, rightComparators))
 
 class Call(Base):
     def compile(self):
