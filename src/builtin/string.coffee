@@ -35,7 +35,7 @@ class Str extends Sequence
       .__mul__(
         new Int Math.floor(delta, 2))
       .value
-    if delta % 2 == 0
+    if delta % 2 is 0
       new (type(@)) pad + @value + pad
     else
       new (type(@)) pad + @value + pad + fillchar
@@ -63,7 +63,7 @@ class Str extends Sequence
     index = slicedStr.lastIndexOf(suffix)
     if index < 0
       return false 
-    return (index + suffix.length) == end
+    return (index + suffix.length) is end
 
   expandtabs: -> return
   
@@ -71,23 +71,23 @@ class Str extends Sequence
     index = @value.indexOf(sub)
     withinBounds = start <= index < end
     if withinBounds
-      return index
+      return new Int index
     else
-      return -1
+      return new Int -1
 
   format: -> return
   
-  index: (sub, start = 0, end = @__len__()) ->
+  index: (sub, start = 0, end = @__len__().value) ->
     substr = @value.slice(start, end)
     index = substr.indexOf(sub)
-    if index == -1
+    if index is -1
       raise new ValueError "substring not found"
     else
-      return index
+      return new Int index
 
   isalnum: ->
     alnums = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    if @__len__() == 0
+    if @__len__().value is 0
       return false
     else
       for c in @value
@@ -97,7 +97,7 @@ class Str extends Sequence
 
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    if @__len__() == 0
+    if @__len__().value is 0
       return false
     else
       for c in @value
@@ -107,7 +107,7 @@ class Str extends Sequence
   
   isdigit: ->
     digits = '0123456789'
-    if @__len__() == 0
+    if @__len__().value is 0
       return false
     else
       for c in @value
@@ -120,7 +120,7 @@ class Str extends Sequence
   islower: ->
     lowers = 'abcdefghijklmnopqrstuvwxyz'
     uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    if @__len__() == 0
+    if @__len__().value is 0
       return false
     else
       containsLower = false
@@ -133,7 +133,7 @@ class Str extends Sequence
   
   isspace: ->
     spaces = '\t\n\x0b\x0c\r '
-    if @__len__() == 0
+    if @__len__().value is 0
       return false
     else
       for c in @value
@@ -151,7 +151,7 @@ class Str extends Sequence
       firstChar = new String(word[0])
       if not firstChar.isupper()
         return false
-      if word.length == 1
+      if word.length is 1
         continue
       if not firstChar.islower()
         return false
@@ -162,7 +162,7 @@ class Str extends Sequence
   isupper: ->
     lowers = 'abcdefghijklmnopqrstuvwxyz'
     uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    if @__len__() == 0
+    if @__len__().value == 0
       return false
     else
       containsUpper = false
@@ -176,14 +176,14 @@ class Str extends Sequence
   join: (iterable) -> return
 
   ljust: (width, fillchar = ' ') ->
-    if width <= @__len__()
-      return @value
-    delta = width - @__len__()
-    pad = (new Str('')).__mul__(delta)
-    return @value + pad
+    if width <= @__len__().value
+      return @
+    delta = width - @__len__().value
+    pad = (new Str('')).__mul__(delta).value
+    return new Str(@value + pad)
   
   lower: ->
-    return @value.toLowerCase()
+    return new Str(@value.toLowerCase())
 
   lstrip: (chars) -> return
 
@@ -202,23 +202,23 @@ class Str extends Sequence
     else
       return @split(old).join(replacement)
 
-  rfind: (sub, start = 0, end = @__len__()) ->
+  rfind: (sub, start = 0, end = @__len__().value) ->
     lastIndex = @__slice__(start, end).lastIndexOf(sub)
     return lastIndex
 
-  rindex: (sub, start = 0, end = @__len__()) ->
+  rindex: (sub, start = 0, end = @__len__().value) ->
     lastIndex = substr.lastIndexOf(sub)
-    if lastIndex == -1
+    if lastIndex is -1
       raise new ValueError "substring not found"
     else
-      return lastIndex
+      return new Int lastIndex
       
   rjust: (width, fillchar = ' ') ->
-    if width <= @__len__()
+    if width <= @__len__().value
       return @value
-    delta = width - @__len__()
-    pad = (new Str('')).__mul__(delta)
-    return pad + @value
+    delta = width - @__len__().value
+    pad = (new Str('')).__mul__(delta).value
+    return new Str(pad + @value)
 
   rpartition: (sep) ->
     splitValues = @rsplit(sep, 1)
@@ -233,7 +233,7 @@ class Str extends Sequence
   rstrip: -> return
   split: -> return
   splitlines: -> return
-  startswith: (prefix, start = 0, end = @__len__()) ->
+  startswith: (prefix, start = 0, end = @__len__().value) ->
     return @value.slice(start, end).indexOf(prefix) == 0
 
   strip: -> return
@@ -254,23 +254,23 @@ class Str extends Sequence
         result += lowerCaseChar
       else
         result += c
-    return result
+    return new Str result
 
   title: -> return
   translate: -> return
 
   upper: ->
-    return @value.toUpperCase()
+    return new Str @value.toUpperCase()
   
   zfill: (width) ->
-    if width <= @__len__()
-      return @value
+    if width.value <= @__len__().value
+      return @
     zeroStr = new Str('0')
-    if @value.length == 0
+    if @__len__().value is 0
       return zeroStr.__mul__(width)
-    zeroCount = width - @__len__()
-    if @value[0] == '-'
+    zeroCount = width.value - @__len__().value
+    if @value[0] is '-'
       remaining = @value.slice(1)
-      return '-' + zeroStr.__mul__(zeroCount) + remaining
+      return new Str '-' + zeroStr.__mul__(zeroCount).value + remaining
     else
-      return zeroStr.__mul__(zeroCount) + remaining
+      return new Str zeroStr.__mul__(zeroCount).value + remaining
