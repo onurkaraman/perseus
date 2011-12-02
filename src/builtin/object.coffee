@@ -1,19 +1,19 @@
 class Obj
   raiseUnaryException = (operator, operand) ->
-    operandType = operand.__class__.__name__
+    operandType = type(operand).__name__()
     raise new TypeError "bad operand type for #{operator}: '#{operandType}'"
     
   raiseBinaryException = (operator, operand1, operand2) ->
-    operand1Type = operand1.__class__.__name__
-    operand2Type = operand2.__class__.__name__
+    operand1Type = type(operand1).__name__()
+    operand2Type = type(operand2).__name__()
     raise new TypeError "unsupported operand type(s) for #{operator}: '#{operand1Type}' and '#{operand2Type}'"
     
   raiseNotIterableException = (operand) ->
-    operandType = operand.__class__.__name__
+    operandType = type(operand).__name__()
     raise new TypeError "argument of type '#{type}' is not iterable"
     
   raiseNotSubscriptableException = (operand) ->
-    operandType = operand.__class__.__name__
+    operandType = type(operand).__name__()
     raise new TypeError "argument of type '#{type}' is not subscriptable"
   
   # __bases__ returns a tuple of classes it inherits from
@@ -80,8 +80,7 @@ class Obj
   __is_not__: ->
  
   __contains__: ->
-    type = @__class__.__name__
-    raise new TypeError "argument of type '#{type}' is not iterable"
+s    raise new TypeError "argument of type '#{type(@).__name__()}' is not iterable"
   
   __abs__: ->
     raiseUnaryException('abs()', @)
@@ -172,8 +171,7 @@ class Obj
     raiseNotIterableException(@)
     
   __len__: ->
-    type = @__class__.__name__
-    raise new TypeError "object of type '#{type}' has no len()"
+    raise new TypeError "object of type '#{type(@).__name__()}' has no len()"
     
   __min__: ->
     raiseNotIterableException(@)
