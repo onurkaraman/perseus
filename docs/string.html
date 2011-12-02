@@ -1,140 +1,176 @@
-<!DOCTYPE html>  <html> <head>   <title>string.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="dictionary-keyiterator.html">                 dictionary-keyiterator.coffee               </a>                                           <a class="source" href="exceptions.html">                 exceptions.coffee               </a>                                           <a class="source" href="functions.html">                 functions.coffee               </a>                                           <a class="source" href="helper.html">                 helper.coffee               </a>                                           <a class="source" href="integer.html">                 integer.coffee               </a>                                           <a class="source" href="iterable.html">                 iterable.coffee               </a>                                           <a class="source" href="iterator.html">                 iterator.coffee               </a>                                           <a class="source" href="list.html">                 list.coffee               </a>                                           <a class="source" href="listiterator.html">                 listiterator.coffee               </a>                                           <a class="source" href="listreverseiterator.html">                 listreverseiterator.coffee               </a>                                           <a class="source" href="number.html">                 number.coffee               </a>                                           <a class="source" href="object.html">                 object.coffee               </a>                                           <a class="source" href="primitive.html">                 primitive.coffee               </a>                                           <a class="source" href="sequence.html">                 sequence.coffee               </a>                                           <a class="source" href="set.html">                 set.coffee               </a>                                           <a class="source" href="setiterator.html">                 setiterator.coffee               </a>                                           <a class="source" href="string.html">                 string.coffee               </a>                                           <a class="source" href="__init__.html">                 __init__.py               </a>                                           <a class="source" href="alias.html">                 alias.py               </a>                                           <a class="source" href="arguments.html">                 arguments.py               </a>                                           <a class="source" href="base.html">                 base.py               </a>                                           <a class="source" href="block.html">                 block.py               </a>                                           <a class="source" href="boolop.html">                 boolop.py               </a>                                           <a class="source" href="cmpop.html">                 cmpop.py               </a>                                           <a class="source" href="comprehension.html">                 comprehension.py               </a>                                           <a class="source" href="excepthandler.html">                 excepthandler.py               </a>                                           <a class="source" href="expr.html">                 expr.py               </a>                                           <a class="source" href="expr_context.html">                 expr_context.py               </a>                                           <a class="source" href="helper.html">                 helper.py               </a>                                           <a class="source" href="keyword.html">                 keyword.py               </a>                                           <a class="source" href="mod.html">                 mod.py               </a>                                           <a class="source" href="operator.html">                 operator.py               </a>                                           <a class="source" href="slice.html">                 slice.py               </a>                                           <a class="source" href="stmt.html">                 stmt.py               </a>                                           <a class="source" href="typing.html">                 typing.py               </a>                                           <a class="source" href="unaryop.html">                 unaryop.py               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               string.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>http://docs.python.org/library/stdtypes.html#string-methods</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nb">String</span> <span class="k">extends</span> <span class="nx">Sequence</span>
+<!DOCTYPE html>  <html> <head>   <title>string.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="bool.html">                 bool.coffee               </a>                                           <a class="source" href="dict.html">                 dict.coffee               </a>                                           <a class="source" href="dictionary-itemiterator.html">                 dictionary-itemiterator.coffee               </a>                                           <a class="source" href="dictionary-keyiterator.html">                 dictionary-keyiterator.coffee               </a>                                           <a class="source" href="dictionary-valueiterator.html">                 dictionary-valueiterator.coffee               </a>                                           <a class="source" href="exceptions.html">                 exceptions.coffee               </a>                                           <a class="source" href="float.html">                 float.coffee               </a>                                           <a class="source" href="functions.html">                 functions.coffee               </a>                                           <a class="source" href="helper.html">                 helper.coffee               </a>                                           <a class="source" href="integer.html">                 integer.coffee               </a>                                           <a class="source" href="iterable.html">                 iterable.coffee               </a>                                           <a class="source" href="iterator.html">                 iterator.coffee               </a>                                           <a class="source" href="list.html">                 list.coffee               </a>                                           <a class="source" href="listiterator.html">                 listiterator.coffee               </a>                                           <a class="source" href="listreverseiterator.html">                 listreverseiterator.coffee               </a>                                           <a class="source" href="mapping.html">                 mapping.coffee               </a>                                           <a class="source" href="number.html">                 number.coffee               </a>                                           <a class="source" href="object.html">                 object.coffee               </a>                                           <a class="source" href="primitive.html">                 primitive.coffee               </a>                                           <a class="source" href="sequence.html">                 sequence.coffee               </a>                                           <a class="source" href="set.html">                 set.coffee               </a>                                           <a class="source" href="setiterator.html">                 setiterator.coffee               </a>                                           <a class="source" href="string.html">                 string.coffee               </a>                                           <a class="source" href="__init__.html">                 __init__.py               </a>                                           <a class="source" href="alias.html">                 alias.py               </a>                                           <a class="source" href="arguments.html">                 arguments.py               </a>                                           <a class="source" href="base.html">                 base.py               </a>                                           <a class="source" href="boolop.html">                 boolop.py               </a>                                           <a class="source" href="cmpop.html">                 cmpop.py               </a>                                           <a class="source" href="comprehension.html">                 comprehension.py               </a>                                           <a class="source" href="excepthandler.html">                 excepthandler.py               </a>                                           <a class="source" href="expr.html">                 expr.py               </a>                                           <a class="source" href="expr_context.html">                 expr_context.py               </a>                                           <a class="source" href="helper.html">                 helper.py               </a>                                           <a class="source" href="keyword.html">                 keyword.py               </a>                                           <a class="source" href="mod.html">                 mod.py               </a>                                           <a class="source" href="operator.html">                 operator.py               </a>                                           <a class="source" href="slice.html">                 slice.py               </a>                                           <a class="source" href="stmt.html">                 stmt.py               </a>                                           <a class="source" href="typing.html">                 typing.py               </a>                                           <a class="source" href="unaryop.html">                 unaryop.py               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               string.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>http://docs.python.org/library/stdtypes.html#string-methods</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nx">Str</span> <span class="k">extends</span> <span class="nx">Sequence</span>
+  <span class="nv">constructor: </span><span class="nf">(@value = &#39;&#39;) -&gt;</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p><strong>Consideration</strong> Overriding Sequence's inherited <strong>add</strong> smells of bad
+design.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">__add__: </span><span class="nf">(operand) -&gt;</span>
+    <span class="k">if</span> <span class="nx">issubinstance</span> <span class="nx">operand</span><span class="p">,</span> <span class="err">@</span>
+      <span class="k">new</span> <span class="p">(</span><span class="nx">type</span><span class="p">(</span><span class="err">@</span><span class="p">))</span> <span class="nx">@value</span> <span class="o">+</span> <span class="nx">operand</span><span class="p">.</span><span class="nx">value</span>
+    <span class="k">else</span>
+      <span class="k">super</span> <span class="nx">operand</span>
+  
   <span class="nv">__contains__: </span><span class="nf">(operand) -&gt;</span>
-    <span class="k">if</span> <span class="nx">isSubInstance</span><span class="p">(</span><span class="nx">operand</span><span class="p">,</span> <span class="err">@</span><span class="p">)</span>
-      <span class="k">return</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="nx">issubinstance</span> <span class="nx">operand</span><span class="p">,</span> <span class="err">@</span>
+      <span class="k">new</span> <span class="nx">Bool</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">operand</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span>
     <span class="k">else</span>
       <span class="k">super</span> <span class="nx">operand</span>
   
   <span class="nv">capitalize: </span><span class="o">-&gt;</span>
-    <span class="k">if</span> <span class="nx">@__len__</span> <span class="o">is</span> <span class="mi">0</span>
-      <span class="k">return</span> <span class="nx">@value</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">is</span> <span class="mi">0</span>
+      <span class="err">@</span>
     <span class="k">else</span>
-      <span class="k">return</span> <span class="nx">@value</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="err">@</span><span class="p">.</span><span class="nx">lower</span><span class="p">().</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">new</span> <span class="p">(</span><span class="nx">type</span><span class="p">(</span><span class="err">@</span><span class="p">))</span> <span class="nx">@value</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-  <span class="nv">center: </span><span class="nf">(width, fillchar = &quot; &quot;) -&gt;</span>
-    <span class="k">if</span> <span class="nx">width</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">()</span>
-      <span class="k">return</span> <span class="nx">@value</span>
-    <span class="nv">delta = </span><span class="nx">width</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">()</span>
-    <span class="nv">pad = </span><span class="nb">String</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">delta</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nx">delta</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
-      <span class="k">return</span> <span class="nx">pad</span> <span class="o">+</span> <span class="nx">@value</span> <span class="o">+</span> <span class="nx">pad</span>
+  <span class="nv">center: </span><span class="nf">(width, fillchar = new Str &#39; &#39;) -&gt;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">type</span> <span class="nx">width</span><span class="p">)</span> <span class="o">isnt</span> <span class="nx">Int</span>
+      <span class="nx">raise</span> <span class="k">new</span> <span class="nx">TypeError</span> <span class="s1">&#39;an integer is required&#39;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">type</span> <span class="nx">fillchar</span><span class="p">)</span> <span class="o">isnt</span> <span class="nx">Str</span>
+      <span class="nx">raise</span> <span class="k">new</span> <span class="nx">TypeError</span> <span class="s1">&#39;must be char, not #{type(fillchar).__name__()}&#39;</span>
+    <span class="k">if</span> <span class="nx">width</span><span class="p">.</span><span class="nx">value</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
+      <span class="err">@</span>
+    <span class="nv">delta = </span><span class="nx">width</span><span class="p">.</span><span class="nx">value</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
+    <span class="nv">pad = </span>
+      <span class="nx">fillchar</span>
+      <span class="p">.</span><span class="nx">__mul__</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">Int</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">delta</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">value</span>
+    <span class="k">if</span> <span class="nx">delta</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">is</span> <span class="mi">0</span>
+      <span class="k">new</span> <span class="p">(</span><span class="nx">type</span><span class="p">(</span><span class="err">@</span><span class="p">))</span> <span class="nx">pad</span> <span class="o">+</span> <span class="nx">@value</span> <span class="o">+</span> <span class="nx">pad</span>
     <span class="k">else</span>
-      <span class="k">return</span> <span class="nx">pad</span> <span class="o">+</span> <span class="nx">@value</span> <span class="o">+</span> <span class="nx">pad</span> <span class="o">+</span> <span class="nx">fillchar</span>
+      <span class="k">new</span> <span class="p">(</span><span class="nx">type</span><span class="p">(</span><span class="err">@</span><span class="p">))</span> <span class="nx">pad</span> <span class="o">+</span> <span class="nx">@value</span> <span class="o">+</span> <span class="nx">pad</span> <span class="o">+</span> <span class="nx">fillchar</span>
 
-  <span class="nv">count: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">())</span> <span class="o">-&gt;</span>
+  <span class="nv">count: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span><span class="p">)</span> <span class="o">-&gt;</span>
     <span class="nv">count = </span><span class="mi">0</span>
-    <span class="nv">curIndex = </span><span class="nx">start</span>
-    <span class="k">while</span> <span class="nx">curIndex</span> <span class="o">&lt;</span> <span class="nx">end</span>
-      <span class="nv">substringIndex = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">curIndex</span><span class="p">)</span>
+    <span class="nv">curIndex = </span><span class="mi">0</span>
+    <span class="nv">slicedStr = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">)</span>
+    <span class="nv">substringLen = </span><span class="p">(</span><span class="k">new</span> <span class="nx">Str</span> <span class="nx">sub</span><span class="p">).</span><span class="nx">__len__</span><span class="p">().</span><span class="nx">value</span>
+    <span class="k">while</span> <span class="nx">curIndex</span> <span class="o">&lt;</span> <span class="nx">slicedStr</span><span class="p">.</span><span class="nx">length</span>
+      <span class="nv">substringIndex = </span><span class="nx">slicedStr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nx">curIndex</span><span class="p">)</span>
       <span class="k">if</span> <span class="nx">substringIndex</span> <span class="o">&lt;</span> <span class="mi">0</span>
         <span class="k">break</span>
       <span class="k">else</span>
-        <span class="nv">curIndex = </span><span class="nx">substringIndex</span> <span class="o">+</span> <span class="nb">String</span><span class="p">(</span><span class="nx">sub</span><span class="p">).</span><span class="nx">__len__</span><span class="p">()</span>
+        <span class="nv">curIndex = </span><span class="nx">substringIndex</span> <span class="o">+</span> <span class="nx">substringLen</span>
         <span class="nx">count</span><span class="o">++</span>
-    <span class="k">return</span> <span class="nx">count</span>
+    <span class="k">new</span> <span class="nx">Int</span> <span class="nx">count</span>
   
-  <span class="nv">decode: </span><span class="o">-&gt;</span> <span class="k">return</span>
-  <span class="nv">encode: </span><span class="o">-&gt;</span> <span class="k">return</span>
-  <span class="nv">endswith: </span><span class="nf">(suffix, start, end) -&gt;</span>
-    <span class="k">return</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">).</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="nx">suffix</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="nv">decode: </span><span class="o">-&gt;</span>
+    
+  <span class="nv">encode: </span><span class="o">-&gt;</span>
+    
+  <span class="nv">endswith: </span><span class="p">(</span><span class="nx">suffix</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nv">slicedStr = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">)</span>
+    <span class="nv">index = </span><span class="nx">slicedStr</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="nx">suffix</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">index</span> <span class="o">&lt;</span> <span class="mi">0</span>
+      <span class="k">return</span> <span class="kc">false</span> 
+    <span class="k">return</span> <span class="p">(</span><span class="nx">index</span> <span class="o">+</span> <span class="nx">suffix</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="o">is</span> <span class="nx">end</span>
 
   <span class="nv">expandtabs: </span><span class="o">-&gt;</span> <span class="k">return</span>
   
-  <span class="nv">find: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">())</span> <span class="o">-&gt;</span>
-    <span class="nv">substr = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nx">substr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">sub</span><span class="p">)</span>
+  <span class="nv">find: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nv">index = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">sub</span><span class="p">)</span>
+    <span class="nv">withinBounds = </span><span class="nx">start</span> <span class="o">&lt;=</span> <span class="nx">index</span> <span class="o">&lt;</span> <span class="nx">end</span>
+    <span class="k">if</span> <span class="nx">withinBounds</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">Int</span> <span class="nx">index</span>
+    <span class="k">else</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">Int</span> <span class="o">-</span><span class="mi">1</span>
 
   <span class="nv">format: </span><span class="o">-&gt;</span> <span class="k">return</span>
   
-  <span class="nv">index: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">())</span> <span class="o">-&gt;</span>
+  <span class="nv">index: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span><span class="p">)</span> <span class="o">-&gt;</span>
     <span class="nv">substr = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">)</span>
     <span class="nv">index = </span><span class="nx">substr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">sub</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nx">index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
-      <span class="p">(</span><span class="k">new</span> <span class="nx">ValueError</span> <span class="s2">&quot;substring not found&quot;</span><span class="p">).</span><span class="nx">raise</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">index</span> <span class="o">is</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="nx">raise</span> <span class="k">new</span> <span class="nx">ValueError</span> <span class="s2">&quot;substring not found&quot;</span>
     <span class="k">else</span>
-      <span class="k">return</span> <span class="nx">index</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">Int</span> <span class="nx">index</span>
 
   <span class="nv">isalnum: </span><span class="o">-&gt;</span>
     <span class="nv">alnums = </span><span class="s1">&#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#39;</span>
-    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">is</span> <span class="mi">0</span>
       <span class="k">return</span> <span class="kc">false</span>
     <span class="k">else</span>
-      <span class="k">for</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">@value</span>
-        <span class="k">if</span> <span class="o">not</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">alnums</span>
+      <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">@value</span>
+        <span class="k">if</span> <span class="o">not</span> <span class="p">(</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">alnums</span><span class="p">)</span>
           <span class="k">return</span> <span class="kc">false</span>
       <span class="k">return</span> <span class="kc">true</span>
 
   <span class="nv">isalpha: </span><span class="o">-&gt;</span>
     <span class="nv">alphas = </span><span class="s1">&#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
-    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">is</span> <span class="mi">0</span>
       <span class="k">return</span> <span class="kc">false</span>
     <span class="k">else</span>
-      <span class="k">for</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">@value</span>
-        <span class="k">if</span> <span class="o">not</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">alphas</span>
+      <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">@value</span>
+        <span class="k">if</span> <span class="o">not</span> <span class="p">(</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">alphas</span><span class="p">)</span>
           <span class="k">return</span> <span class="kc">false</span>
       <span class="k">return</span> <span class="kc">true</span>
   
   <span class="nv">isdigit: </span><span class="o">-&gt;</span>
     <span class="nv">digits = </span><span class="s1">&#39;0123456789&#39;</span>
-    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">is</span> <span class="mi">0</span>
       <span class="k">return</span> <span class="kc">false</span>
     <span class="k">else</span>
-      <span class="k">for</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">@value</span>
-        <span class="k">if</span> <span class="o">not</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">digits</span>
+      <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">@value</span>
+        <span class="k">if</span> <span class="o">not</span> <span class="p">(</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">digits</span><span class="p">)</span>
           <span class="k">return</span> <span class="kc">false</span>
-      <span class="k">return</span> <span class="kc">true</span>
-
-  <span class="nv">islower: </span><span class="o">-&gt;</span>
+      <span class="k">return</span> <span class="kc">true</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>Returns true if all cased characters are lowercase and there exists a cased character.
+Otherwise return false</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">islower: </span><span class="o">-&gt;</span>
     <span class="nv">lowers = </span><span class="s1">&#39;abcdefghijklmnopqrstuvwxyz&#39;</span>
-    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="nv">uppers = </span><span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">is</span> <span class="mi">0</span>
       <span class="k">return</span> <span class="kc">false</span>
     <span class="k">else</span>
-      <span class="k">for</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">@value</span>
-        <span class="k">if</span> <span class="o">not</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">lowers</span>
+      <span class="nv">containsLower = </span><span class="kc">false</span>
+      <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">@value</span>
+        <span class="k">if</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">lowers</span>
+          <span class="nv">containsLower = </span><span class="kc">true</span>
+        <span class="k">if</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">uppers</span>
           <span class="k">return</span> <span class="kc">false</span>
-      <span class="k">return</span> <span class="kc">true</span>
+      <span class="k">return</span> <span class="nx">containsLower</span>
   
   <span class="nv">isspace: </span><span class="o">-&gt;</span>
     <span class="nv">spaces = </span><span class="s1">&#39;\t\n\x0b\x0c\r &#39;</span>
-    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">is</span> <span class="mi">0</span>
       <span class="k">return</span> <span class="kc">false</span>
     <span class="k">else</span>
-      <span class="k">for</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">@value</span>
-        <span class="k">if</span> <span class="o">not</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">spaces</span>
+      <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">@value</span>
+        <span class="k">if</span> <span class="o">not</span> <span class="p">(</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">spaces</span><span class="p">)</span>
           <span class="k">return</span> <span class="kc">false</span>
-      <span class="k">return</span> <span class="kc">true</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h1>#</h1>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="o">**</span><span class="nx">Fix</span><span class="o">-</span><span class="nx">me</span><span class="o">**:</span> <span class="nx">Account</span> <span class="k">for</span> <span class="nx">punctuation</span> <span class="nx">as</span> <span class="nx">described</span> <span class="k">in</span><span class="o">:</span>
-  <span class="nx">http</span><span class="o">:</span><span class="err">//docs.python.org/library/stdtypes.html#str.title</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h1>#</h1>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">istitle: </span><span class="o">-&gt;</span>
+      <span class="k">return</span> <span class="kc">true</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h1>#</h1>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="o">**</span><span class="nx">Fix</span><span class="o">-</span><span class="nx">me</span><span class="o">**:</span> <span class="nx">Account</span> <span class="k">for</span> <span class="nx">punctuation</span> <span class="nx">as</span> <span class="nx">described</span> <span class="k">in</span><span class="o">:</span>
+  <span class="nx">http</span><span class="o">:</span><span class="err">//docs.python.org/library/stdtypes.html#str.title</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h1>#</h1>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">istitle: </span><span class="o">-&gt;</span>
     <span class="nv">words = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">split</span> <span class="s1">&#39; &#39;</span>
     <span class="k">for</span> <span class="nx">word</span> <span class="k">in</span> <span class="nx">words</span>
-      <span class="k">if</span> <span class="o">not</span> <span class="nb">String</span><span class="p">(</span><span class="nx">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">isupper</span><span class="p">()</span>
+      <span class="nv">firstChar = </span><span class="k">new</span> <span class="nb">String</span><span class="p">(</span><span class="nx">word</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+      <span class="k">if</span> <span class="o">not</span> <span class="nx">firstChar</span><span class="p">.</span><span class="nx">isupper</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">false</span>
-      <span class="k">if</span> <span class="nx">word</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="nx">word</span><span class="p">.</span><span class="nx">length</span> <span class="o">is</span> <span class="mi">1</span>
         <span class="k">continue</span>
-      <span class="k">if</span> <span class="o">not</span> <span class="nb">String</span><span class="p">(</span><span class="nx">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">islower</span><span class="p">()</span>
+      <span class="k">if</span> <span class="o">not</span> <span class="nx">firstChar</span><span class="p">.</span><span class="nx">islower</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">false</span>
     <span class="k">return</span> <span class="kc">true</span>
-  
-  <span class="nv">isupper: </span><span class="o">-&gt;</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Returns true if all cased characters are lowercase and there exists a cased character.
+Otherwise return false</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">isupper: </span><span class="o">-&gt;</span>
+    <span class="nv">lowers = </span><span class="s1">&#39;abcdefghijklmnopqrstuvwxyz&#39;</span>
     <span class="nv">uppers = </span><span class="s1">&#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span>
-    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">==</span> <span class="mi">0</span>
       <span class="k">return</span> <span class="kc">false</span>
     <span class="k">else</span>
-      <span class="k">for</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">@value</span>
-        <span class="k">if</span> <span class="o">not</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">uppers</span>
+      <span class="nv">containsUpper = </span><span class="kc">false</span>
+      <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">@value</span>
+        <span class="k">if</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">uppers</span>
+          <span class="nv">containsUpper = </span><span class="kc">true</span>
+        <span class="k">if</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">lowers</span>
           <span class="k">return</span> <span class="kc">false</span>
-      <span class="k">return</span> <span class="kc">true</span>
+      <span class="k">return</span> <span class="nx">containsUpper</span>
 
   <span class="nv">join: </span><span class="nf">(iterable) -&gt;</span> <span class="k">return</span>
 
   <span class="nv">ljust: </span><span class="nf">(width, fillchar = &#39; &#39;) -&gt;</span>
-    <span class="k">if</span> <span class="nx">width</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">()</span>
-      <span class="k">return</span> <span class="nx">@value</span>
-    <span class="nv">delta = </span><span class="nx">width</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">()</span>
-    <span class="nv">pad = </span><span class="nb">String</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">delta</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nx">@value</span> <span class="o">+</span> <span class="nx">pad</span>    
+    <span class="k">if</span> <span class="nx">width</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
+      <span class="k">return</span> <span class="err">@</span>
+    <span class="nv">delta = </span><span class="nx">width</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
+    <span class="nv">pad = </span><span class="p">(</span><span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">delta</span><span class="p">).</span><span class="nx">value</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="nx">@value</span> <span class="o">+</span> <span class="nx">pad</span><span class="p">)</span>
   
   <span class="nv">lower: </span><span class="o">-&gt;</span>
-    <span class="k">return</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="nx">@value</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">())</span>
 
   <span class="nv">lstrip: </span><span class="nf">(chars) -&gt;</span> <span class="k">return</span>
 
@@ -153,23 +189,23 @@
     <span class="k">else</span>
       <span class="k">return</span> <span class="nx">@split</span><span class="p">(</span><span class="nx">old</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="nx">replacement</span><span class="p">)</span>
 
-  <span class="nv">rfind: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">())</span> <span class="o">-&gt;</span>
+  <span class="nv">rfind: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span><span class="p">)</span> <span class="o">-&gt;</span>
     <span class="nv">lastIndex = </span><span class="nx">@__slice__</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">).</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="nx">sub</span><span class="p">)</span>
     <span class="k">return</span> <span class="nx">lastIndex</span>
 
-  <span class="nv">rindex: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">())</span> <span class="o">-&gt;</span>
+  <span class="nv">rindex: </span><span class="p">(</span><span class="nx">sub</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span><span class="p">)</span> <span class="o">-&gt;</span>
     <span class="nv">lastIndex = </span><span class="nx">substr</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="nx">sub</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nx">lastIndex</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
-      <span class="p">(</span><span class="k">new</span> <span class="nx">ValueError</span> <span class="s2">&quot;substring not found&quot;</span><span class="p">).</span><span class="nx">raise</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">lastIndex</span> <span class="o">is</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="nx">raise</span> <span class="k">new</span> <span class="nx">ValueError</span> <span class="s2">&quot;substring not found&quot;</span>
     <span class="k">else</span>
-      <span class="k">return</span> <span class="nx">lastIndex</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">Int</span> <span class="nx">lastIndex</span>
       
   <span class="nv">rjust: </span><span class="nf">(width, fillchar = &#39; &#39;) -&gt;</span>
-    <span class="k">if</span> <span class="nx">width</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">width</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
       <span class="k">return</span> <span class="nx">@value</span>
-    <span class="nv">delta = </span><span class="nx">width</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">()</span>
-    <span class="nv">pad = </span><span class="nb">String</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">delta</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nx">pad</span> <span class="o">+</span> <span class="nx">@value</span>
+    <span class="nv">delta = </span><span class="nx">width</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
+    <span class="nv">pad = </span><span class="p">(</span><span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">delta</span><span class="p">).</span><span class="nx">value</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="nx">pad</span> <span class="o">+</span> <span class="nx">@value</span><span class="p">)</span>
 
   <span class="nv">rpartition: </span><span class="nf">(sep) -&gt;</span>
     <span class="nv">splitValues = </span><span class="nx">@rsplit</span><span class="p">(</span><span class="nx">sep</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -184,44 +220,46 @@
   <span class="nv">rstrip: </span><span class="o">-&gt;</span> <span class="k">return</span>
   <span class="nv">split: </span><span class="o">-&gt;</span> <span class="k">return</span>
   <span class="nv">splitlines: </span><span class="o">-&gt;</span> <span class="k">return</span>
-  <span class="nv">startswith: </span><span class="p">(</span><span class="nx">prefix</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">())</span> <span class="o">-&gt;</span>
-    <span class="k">return</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">).</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">suffix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="nv">startswith: </span><span class="p">(</span><span class="nx">prefix</span><span class="p">,</span> <span class="nv">start = </span><span class="mi">0</span><span class="p">,</span> <span class="nv">end = </span><span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="k">return</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">end</span><span class="p">).</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">prefix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
   <span class="nv">strip: </span><span class="o">-&gt;</span> <span class="k">return</span>
 
   <span class="nv">swapcase: </span><span class="o">-&gt;</span>
     <span class="nv">result = </span><span class="s1">&#39;&#39;</span>
-    <span class="k">for</span> <span class="nx">char</span> <span class="k">in</span> <span class="nx">@value</span>
-      <span class="k">if</span> <span class="nb">String</span><span class="p">(</span><span class="nx">char</span><span class="p">).</span><span class="nx">islower</span><span class="p">()</span>
-        <span class="nv">ascii = </span><span class="nx">char</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">@value</span>
+      <span class="nv">cStr = </span><span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nx">cStr</span><span class="p">.</span><span class="nx">islower</span><span class="p">()</span>
+        <span class="nv">ascii = </span><span class="nx">c</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="nv">upperCaseAscii = </span><span class="nx">ascii</span> <span class="o">-</span> <span class="mi">32</span>
         <span class="nv">upperCaseChar = </span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">upperCaseAscii</span><span class="p">)</span>
         <span class="nx">result</span> <span class="o">+=</span> <span class="nx">upperCaseChar</span>
-      <span class="k">else</span> <span class="k">if</span> <span class="nb">String</span><span class="p">(</span><span class="nx">char</span><span class="p">).</span><span class="nx">isupper</span><span class="p">()</span>
-        <span class="nv">ascii = </span><span class="nx">char</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">cStr</span><span class="p">.</span><span class="nx">isupper</span><span class="p">()</span>
+        <span class="nv">ascii = </span><span class="nx">c</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="nv">lowerCaseAscii = </span><span class="nx">ascii</span> <span class="o">+</span> <span class="mi">32</span>
         <span class="nv">lowerCaseChar = </span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">lowerCaseAscii</span><span class="p">)</span>
         <span class="nx">result</span> <span class="o">+=</span> <span class="nx">lowerCaseChar</span>
       <span class="k">else</span>
-        <span class="nx">result</span> <span class="o">+=</span> <span class="nx">char</span>
-    <span class="k">return</span> <span class="nx">result</span>
+        <span class="nx">result</span> <span class="o">+=</span> <span class="nx">c</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span> <span class="nx">result</span>
 
   <span class="nv">title: </span><span class="o">-&gt;</span> <span class="k">return</span>
   <span class="nv">translate: </span><span class="o">-&gt;</span> <span class="k">return</span>
 
   <span class="nv">upper: </span><span class="o">-&gt;</span>
-    <span class="k">return</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span>
   
   <span class="nv">zfill: </span><span class="nf">(width) -&gt;</span>
-    <span class="k">if</span> <span class="nx">width</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">()</span>
-      <span class="k">return</span> <span class="nx">@value</span>
-    <span class="k">if</span> <span class="nx">@value</span><span class="p">.</span><span class="nx">__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
-      <span class="k">return</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">width</span><span class="p">)</span>
-    <span class="nv">zeroCount = </span><span class="nx">width</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nx">@value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+    <span class="k">if</span> <span class="nx">width</span><span class="p">.</span><span class="nx">value</span> <span class="o">&lt;=</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
+      <span class="k">return</span> <span class="err">@</span>
+    <span class="nv">zeroStr = </span><span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span> <span class="o">is</span> <span class="mi">0</span>
+      <span class="k">return</span> <span class="nx">zeroStr</span><span class="p">.</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">width</span><span class="p">)</span>
+    <span class="nv">zeroCount = </span><span class="nx">width</span><span class="p">.</span><span class="nx">value</span> <span class="o">-</span> <span class="nx">@__len__</span><span class="p">().</span><span class="nx">value</span>
+    <span class="k">if</span> <span class="nx">@value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">is</span> <span class="s1">&#39;-&#39;</span>
       <span class="nv">remaining = </span><span class="nx">@value</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-      <span class="k">return</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">zeroCount</span><span class="p">)</span> <span class="o">+</span> <span class="nx">remaining</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nx">zeroStr</span><span class="p">.</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">zeroCount</span><span class="p">).</span><span class="nx">value</span> <span class="o">+</span> <span class="nx">remaining</span>
     <span class="k">else</span>
-      <span class="k">return</span> <span class="nb">String</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">).</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">zeroCount</span><span class="p">)</span> <span class="o">+</span> <span class="nx">remaining</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span> <span class="nx">zeroStr</span><span class="p">.</span><span class="nx">__mul__</span><span class="p">(</span><span class="nx">zeroCount</span><span class="p">).</span><span class="nx">value</span> <span class="o">+</span> <span class="nx">remaining</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
