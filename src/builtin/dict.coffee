@@ -128,7 +128,9 @@ class Dict extends Mapping
   # Else raises `KeyError`
   pop: (key, d) ->
     if key in @keys()
-      return @value.pop(key)
+      val = @value[key]
+      delete @value[key]
+      return val
     else if d?
       return d
     else

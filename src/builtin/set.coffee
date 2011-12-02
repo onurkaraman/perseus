@@ -61,15 +61,15 @@ class Set extends Iterable
   
   # Inplace set union
   __ior__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       @add(item)
     return @
   
   # Inplace set difference
   __isub__: (set) ->
-    for item in set.value
+    for item in set.value.keys()
       if @__contains__(item)
-        @value.pop(item)
+        @value.pop(item, null)
     return @
 
   __iter__: ->
@@ -81,13 +81,13 @@ class Set extends Iterable
     diff2 = set.__sub__(xor)
     xor = diff1.__or__(diff2)
     @clear()
-    for item in xor.value
+    for item in xor.value.keys()
         @add(item)
     return @
 
   # Checks to see if this is a subset of set
   __le__: (set) ->
-    for item in @value.value
+    for item in @value.keys()
       if not set.__contains__(item)
         return false
     return true
@@ -99,7 +99,7 @@ class Set extends Iterable
   __lt__: (set) ->
     if @__eq__(set)
       return false
-    for item in @value.value
+    for item in @value.keys()
       if not set.__contains__(item)
         return false
     return true
@@ -111,8 +111,8 @@ class Set extends Iterable
   # Returns a new Set containing items from this or set
   __or__: (set) ->
     union = List()
-    union.append(item) for item in @value.value
-    union.append(item) for item in set.value
+    union.append(item) for item in @value.keys()
+    union.append(item) for item in set.value.keys()
     return new Set(union)
 
   # Same as __and__ since intersection is symmetric
@@ -143,7 +143,7 @@ class Set extends Iterable
   # Subtract new set containing this - set
   __sub__: (set) ->
     difference = @copy()
-    for item in set.value
+    for item in set.value.keys()
       if @__contains__(item)
         difference.value.pop(item)
     return difference

@@ -1,5 +1,9 @@
+BASE="src/builtin/exceptions.coffee src/builtin/helper.coffee"
+PYTHONSCRIPT=pythonScript.js
+BUILTIN=src/builtin
+
 build:
-	coffee -o ./ -cpbj src/builtin/* > pythonScript.js
+	coffee -o ./ -cpbj src/builtin/* > $(PYTHONSCRIPT)
 
 clean:
 	rm pythonScript.js
@@ -10,13 +14,16 @@ doc:
 	docco src/node/*.py src/builtin/*.coffee 
 
 subset:
-	coffee -cpbj src/builtin/exceptions.coffee src/builtin/helper.coffee src/builtin/object.coffee src/builtin/primitive.coffee src/builtin/number.coffee src/builtin/integer.coffee src/builtin/iterable.coffee src/builtin/sequence.coffee src/builtin/string.coffee > pythonScript.js 
+	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/number.coffee $(BUILTIN)/integer.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/string.coffee > $(PYTHONSCRIPT) 
 
 intSubset:
-	coffee -cpbj src/builtin/exceptions.coffee src/builtin/helper.coffee src/builtin/object.coffee src/builtin/primitive.coffee src/builtin/number.coffee src/builtin/integer.coffee
+	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/number.coffee $(BUILTIN)/integer.coffee > $(PYTHONSCRIPT)
 
 strSubset:
-	coffee -cpbj src/builtin/exceptions.coffee src/builtin/helper.coffee src/builtin/object.coffee src/builtin/primitive.coffee src/builtin/iterable.coffee src/builtin/sequence.coffee src/builtin/string.coffee > pythonScript.js
+	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/string.coffee > $(PYTHONSCRIPT)
 
-dictSubset:
-	coffee -cpbj src/builtin/exceptions.coffee src/builtin/helper.coffee src/builtin/object.coffee src/builtin/primitive.coffee src/builtin/iterable.coffee src/builtin/mapping.coffee src/builtin/set.coffee src/builtin/iterator.coffee src/builtin/dictionary-keyiterator.coffee src/builtin/dict.coffee > pythonScript.js
+listSubset:
+	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee > $(PYTHONSCRIPT)
+
+dictSetSubset:
+	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dict.coffee > $(PYTHONSCRIPT)
