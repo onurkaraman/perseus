@@ -3,7 +3,7 @@
 class BaseException
   constructor: (@message) ->
     
-  raise: -> throw new Error("#{Helper::getClass(@)}: #{@message}")
+  raise: -> throw new Error("#{type(@).__name__()}: #{@message}")
   
 class SystemExit extends BaseException
   
