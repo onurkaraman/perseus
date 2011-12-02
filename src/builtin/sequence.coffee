@@ -1,7 +1,7 @@
 class Sequence extends Primitive
   __add__: (operand) ->
     if issubinstance operand, @
-      new type(@) @value.concat(operand.value)
+      new (type(@)) @value.concat(operand.value)
     else
       super operand
     
@@ -22,9 +22,9 @@ class Sequence extends Primitive
   
   __mul__: (operand) ->
     if Int in operand.__class__().__bases__()
-      newValue = new type(@)()
+      newValue = new (type(@))()
       for i in [0...operand.value]
-        newValue.__iadd__(@value)
+        newValue.__iadd__ @value
       newValue
     else
       super operand
