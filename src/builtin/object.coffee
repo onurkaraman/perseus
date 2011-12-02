@@ -11,11 +11,11 @@ class Obj
     return @constructor.prototype
   
   __cmp__: (operand) ->
-    if @.__lt__(operand)
+    if @__lt__(operand)
       return -1
-    if @.__eq__(operand)
+    if @__eq__(operand)
       return 0
-    if @.__gt__(operand)
+    if @__gt__(operand)
       return 1
   
   # This appears to be how objects evaluate undefined operators.
@@ -54,8 +54,7 @@ class Obj
  
   __contains__: ->
     type = @__class__.__name__
-    new TypeError "argument of type '#{type}' is not iterable"
-    .raise()
+    (new TypeError "argument of type '#{type}' is not iterable").raise()
   
   __abs__: ->
     Helper::raiseUnaryException('abs()', @)

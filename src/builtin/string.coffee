@@ -71,8 +71,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in alnums)
+      for c in @value
+        if not (c in alnums)
           return false
       return true
 
@@ -81,8 +81,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in alphas)
+      for c in @value
+        if not (c in alphas)
           return false
       return true
   
@@ -91,8 +91,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in digits)
+      for c in @value
+        if not (c in digits)
           return false
       return true
 
@@ -101,8 +101,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in lowers)
+      for c in @value
+        if not (c in lowers)
           return false
       return true
   
@@ -111,8 +111,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in spaces)
+      for c in @value
+        if not (c in spaces)
           return false
       return true
 
@@ -137,8 +137,8 @@ class Str extends Sequence
     if @__len__() == 0
       return false
     else
-      for char in @value
-        if not (char in uppers)
+      for c in @value
+        if not (c in uppers)
           return false
       return true
 
@@ -209,20 +209,20 @@ class Str extends Sequence
 
   swapcase: ->
     result = ''
-    for char in @value
-      c = new Str(char)
-      if c.islower()
-        ascii = char.charCodeAt(0)
+    for c in @value
+      cStr = new Str(c)
+      if cStr.islower()
+        ascii = c.charCodeAt(0)
         upperCaseAscii = ascii - 32
         upperCaseChar = String.fromCharCode(upperCaseAscii)
         result += upperCaseChar
-      else if c.isupper()
-        ascii = char.charCodeAt(0)
+      else if cStr.isupper()
+        ascii = c.charCodeAt(0)
         lowerCaseAscii = ascii + 32
         lowerCaseChar = String.fromCharCode(lowerCaseAscii)
         result += lowerCaseChar
       else
-        result += char
+        result += c
     return result
 
   title: -> return

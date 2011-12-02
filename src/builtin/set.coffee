@@ -7,7 +7,7 @@ class Set extends Iterable
         @value.__setitem__(item, true)
 
   __and__: (other) ->
-    intersect = List()
+    intersect = new List()
     intersect.append(item) for item in @value.value when other.__contains__(item)
     return new Set(intersect)
 
@@ -48,7 +48,7 @@ class Set extends Iterable
   
   # Inplace and operation. x.__iand__(y) changes x
   __iand__: (set) ->
-    deletedKeys = List()
+    deletedKeys = new List()
     for item in @value.keys()
       if not set.__contains__(item)
         deletedKeys.append(item)

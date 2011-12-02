@@ -1,14 +1,14 @@
-BASE="src/builtin/exceptions.coffee src/builtin/helper.coffee"
-PYTHONSCRIPT=pythonScript.js
 BUILTIN=src/builtin
+PYTHONSCRIPT=pythonScript.js
+BASE=$(BUILTIN)/exceptions.coffee $(BUILTIN)/helper.coffee $(BUILTIN)/exceptions.coffee
 
 build:
-	coffee -o ./ -cpbj src/builtin/* > $(PYTHONSCRIPT)
+	coffee -cpbj src/builtin/*.coffee > $(PYTHONSCRIPT)
 
 clean:
 	rm pythonScript.js
 
-.PHONY: doc subset intSubset strSubset
+.PHONY: doc subset intSubset strSubset listSubset dictSetSubset
 doc:
 	rm -rf docs/
 	docco src/node/*.py src/builtin/*.coffee 
