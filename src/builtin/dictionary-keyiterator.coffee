@@ -5,6 +5,6 @@ class DictionaryKeyIterator extends Iterator
 
   next: ->
     if @index >= @iterable.length
-      (new StopIteration "StopIteration").raise()
+      raise new StopIteration "StopIteration"
     else
       return @iterable[@index++]

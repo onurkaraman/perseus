@@ -5,6 +5,6 @@ class ListReverseIterator extends Iterator
 
   next: ->
     if @index < 0
-      (new StopIteration "StopIteration").raise()
+      raise new StopIteration "StopIteration"
     else
       return @iterable[@index--]
