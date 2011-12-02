@@ -1,38 +1,31 @@
 # **To-do** Implement tuple support for classinfo.
-issubclass: (classArg, classinfo) ->
-  currentClass = classArg
-  desiredClass = classinfo
-  
-  # Traverse until we hit the end of the inheritance tree, i.e. the currentClass
-  # is undefined.
-  while currentClass?
-    if currentClass is desiredClass
-      return true
-    currentClass = currentClass.__class__.prototype
-  
-  return false
+issubclass = (classArg, classinfo) ->
+  return classinfo in classArg.__bases__()
 
-cmp: (operand1, operand2) ->
+cmp = (operand1, operand2) ->
   return operand1.__cmp__(operand2)
   
-pow: (operand1, operand2) ->
+pow = (operand1, operand2) ->
   return operand1.__pow__(operand2)
 
-abs: (operand) ->
+abs = (operand) ->
   return operand.__abs__()
 
-float: (operand) ->
+float = (operand) ->
   return new Num(window.Number(operand))
 
-str: (operand) ->
+str = (operand) ->
   if operand?
     return operand.__str__()
   else
     # [Relevant](http://docs.python.org/library/functions.html#str)
     return ''
     
-repr: (operand) ->
+repr = (operand) ->
   return operand.__repr__()
 
-type: (object) ->
+type = (object) ->
   return object.constructor
+  
+print = (object) ->
+  console.log(object)

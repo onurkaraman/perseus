@@ -1,14 +1,41 @@
 class Obj
-  # **To-do** Implement tuples - it's a tuple of the base classes.
-  @__bases__: ->
+  raiseUnaryException = (operator, operand) ->
+    operandType = operand.__class__.__name__
+    (new TypeError "bad operand type for #{operator}: '#{operandType}'").raise()
+    
+  raiseBinaryException = (operator, operand1, operand2) ->
+    operand1Type = operand1.__class__.__name__
+    operand2Type = operand2.__class__.__name__
+    (new TypeError "unsupported operand type(s) for #{operator}: '#{operand1Type}' and '#{operand2Type}'").raise()
+    
+  raiseNotIterableException = (operand) ->
+    operandType = operand.__class__.__name__
+    (new TypeError("argument of type '#{type}' is not iterable")).raise()
+    
+  raiseNotSubscriptableException = (operand) ->
+    operandType = operand.__class__.__name__
+    (new TypeError("argument of type '#{type}' is not subscriptable")).raise()
   
-  @__name__: ->
-    return getClass(@)
+  # __bases__ returns a tuple of classes it inherits from
+  #
+  # **To-do** 
+  # *  Return a Tuple instead of a JS array.
+  # *  __bases__ needs to be modifiable at runtime.  This means we actually need
+  # to have a rewriter that converts the attribute loads into their equivalent
+  # JS form - prototype.
+  # * Support multiple inheritance.
+  @__bases__: -> [@__super__.constructor]
+    # if (@ == Obj)
+      # return [@__name__()]
+    # else
+      # tree = @__super__.constructor.__bases__()
+      # tree.push @__name__()
+      # return tree
   
-  # This appears to be the most accurate way to get the class of an object
-  # Using `@prototype` fails for simple primitives such as ints and strings.  
-  __class__: ->
-    return @constructor.prototype
+  @__name__: -> @.name
+  
+  # **To-do** See note about rewriting in @_bases().  
+  __class__: -> type(@)
   
   __cmp__: (operand) ->
     if @__lt__(operand)
@@ -57,103 +84,103 @@ class Obj
     (new TypeError "argument of type '#{type}' is not iterable").raise()
   
   __abs__: ->
-    Helper::raiseUnaryException('abs()', @)
+    raiseUnaryException('abs()', @)
   
   __add__: (operand) ->
-    Helper::raiseBinaryException('+', @, operand)
+    raiseBinaryException('+', @, operand)
   
   __and__: (operand) ->
-    Helper::raiseBinaryException('&', @, operand)
+    raiseBinaryException('&', @, operand)
   
   __div__: (operand) ->
-    Helper::raiseBinaryException('/', @, operand)
+    raiseBinaryException('/', @, operand)
   
   __floordiv__: (operand) ->
-    Helper::raiseBinaryException('//', @, operand)
+    raiseBinaryException('//', @, operand)
   
   # Throw an exception, as it's only defined for integers in Python.
   __invert__: ->
-    Helper::raiseUnaryException('unary ~', @)
+    raiseUnaryException('unary ~', @)
     
   __lshift__: (operand) ->
-    Helper::raiseBinaryException('<<', @, operand)
+    raiseBinaryException('<<', @, operand)
     
   __mod__: (operand) ->
-    Helper::raiseBinaryException('%', @, operand)
+    raiseBinaryException('%', @, operand)
   
   __mul__: (operand) ->
-    Helper::raiseBinaryException('*', @, operand)
+    raiseBinaryException('*', @, operand)
   
   __neg__: ->
-    Helper::raiseUnaryException('unary -', @)
+    raiseUnaryException('unary -', @)
 
   __or__: (operand) ->
-    Helper::raiseBinaryException('|', @, operand)
+    raiseBinaryException('|', @, operand)
     
   __pos__: ->
-    Helper::raiseUnaryException('unary +', @)
+    raiseUnaryException('unary +', @)
     
   __pow__: (operand) ->
-    Helper::raiseBinaryException('**', @, operand)
+    raiseBinaryException('**', @, operand)
     
   __rshift__: (operand) ->
-    Helper::raiseBinaryException('>>', @, operand)
+    raiseBinaryException('>>', @, operand)
 
   __sub__: (operand) ->
-    Helper::raiseBinaryException('-', @, operand)
+    raiseBinaryException('-', @, operand)
     
   __xor__: (operand) ->
-    Helper::raiseBinaryException('^', @, operand)
+    raiseBinaryException('^', @, operand)
     
   __iadd__: (operand) ->
-    Helper::raiseBinaryException('+=', @, operand)
+    raiseBinaryException('+=', @, operand)
   
   __iand__: (operand) ->
-    Helper::raiseBinaryException('&=', @, operand)
+    raiseBinaryException('&=', @, operand)
     
   __idiv__: (operand) ->
-    Helper::raiseBinaryException('/=', @, operand)
+    raiseBinaryException('/=', @, operand)
     
   __ifloordiv__: (operand) ->
-    Helper::raiseBinaryException('//=', @, operand)
+    raiseBinaryException('//=', @, operand)
     
   __ilshift__: (operand) ->
-    Helper::raiseBinaryException('<<=', @, operand)
+    raiseBinaryException('<<=', @, operand)
 
   __imod__: (operand) ->
-    Helper::raiseBinaryException('%=', @, operand)
+    raiseBinaryException('%=', @, operand)
     
   __imul__: (operand) ->
-    Helper::raiseBinaryException('*=', @, operand)
+    raiseBinaryException('*=', @, operand)
     
   __ior__: (operand) ->
-    Helper::raiseBinaryException('|=', @, operand)
+    raiseBinaryException('|=', @, operand)
     
   __ipow__: (operand) ->
-    Helper::raiseBinaryException('**=', @, operand)
+    raiseBinaryException('**=', @, operand)
     
   __irshift__: (operand) ->
-    Helper::raiseBinaryException('>>=', @, operand)
+    raiseBinaryException('>>=', @, operand)
     
   __isub__: (operand) ->
-    Helper::raiseBinaryException('-=', @, operand)
+    raiseBinaryException('-=', @, operand)
     
   __ixor__: (operand) ->
-    Helper::raiseBinaryException('^=', @, operand)
+    raiseBinaryException('^=', @, operand)
     
   __contains__: (operand) ->
-    Helper::raiseNotIterableException(@)
+    raiseNotIterableException(@)
     
   __len__: ->
     type = @__class__.__name__
     (new TypeError("object of type '#{type}' has no len()")).raise()
     
   __min__: ->
-    Helper::raiseNotIterableException(@)
+    raiseNotIterableException(@)
     
   __max__: ->
-    Helper::raiseNotIterableException(@)
+    raiseNotIterableException(@)
     
   __slice__: ->
-    Helper::raiseNotSubscriptableException(@)
+    raiseNotSubscriptableException(@)
     

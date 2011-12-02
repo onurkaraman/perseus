@@ -1,6 +1,6 @@
 BUILTIN=src/builtin
 PYTHONSCRIPT=pythonScript.js
-BASE=$(BUILTIN)/exceptions.coffee $(BUILTIN)/helper.coffee $(BUILTIN)/exceptions.coffee
+BASE=$(BUILTIN)/exceptions.coffee $(BUILTIN)/helper.coffee $(BUILTIN)/exceptions.coffee $(BUILTIN)/functions.coffee
 
 build:
 	coffee -cpbj src/builtin/*.coffee > $(PYTHONSCRIPT)
