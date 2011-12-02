@@ -21,9 +21,14 @@ class List extends Sequence
     @value = @pop(@index(element))
     return
     
-  pop: (index)  ->
-    @value = @value.splice(index, 1)
-    return
+  pop: (index = @__len__() - 1) ->
+    if @__len__() == 0
+      (new IndexError "pop from empty list").raise()
+    else if index < 0 or index >= @__len__()
+      (new IndexError "pop index out of range").raise()
+    else
+      [removed] = @value.splice(index, 1) # Javascript returns array. Just want element
+      return removed
     
   sort: ->
     @value = 
