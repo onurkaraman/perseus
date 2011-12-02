@@ -11,7 +11,10 @@ float = (operand) ->
 issubclass = (classArg, classinfo) ->
   # [Relevant](http://docs.python.org/library/functions.html#issubclass)
   classArg is classinfo or classinfo in classArg.__bases__()
-    
+
+len = (operand) ->
+  operand.__len__()
+
 pow = (operand1, operand2) ->
   operand1.__pow__(operand2)
 
