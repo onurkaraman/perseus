@@ -1,27 +1,28 @@
 class Sequence extends Primitive
   __add__: (operand) ->
-    if Helper::isSubInstance operand, @
-      return @value.concat(operand.value)
+    if issubinstance operand, @
+      new type(@) @value.concat(operand.value)
     else
       super operand
     
+  # **To-do** Implement the Bool class
   __contains__: (operand)->
-    return operand.value in @value
+    new Bool operand.value in @value
     
   __len__: ->
-    return @value.length
+    new Int @value.length
     
   __min__: ->
-    @value reduce (a, b) ->
+    new Int @value.reduce (a, b) ->
       return a if a <= b else b
       
   __max__: ->
-    @value reduce (a, b) ->
+    new Int @value.reduce (a, b) ->
       return a if a >= b else b
   
   __mul__: (operand) ->
-    if 'Integer' in operand.__class__.__bases__
-      newValue = new @::constructor()
+    if Int in operand.__class__().__bases__()
+      newValue = new type(@)()
       for i in [0...operand.value]
         newValue.__iadd__(@value)
       return newValue
@@ -30,25 +31,20 @@ class Sequence extends Primitive
 
   __slice__: (start, end, step)->
     if not step?
-      return @value.slice(start, end)
+      return new type(@)(@value.slice(start, end))
     else
       # **To-do**: implementation for `step > 1`
-      
-  __iadd__: (operand) ->
-    return @value = @value.__add__(operand)
-  
-  __imul__: (operand) ->
-    return @value = @value.__mul__(operand)
+      # Push this up to named argument step=1
       
   # **To-do**: The above `__contains__` uses a fallback definition of 
   # `Array.prototype.indexOf`.  Any way to trigger this?  
   index: (operand) ->
-    return Array.prototype.indexOf(@value, operand.value)
+    return new Int(Array.prototype.indexOf(@value, operand.value))
     
   count: (operand) ->
     total = 0
     for element in @value
-      if element.__eq__(operand)
+      if element.__eq__(operand).value is true
         total += 1
         
-    return total
+    return new Int(total)

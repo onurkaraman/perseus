@@ -61,31 +61,3 @@ class Int extends Num
       new Int(@value ^ operand.value)
     else
       super operand
-
-  __iand__: (operand) ->
-    @value = @__and__(operand).value
-    @
-  
-  __idiv__: (operand) ->
-    @value = @__div__(operand).value
-    @
-      
-  __ilshift__: (operand) ->
-    @value = @__lshift__(operand).value
-    @
-      
-  __imod__: (operand) ->
-    @value = @__mod__(operand).value
-    @
-      
-  __ior__: (operand) ->
-    @value = @__or__(operand).value
-    @
-    
-  __irshift__: (operand) ->
-    @value = @__rshift__(operand).value
-    @
-
-  __ixor__: (operand) ->
-    @value = @__xor__(operand).value
-    @

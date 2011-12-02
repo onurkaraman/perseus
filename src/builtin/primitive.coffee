@@ -41,6 +41,67 @@ class Primitive extends Obj
       return @value > operand.value
     else
       super operand
+      
+  #### In-place operators
+  # **Consideration** 
+  # Could probably refactor this into:
+  # 
+  #     __iadd__: inplace('add')
+  #
+  # and further refactor this into: 
+  #
+  #     for iop in ["__iadd__", ...]:
+  #       @::[iop] = inplace(iop)
+  #
+  # but is this desirable? (readability)
+  
+  __iadd__: (operand) ->
+    @value = @__add__(operand).value
+    @
+  
+  __iand__: (operand) ->
+    @value = @__and__(operand).value
+    @
+  
+  __idiv__: (operand) ->
+    @value = @__div__(operand).value
+    @
+      
+  __ifloordiv__: (operand) ->
+    @value = @__floordiv__(operand).value
+    @
+    
+  __ilshift__: (operand) ->
+    @value = @__lshift__(operand).value
+    @
+      
+  __imod__: (operand) ->
+    @value = @__mod__(operand).value
+    @
+    
+  __imul__: (operand) ->
+    @value = @__mul__(operand).value
+    @
+      
+  __ior__: (operand) ->
+    @value = @__or__(operand).value
+    @
+    
+  __ipow__: (operand) ->
+    @value = @__or__(operand).value
+    @
+    
+  __irshift__: (operand) ->
+    @value = @__rshift__(operand).value
+    @
+
+  __isub__: (operand) ->
+    @value = @__sub__(operand).value
+    @
+
+  __ixor__: (operand) ->
+    @value = @__xor__(operand).value
+    @
     
   # **Consideration** What is the difference between __repr__ and __str__?
   # How does this affect console.log / print / concatenation?
