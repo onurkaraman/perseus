@@ -6,7 +6,8 @@ build:
 	coffee -cpbj src/builtin/*.coffee > $(PYTHONSCRIPT)
 
 clean:
-	rm pythonScript.js
+	rm -f pythonScript.js
+	rm -f src/builtin/*.js
 
 .PHONY: doc subset intSubset strSubset listSubset dictSetSubset iteratorSubset
 doc:
