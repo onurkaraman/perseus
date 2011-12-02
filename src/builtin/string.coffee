@@ -38,7 +38,7 @@ class Str extends Sequence
     if delta % 2 is 0
       new (type(@)) pad + @value + pad
     else
-      new (type(@)) pad + @value + pad + fillchar
+      new (type(@)) pad + @value + pad + fillchar.value
 
   count: (sub, start = 0, end = @__len__().value) ->
     count = 0
@@ -63,7 +63,7 @@ class Str extends Sequence
     index = slicedStr.lastIndexOf(suffix)
     if index < 0
       return false 
-    return (index + suffix.length) is end
+    return new Bool (index + suffix.length) is end
 
   expandtabs: -> return
   
@@ -88,22 +88,22 @@ class Str extends Sequence
   isalnum: ->
     alnums = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     if @__len__().value is 0
-      return false
+      return new Bool false
     else
       for c in @value
         if not (c in alnums)
-          return false
-      return true
+          return new Bool false
+      return new Bool true
 
   isalpha: ->
     alphas = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @__len__().value is 0
-      return false
+      return new Bool false
     else
       for c in @value
         if not (c in alphas)
-          return false
-      return true
+          return new Bool false
+      return new Bool true
   
   isdigit: ->
     digits = '0123456789'
@@ -112,8 +112,8 @@ class Str extends Sequence
     else
       for c in @value
         if not (c in digits)
-          return false
-      return true
+          return new Bool false
+      return new Bool true
 
   # Returns true if all cased characters are lowercase and there exists a cased character.
   # Otherwise return false
@@ -121,15 +121,15 @@ class Str extends Sequence
     lowers = 'abcdefghijklmnopqrstuvwxyz'
     uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @__len__().value is 0
-      return false
+      return new Bool false
     else
       containsLower = false
       for c in @value
         if c in lowers
           containsLower = true
         if c in uppers
-          return false
-      return containsLower
+          return new Bool false
+      return new Bool containsLower
   
   isspace: ->
     spaces = '\t\n\x0b\x0c\r '
@@ -138,8 +138,8 @@ class Str extends Sequence
     else
       for c in @value
         if not (c in spaces)
-          return false
-      return true
+          return new Bool false
+      return new Bool true
 
   ###
   **Fix-me**: Account for punctuation as described in:
@@ -154,8 +154,8 @@ class Str extends Sequence
       if word.length is 1
         continue
       if not firstChar.islower()
-        return false
-    return true
+        return new Bool false
+    return new Bool true
   
   # Returns true if all cased characters are lowercase and there exists a cased character.
   # Otherwise return false
@@ -170,8 +170,8 @@ class Str extends Sequence
         if c in uppers
           containsUpper = true
         if c in lowers
-          return false
-      return containsUpper
+          return new Bool false
+      return new Bool containsUpper
 
   join: (iterable) -> return
 
@@ -204,7 +204,7 @@ class Str extends Sequence
 
   rfind: (sub, start = 0, end = @__len__().value) ->
     lastIndex = @__slice__(start, end).lastIndexOf(sub)
-    return lastIndex
+    return new Int lastIndex
 
   rindex: (sub, start = 0, end = @__len__().value) ->
     lastIndex = substr.lastIndexOf(sub)
@@ -234,7 +234,7 @@ class Str extends Sequence
   split: -> return
   splitlines: -> return
   startswith: (prefix, start = 0, end = @__len__().value) ->
-    return @value.slice(start, end).indexOf(prefix) == 0
+    return new Bool @value.slice(start, end).indexOf(prefix) == 0
 
   strip: -> return
 
