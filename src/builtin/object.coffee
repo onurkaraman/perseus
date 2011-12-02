@@ -80,7 +80,7 @@ class Obj
   __is_not__: ->
  
   __contains__: ->
-s    raise new TypeError "argument of type '#{type(@).__name__()}' is not iterable"
+    raise new TypeError "argument of type '#{type(@).__name__()}' is not iterable"
   
   __abs__: ->
     raiseUnaryException('abs()', @)
