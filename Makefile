@@ -16,14 +16,14 @@ doc:
 subset:
 	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/string.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dictionary-valueiterator.coffee $(BUILTIN)/dict.coffee > $(PYTHONSCRIPT)
 
-intSubset:
+intset:
 	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/number.coffee $(BUILTIN)/integer.coffee > $(PYTHONSCRIPT)
 
-strSubset:
+strset:
 	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/string.coffee > $(PYTHONSCRIPT)
 
-listSubset:
+listset:
 	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee > $(PYTHONSCRIPT)
 
-dictSetSubset:
+setset:
 	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dictionary-valueiterator.coffee $(BUILTIN)/dict.coffee > $(PYTHONSCRIPT)

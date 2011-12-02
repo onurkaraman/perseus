@@ -1,6 +1,6 @@
 # **To-do** Implement tuple support for classinfo.
 issubclass = (classArg, classinfo) ->
-  return classinfo in classArg.__bases__()
+  return classArg is classinfo or classinfo in classArg.__bases__()
 
 cmp = (operand1, operand2) ->
   return operand1.__cmp__(operand2)

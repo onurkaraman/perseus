@@ -49,7 +49,7 @@ class AugAssign(Base):
 # **Consideration** What is nl - newline?
 class Print(Base):
     def compile(self):
-        return 'console.log(%s)' % ', '.join(value for value in self.values)
+        return 'console.log((%s).value)' % ', '.join(expr for expr in self.values)
 
 # **To-do** Stabilize. Obviously having inlined variable names could result in variable name conflicts
 class For(Base):

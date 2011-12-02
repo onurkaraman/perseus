@@ -1,2 +1,2 @@
-__isSubInstance__ = (obj1, obj2) ->
-  obj2.__class__() in obj1.__class__().__bases__()
+issubinstance = (obj1, obj2) ->
+  issubclass(type(obj1), type(obj2))
