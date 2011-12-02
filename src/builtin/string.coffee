@@ -96,15 +96,21 @@ class Str extends Sequence
           return false
       return true
 
+  # Returns true if all cased characters are lowercase and there exists a cased character.
+  # Otherwise return false
   islower: ->
     lowers = 'abcdefghijklmnopqrstuvwxyz'
+    uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @__len__() == 0
       return false
     else
+      containsLower = false
       for c in @value
-        if not (c in lowers)
+        if c in lowers
+          containsLower = true
+        if c in uppers
           return false
-      return true
+      return containsLower
   
   isspace: ->
     spaces = '\t\n\x0b\x0c\r '
@@ -132,15 +138,21 @@ class Str extends Sequence
         return false
     return true
   
+  # Returns true if all cased characters are lowercase and there exists a cased character.
+  # Otherwise return false
   isupper: ->
+    lowers = 'abcdefghijklmnopqrstuvwxyz'
     uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     if @__len__() == 0
       return false
     else
+      containsUpper = false
       for c in @value
-        if not (c in uppers)
+        if c in uppers
+          containsUpper = true
+        if c in lowers
           return false
-      return true
+      return containsUpper
 
   join: (iterable) -> return
 
@@ -149,7 +161,7 @@ class Str extends Sequence
       return @value
     delta = width - @__len__()
     pad = (new Str('')).__mul__(delta)
-    return @value + pad    
+    return @value + pad
   
   lower: ->
     return @value.toLowerCase()
