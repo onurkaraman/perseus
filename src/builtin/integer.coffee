@@ -6,18 +6,12 @@ class Int extends Num
     else
       super operand
   
-  __add__: (operand) ->
-    if issubinstance(operand, @)
-       new Int(@value + operand.value)
-    else
-      super operand
-
   __div__: (operand) ->
     if issubinstance(operand, @)
       new Int(@__floordiv__(operand))
     else
       super operand
-
+    
   __invert__: ->  
     new Int(~@value)
   
