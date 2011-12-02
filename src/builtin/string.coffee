@@ -1,17 +1,16 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
 class Str extends Sequence
-
   __contains__: (operand) ->
-    if Helper::isSubInstance(operand, @)
-      return @value.indexOf(operand) > -1
+    if issubinstance operand, @
+      new Bool @value.indexOf(operand) > -1
     else
       super operand
   
   capitalize: ->
-    if @__len__ is 0
-      return @value
+    if @__len__().value is 0
+      @
     else
-      return @value[0].toUpperCase() + @.lower().slice(1)
+      new (type(@)) @value[0].toUpperCase() + @value.slice(1)
 
   center: (width, fillchar = " ") ->
     if width <= @__len__()
