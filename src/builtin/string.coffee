@@ -12,15 +12,23 @@ class Str extends Sequence
     else
       new (type(@)) @value[0].toUpperCase() + @value.slice(1)
 
-  center: (width, fillchar = " ") ->
-    if width <= @__len__()
-      return @value
-    delta = width - @__len__()
-    pad = (new Str('')).__mul__(Math.floor(delta, 2))
+  center: (width, fillchar = new Str ' ') ->
+    if (type width) isnt Int
+      raise new TypeError 'an integer is required'
+    if (type fillchar) isnt Str
+      raise new TypeError 'must be char, not #{type(fillchar).__name__()}'
+    if width.value <= @__len__().value
+      @
+    delta = width.value - @__len__().value
+    pad = 
+      fillchar
+      .__mul__(
+        new Int Math.floor(delta, 2))
+      .value
     if delta % 2 == 0
-      return pad + @value + pad
+      new (type(@)) pad + @value + pad
     else
-      return pad + @value + pad + fillchar
+      new (type(@)) pad + @value + pad + fillchar
 
   count: (sub, start = 0, end = @__len__()) ->
     count = 0
@@ -61,7 +69,7 @@ class Str extends Sequence
     substr = @value.slice(start, end)
     index = substr.indexOf(sub)
     if index == -1
-      (new ValueError "substring not found").raise()
+      raise new ValueError "substring not found"
     else
       return index
 
@@ -189,7 +197,7 @@ class Str extends Sequence
   rindex: (sub, start = 0, end = @__len__()) ->
     lastIndex = substr.lastIndexOf(sub)
     if lastIndex == -1
-      (new ValueError "substring not found").raise()
+      raise new ValueError "substring not found"
     else
       return lastIndex
       

@@ -10,7 +10,21 @@ float = (operand) ->
   
 issubclass = (classArg, classinfo) ->
   # [Relevant](http://docs.python.org/library/functions.html#issubclass)
-  classArg is classinfo or classinfo in classArg.__bases__()
+  # The classes are equal.
+  if classArg is classinfo
+    true
+  # The call to bases will fail if we go any higher than `Obj`.
+  else if classArg is Obj
+    false
+  else
+  # Collect the results of each recursively calling `issubclass` on each parent
+  # class.
+    classArg
+      .__bases__()
+      .map (parentClass) ->
+        issubclass(parentClass, classinfo)
+      .reduce (a, b) ->
+        a or b
 
 len = (operand) ->
   operand.__len__()
