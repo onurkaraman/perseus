@@ -247,7 +247,7 @@ class Str extends Sequence
     if width <= @__len__()
       return @value
     zeroStr = new Str('0')
-    if @value.__len__() == 0
+    if @value.length == 0
       return zeroStr.__mul__(width)
     zeroCount = width - @__len__()
     if @value[0] == '-'
