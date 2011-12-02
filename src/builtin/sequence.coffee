@@ -24,7 +24,7 @@ class Sequence extends Primitive
     if issubclass type(operand), Int
       newValue = new (type(@))()
       for i in [0...operand.value]
-        newValue.__iadd__ @value
+        newValue.__iadd__ @
       newValue
     else
       super operand
