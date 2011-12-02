@@ -13,38 +13,38 @@ class Sequence extends Primitive
     new Int @value.length
     
   __min__: ->
-    new Int @value.reduce (a, b) ->
-      return a if a <= b else b
+    @value.reduce (a, b) ->
+      a if a <= b else b
       
   __max__: ->
-    new Int @value.reduce (a, b) ->
-      return a if a >= b else b
+    @value.reduce (a, b) ->
+      a if a >= b else b
   
   __mul__: (operand) ->
     if Int in operand.__class__().__bases__()
       newValue = new type(@)()
       for i in [0...operand.value]
         newValue.__iadd__(@value)
-      return newValue
+      newValue
     else
       super operand
 
   __slice__: (start, end, step)->
     if not step?
-      return new type(@)(@value.slice(start, end))
+      new (type(@)) @value.slice start, end
     else
       # **To-do**: implementation for `step > 1`
       # Push this up to named argument step=1
-      
-  # **To-do**: The above `__contains__` uses a fallback definition of 
-  # `Array.prototype.indexOf`.  Any way to trigger this?  
-  index: (operand) ->
-    return new Int(Array.prototype.indexOf(@value, operand.value))
-    
+  
   count: (operand) ->
     total = 0
     for element in @value
       if element.__eq__(operand).value is true
         total += 1
         
-    return new Int(total)
+    new Int total
+  
+  # **To-do**: The above `__contains__` uses a fallback definition of 
+  # `Array.prototype.indexOf`.  Any way to trigger this?  
+  index: (operand) ->
+    new Int Array.prototype.indexOf @value, operand.value
