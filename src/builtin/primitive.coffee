@@ -54,6 +54,9 @@ class Primitive extends Obj
   #       @::[iop] = inplace(iop)
   #
   # but is this desirable? (readability)
+  # 
+  # Should not be allowed to do these on literals.
+  # This is currently caught by the Python ASTparser.
   
   __iadd__: (operand) ->
     @value = @__add__(operand).value
