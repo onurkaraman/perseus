@@ -21,15 +21,13 @@ class List extends Sequence
     @value = @pop @index element
     return
     
-  pop: (index = @__len__().value - 1) ->
-    print @__len__().value
-    print 'index:' + index
+  pop: (index = new Int @__len__().value - 1) ->
     if @__len__().value == 0
       (new IndexError "pop from empty list").raise()
-    else if index < 0 or index >= @__len__().value
+    else if index.value < 0 or index.value >= @__len__().value
       (new IndexError "pop index out of range").raise()
     else
-      [removed] = @value.splice index, 1 # Javascript returns array. Just want element
+      [removed] = @value.splice index.value, 1 # Javascript returns array. Just want element
       removed
     
   sort: ->
