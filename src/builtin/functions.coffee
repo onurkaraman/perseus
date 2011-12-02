@@ -1,31 +1,32 @@
 # **To-do** Implement tuple support for classinfo.
-issubclass = (classArg, classinfo) ->
-  return classArg is classinfo or classinfo in classArg.__bases__()
+abs = (operand) ->
+  operand.__abs__()
 
 cmp = (operand1, operand2) ->
-  return operand1.__cmp__(operand2)
+  operand1.__cmp__(operand2)
   
-pow = (operand1, operand2) ->
-  return operand1.__pow__(operand2)
-
-abs = (operand) ->
-  return operand.__abs__()
-
 float = (operand) ->
-  return new Num(window.Number(operand))
-
-str = (operand) ->
-  if operand?
-    return operand.__str__()
-  else
-    # [Relevant](http://docs.python.org/library/functions.html#str)
-    return ''
-    
-repr = (operand) ->
-  return operand.__repr__()
-
-type = (object) ->
-  return object.constructor
+  new Num(window.Number(operand.value))
   
+issubclass = (classArg, classinfo) ->
+  # [Relevant](http://docs.python.org/library/functions.html#issubclass)
+  classArg is classinfo or classinfo in classArg.__bases__()
+    
+pow = (operand1, operand2) ->
+  operand1.__pow__(operand2)
+
 print = (object) ->
   console.log(object)
+
+repr = (operand) ->
+  operand.__repr__()
+  
+str = (operand) ->
+  if operand?
+    operand.__str__()
+  else
+    # [Relevant](http://docs.python.org/library/functions.html#str)
+    ''
+
+type = (object) ->
+  object.constructor
