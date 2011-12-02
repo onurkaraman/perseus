@@ -52,20 +52,22 @@ class Str extends Sequence
       else
         curIndex = substringIndex + substringLen
         count++
-    return new Int count
+    new Int count
   
-  decode: -> return
-  encode: -> return
-  endswith: (suffix, start, end) ->
+  decode: ->
+    
+  encode: ->
+    
+  endswith: (suffix, start = 0, end = @__len__().value) ->
     slicedStr = @value.slice(start, end)
     index = slicedStr.lastIndexOf(suffix)
     if index < 0
       return false 
-    return index + suffix.length == @value.length
+    return (index + suffix.length) == end
 
   expandtabs: -> return
   
-  find: (sub, start = 0, end = @__len__()) ->
+  find: (sub, start = 0, end = @__len__().value) ->
     index = @value.indexOf(sub)
     withinBounds = start <= index < end
     if withinBounds
