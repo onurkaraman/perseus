@@ -1,0 +1,1 @@
+class Float extends Num
