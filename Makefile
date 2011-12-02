@@ -8,7 +8,7 @@ build:
 clean:
 	rm pythonScript.js
 
-.PHONY: doc subset intSubset strSubset listSubset dictSetSubset
+.PHONY: doc subset intSubset strSubset listSubset dictSetSubset iteratorSubset
 doc:
 	rm -rf docs/
 	docco src/node/*.py src/builtin/*.coffee 
@@ -26,4 +26,4 @@ listSubset:
 	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee > $(PYTHONSCRIPT)
 
 dictSetSubset:
-	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dict.coffee > $(PYTHONSCRIPT)
+	coffee -cpbj $(BASE) $(BUILTIN)/object.coffee $(BUILTIN)/primitive.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/setiterator.coffee $(BUILTIN)/dict.coffee > $(PYTHONSCRIPT)
