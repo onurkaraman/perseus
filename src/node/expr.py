@@ -32,7 +32,7 @@ class IfExp(Base):
 
 class Dict(Base):
     def compile(self):
-        return '{%s}' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
+        return 'new Dict(%s)' % (', '.join('%s: %s' % (key, value) for (key, value) in zip(self.keys, self.values)))
 
 class Set(Base):
     def compile(self):
