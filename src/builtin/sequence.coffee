@@ -21,7 +21,7 @@ class Sequence extends Primitive
       a if a.__ge__(b).value is true else b
   
   __mul__: (operand) ->
-    if issubclass(type(operand), Int)
+    if issubclass type(operand), Int
       newValue = new (type(@))()
       for i in [0...operand.value]
         newValue.__iadd__ @value

@@ -30,7 +30,7 @@ class Int extends Num
   __mul__: (operand) ->
     # String * Integer and Integer * String are interchangeable in Python and
     # represent a form of string concatenation
-    if Sequence in operand.__class__().__bases__()
+    if issubclass type(operand), Sequence
       operand.__mul__ @
     # **To-do** Add another branch for lists.
     else if issubinstance operand, @
