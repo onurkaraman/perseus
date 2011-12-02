@@ -69,7 +69,7 @@ class Set extends Iterable
   __isub__: (set) ->
     for item in set.value.keys()
       if @__contains__(item)
-        @value.pop(item, null)
+        @value.pop(item)
     return @
 
   __iter__: ->

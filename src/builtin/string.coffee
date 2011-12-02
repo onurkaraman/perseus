@@ -25,13 +25,15 @@ class Str extends Sequence
 
   count: (sub, start = 0, end = @__len__()) ->
     count = 0
-    curIndex = start
-    while curIndex < end
-      substringIndex = @value.indexOf(sub, curIndex)
+    curIndex = 0
+    slicedStr = @value.slice(start, end)
+    substringLen = (new Str(sub)).__len__()
+    while curIndex < slicedStr.length
+      substringIndex = slicedStr.indexOf(sub, curIndex)
       if substringIndex < 0
         break
       else
-        curIndex = substringIndex + Str(sub).__len__()
+        curIndex = substringIndex + substringLen
         count++
     return count
   
@@ -117,11 +119,12 @@ class Str extends Sequence
   istitle: ->
     words = @value.split ' '
     for word in words
-      if not Str(word[0]).isupper()
+      firstChar = new String(word[0])
+      if not firstChar.isupper()
         return false
       if word.length == 1
         continue
-      if not Str(word[0]).islower()
+      if not firstChar.islower()
         return false
     return true
   
@@ -141,7 +144,7 @@ class Str extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = Str('').__mul__(delta)
+    pad = (new Str('')).__mul__(delta)
     return @value + pad    
   
   lower: ->
@@ -179,7 +182,7 @@ class Str extends Sequence
     if width <= @__len__()
       return @value
     delta = width - @__len__()
-    pad = Str('').__mul__(delta)
+    pad = (new Str('')).__mul__(delta)
     return pad + @value
 
   rpartition: (sep) ->
@@ -203,12 +206,13 @@ class Str extends Sequence
   swapcase: ->
     result = ''
     for char in @value
-      if Str(char).islower()
+      c = new Str(char)
+      if c.islower()
         ascii = char.charCodeAt(0)
         upperCaseAscii = ascii - 32
         upperCaseChar = String.fromCharCode(upperCaseAscii)
         result += upperCaseChar
-      else if Str(char).isupper()
+      else if c.isupper()
         ascii = char.charCodeAt(0)
         lowerCaseAscii = ascii + 32
         lowerCaseChar = String.fromCharCode(lowerCaseAscii)
@@ -226,11 +230,12 @@ class Str extends Sequence
   zfill: (width) ->
     if width <= @__len__()
       return @value
+    zeroStr = new Str('0')
     if @value.__len__() == 0
-      return Str('0').__mul__(width)
+      return zeroStr.__mul__(width)
     zeroCount = width - @__len__()
     if @value[0] == '-'
       remaining = @value.slice(1)
-      return '-' + Str('0').__mul__(zeroCount) + remaining
+      return '-' + zeroStr.__mul__(zeroCount) + remaining
     else
-      return Str('0').__mul__(zeroCount) + remaining
+      return zeroStr.__mul__(zeroCount) + remaining
