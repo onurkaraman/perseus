@@ -1,10 +1,10 @@
-# PythonScript
+# Perseus
 
-PythonScript is a WIP **in-browser Python-to-JavaScript compiler**.  
+Perseus is a WIP **in-browser Python-to-JavaScript compiler**.  
 
 The goal is to have standalone cross-browser pretty-printed JavaScript output.  In the far future, additional support for translation to [Node.js][] modules will be implemented as well.
 
-You can look over the code on [github](http://github.com/onurkaraman/pythonscript), or the annotated source [here](http://onurkaraman.github.com/pythonscript/docs/bool.html).
+You can look over the code on [github](http://github.com/onurkaraman/Perseus), or the annotated source [here](http://onurkaraman.github.com/Perseus/docs/bool.html).
 
 ## Why use it?
 
@@ -25,7 +25,7 @@ The semantic translation consists of one step:
 
 - **Load a JavaScript translation of the Python 'built-in' types, functions, etc.**
 
-  We need to do this because these are Python-implementation-dependent.  In CPython (the default implementation of Python), these are written in C (no kidding!), so we *can't* translate these over using PythonScript.
+  We need to do this because these are Python-implementation-dependent.  In CPython (the default implementation of Python), these are written in C (no kidding!), so we *can't* translate these over using Perseus.
 
 ## What's left
 
@@ -33,8 +33,8 @@ Work-in-progress is no exaggeration.  While we have the basic functionality down
 
 - **Translate the AST parser into JavaScript**
 
-  We're using the Python standard library [ast](http://docs.python.org/library/ast.html) module right now, but in order for PythonScript to completely work in the browser, we need to convert this to JavaScript.
-  We should be able to do this using PythonScript itself, but as a fallback we could generate a Python parser in JavaScript using [Jison][].
+  We're using the Python standard library [ast](http://docs.python.org/library/ast.html) module right now, but in order for Perseus to completely work in the browser, we need to convert this to JavaScript.
+  We should be able to do this using Perseus itself, but as a fallback we could generate a Python parser in JavaScript using [Jison][].
 
 - **Finish AST node translations**
 
@@ -42,7 +42,7 @@ Work-in-progress is no exaggeration.  While we have the basic functionality down
 
 - **Translate AST node translator into JavaScript**
 
-  As soon as we translate the built-in dependencies, we can translate our translator, using PythonScript itself once again.
+  As soon as we translate the built-in dependencies, we can translate our translator, using Perseus itself once again.
 
 - **Finish translation of Python's built-ins**
 
@@ -51,8 +51,8 @@ Work-in-progress is no exaggeration.  While we have the basic functionality down
 
 - **Resolve packing/unpacking issue**
 
-  PythonScript-translated functions currently take PythonScript objects (such as `Int`, `Num`, `Tuple`) as input, and produce them as output.  This is undesirable because the user can't natively use the translated functions without knowing how to convert 
-  their arguments into PythonScript classes, as in the case of built-in JavaScript primitives.  This should be solvable using `PythonScript.pack()` and `PythonScript.unpack()` functions and some ingenuity.
+  Perseus-translated functions currently take Perseus objects (such as `Int`, `Num`, `Tuple`) as input, and produce them as output.  This is undesirable because the user can't natively use the translated functions without knowing how to convert 
+  their arguments into Perseus classes, as in the case of built-in JavaScript primitives.  This should be solvable using `Perseus.pack()` and `Perseus.unpack()` functions and some ingenuity.
 
 - **Miscellaneous**
   - Optimize JavaScript translation of Python built-ins to only include those necessary to run the translated Python code.

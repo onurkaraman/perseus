@@ -4,10 +4,10 @@ import sys
 sys.path.append('../src/')
 import node.mod
 
-class PythonScript:
+class Perseus:
     @staticmethod
     def compile(code):
         ASTRootNode = ast.parse(code)
         return node.mod.Module(ASTRootNode, None).compile()
 
-print(PythonScript.compile(open('input.py').read()))
+print(Perseus.compile(open('input.py').read()))

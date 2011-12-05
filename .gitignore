@@ -31,4 +31,4 @@ src/builtin/*.js
 
 # Compiler #
 ############
-pythonScript.js
+perseus.js
