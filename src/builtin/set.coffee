@@ -78,7 +78,7 @@ class Set extends Iterable
   # Inplace xor
   __ixor__: (set) ->
     diff1 = @__sub__(set)
-    diff2 = set.__sub__(xor)
+    diff2 = set.__sub__(@)
     xor = diff1.__or__(diff2)
     @clear()
     for item in xor.value.keys()
@@ -152,7 +152,7 @@ class Set extends Iterable
   # Returns new Set containing items in this or set, but not both
   __xor__: (set) ->
     diff1 = @__sub__(set)
-    diff2 = set.__sub__(xor)
+    diff2 = set.__sub__(@)
     xor = diff1.__or__(diff2)
     return xor
   
