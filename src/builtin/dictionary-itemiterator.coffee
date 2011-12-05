@@ -1,3 +1,5 @@
+# DictionaryItemIterator class is an iterator class containing methods for Python's built-in 
+# dictionary-itemiterator type.
 class DictionaryItemIterator extends Iterator
   constructor: (dictionary) ->
     @iterable = List()
@@ -6,6 +8,7 @@ class DictionaryItemIterator extends Iterator
       iterable.append(tuple)
     @index = 0
 
+  # http://docs.python.org/library/stdtypes.html#iterator.next
   next: ->
     if @index >= len(@iterable).value
       raise new StopIteration "StopIteration"
