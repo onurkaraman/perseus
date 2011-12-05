@@ -290,7 +290,10 @@ class Str extends Sequence
         result += c
     return new Str result
 
-  # http://docs.python.org/library/stdtypes.html#str.title
+  ###
+  **Fix-me**: Account for punctuation as described in:
+  http://docs.python.org/library/stdtypes.html#str.title
+  ###
   title: -> return
 
   # http://docs.python.org/library/stdtypes.html#str.translate

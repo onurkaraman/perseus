@@ -1,4 +1,4 @@
-# http://docs.python.org/library/stdtypes.html#set-types-set-frozenset
+# http://docs.python.org/library/stdtypes.html#set
 class Set extends Iterable
   constructor: (iterable) ->
     @value = new Dict() # set just is a wrapped version of our own Dict class
@@ -92,6 +92,7 @@ class Set extends Iterable
         return false
     return true
 
+  # Gets the len of this set
   __len__: ->
     return @value.__len__()
 
@@ -155,60 +156,65 @@ class Set extends Iterable
     xor = diff1.__or__(diff2)
     return xor
   
+  # http://docs.python.org/library/stdtypes.html#set.add
   add: (element) ->
     @value.__setitem__(element, true)
     return
     
+  # http://docs.python.org/library/stdtypes.html#set.clear
   clear: ->
     @value.clear()
   
-  # Returns a shallow copy of this
+  # http://docs.python.org/library/stdtypes.html#set.copy
   copy: ->
     keys = @keys()
     return new Set(keys)
   
-  # Returns a new set containing items in this but not any set in others
+  # http://docs.python.org/library/stdtypes.html#set.difference
   difference: (others...) ->
     difference = @copy()
     for other in others
       difference.__isub__(other)
     return difference
   
-  # Inplace difference of this and every set in others
+  # http://docs.python.org/library/stdtypes.html#set.difference_update
   difference_update: (others...) ->
     for other in others
       @__isub__(other)
     return
 
-  # Removes an element from the this if it can, otherwise does nothing
+  # http://docs.python.org/library/stdtypes.html#set.discard
   discard: (elem) ->
     if @value.__contains__(elem)
       @value.pop(elem)
     return
 
-  # Returns new set containing elements in common with this and each set in others
+  # http://docs.python.org/library/stdtypes.html#set.intersection
   intersection: (others...) ->
     intersect = @copy()
     for other in others
       intersect.__iand__(other)
     return intersect
 
-  # Inplace update of this, keeping values only found in it and all others
+  # http://docs.python.org/library/stdtypes.html#set.intersection_update
   intersection_update: (others...) ->
     for other in others
       @__iand__(other)
     return
 
-  # Checks to see if this and set are disjoint, meaning this intersected with set is the empty set 
+  # http://docs.python.org/library/stdtypes.html#set.isdisjoint
   isdisjoint: (set) ->
     return @__and__(set).__len__() == 0
   
+  # http://docs.python.org/library/stdtypes.html#set.issubset
   issubset: (set) ->
     return @__le__(set)
   
+  # http://docs.python.org/library/stdtypes.html#set.issuperset
   issuperset: (set) ->
     return @__ge__(set)
 
+  # http://docs.python.org/library/stdtypes.html#set.pop
   pop: ->
     if @value.__len__ == 0
       (new KeyError "pop from an empty set").raise()
@@ -217,6 +223,7 @@ class Set extends Iterable
       randomKey = randomItem.__getitem__(0)
       return randomKey
 
+  # http://docs.python.org/library/stdtypes.html#set.remove
   remove: (elem) ->
     if elem not in @value.value
       (new KeyError "#{elem}").raise()
@@ -224,19 +231,23 @@ class Set extends Iterable
       @value.pop(elem)
     return
 
+  # http://docs.python.org/library/stdtypes.html#set.symmetric_difference
   symmetric_difference: (other) ->
     return @__xor__(other)
 
+  # http://docs.python.org/library/stdtypes.html#set.symmetric_difference_update
   symmetric_difference_update: (other) ->
     @__ixor__(other)
     return
 
+  # http://docs.python.org/library/stdtypes.html#set.union
   union: (others...) ->
     union = @copy()
     for other in others
       union.__ior__(other)
     return union
 
+  # http://docs.python.org/library/stdtypes.html#set.update
   update: (others...) ->
     for other in others
       @__ior__(other)
