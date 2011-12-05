@@ -83,7 +83,6 @@ table td {
     .docs pre {
       margin: 15px 0 15px;
       padding-left: 15px;
-      white-space: pre-wrap; 
     }
     .docs p tt, .docs p code {
       background: #f8f8ff;

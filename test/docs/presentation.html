@@ -1,0 +1,51 @@
+<!DOCTYPE html>  <html> <head>   <title>presentation.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               presentation.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <pre><code>def addDisbelief(originalQuote):
+    return originalQuote + '! Great Scott!'
+
+def miltonFunction():
+    def miltonClosure():
+    return "excuse me, I believe you have my stapler...".capitalize()
+    return miltonClosure
+
+print addDisbelief('1.21 Gigawatts')
+martyQuote = 'Wait a minute, Doc. Ah... Are you telling me that you built a time machine... out of a DeLorean?'
+print martyQuote.upper()
+
+miltonConcern = miltonFunction()
+print miltonConcern()
+
+print 5 &lt; 7 &lt; 2 # Chained comparisons!
+
+print "Woop " * 2
+
+print 5 // 2
+print 5 ** 2
+
+numbers = [8, -0.1, 101]
+print len(numbers)
+
+emptylist = []
+emptylist.pop() # Pythonic exceptions
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">addDisbelief</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">originalQuote</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">originalQuote</span><span class="p">.</span><span class="nx">__add__</span><span class="p">(</span><span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s2">&quot;! Great Scott!&quot;</span><span class="p">));</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">miltonFunction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">miltonClosure</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s2">&quot;excuse me, I believe you have my stapler...&quot;</span><span class="p">).</span><span class="nx">capitalize</span><span class="p">();</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="nx">miltonClosure</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="nx">addDisbelief</span><span class="p">(</span><span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s2">&quot;1.21 Gigawatts&quot;</span><span class="p">))).</span><span class="nx">value</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">martyQuote</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s2">&quot;Wait a minute, Doc. Ah... Are you telling me that you built a time machine... out of a DeLorean?&quot;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="nx">martyQuote</span><span class="p">.</span><span class="nx">upper</span><span class="p">()).</span><span class="nx">value</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">miltonConcern</span> <span class="o">=</span> <span class="nx">miltonFunction</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="nx">miltonConcern</span><span class="p">()).</span><span class="nx">value</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="nx">__lt__</span><span class="p">(</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">7</span><span class="p">).</span><span class="nx">__lt__</span><span class="p">(</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">2</span><span class="p">))).</span><span class="nx">value</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="k">new</span> <span class="nx">Str</span><span class="p">(</span><span class="s2">&quot;Woop &quot;</span><span class="p">).</span><span class="nx">__mul__</span><span class="p">(</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">2</span><span class="p">))).</span><span class="nx">value</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="nx">__floordiv__</span><span class="p">(</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">2</span><span class="p">))).</span><span class="nx">value</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="nx">__pow__</span><span class="p">(</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">2</span><span class="p">))).</span><span class="nx">value</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">List</span><span class="p">([</span><span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="k">new</span> <span class="nx">Num</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span> <span class="k">new</span> <span class="nx">Int</span><span class="p">(</span><span class="mi">101</span><span class="p">)]);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="nx">len</span><span class="p">(</span><span class="nx">numbers</span><span class="p">)).</span><span class="nx">value</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">emptylist</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">List</span><span class="p">([]);</span>
+<span class="nx">emptylist</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
