@@ -46,44 +46,11 @@ class Set extends Iterable
         return false
     return true
   
-  # Inplace and operation. x.__iand__(y) changes x
-  __iand__: (set) ->
-    deletedKeys = []
-    for item in @value.keys()
-      if not set.__contains__(item)
-        deletedKeys.push(item)
-    for deletedKey in deletedKeys
-      @value.pop(deletedKey)
-    return @
-  
   # **Unimplemented**
   __init__: ->
-  
-  # Inplace set union
-  __ior__: (set) ->
-    for item in set.value.keys()
-      @add(item)
-    return @
-  
-  # Inplace set difference
-  __isub__: (set) ->
-    for item in set.value.keys()
-      if @__contains__(item)
-        @value.pop(item)
-    return @
 
   __iter__: ->
     return new SetIterator(@)
-  
-  # Inplace xor
-  __ixor__: (set) ->
-    diff1 = @__sub__(set)
-    diff2 = set.__sub__(@)
-    xor = diff1.__or__(diff2)
-    @clear()
-    for item in xor.value.keys()
-        @add(item)
-    return @
 
   # Checks to see if this is a subset of set
   __le__: (set) ->
