@@ -15,6 +15,7 @@ class Dict extends Mapping
     delete @value[key]
     return
 
+  # http://docs.python.org/release/2.3.5/ref/comparisons.html
   __eq__: (dict) ->
     keys = Object.keys(@value)
     otherKeys = Object.keys(dict.value)
@@ -32,6 +33,7 @@ class Dict extends Mapping
   __ge__: (dict) ->
     return new Bool @__gt__(dict) or @__eq__(dict)
 
+  # **Unimplemented**
   __getattribute__: (attr) ->
 
   # Gets the item from this: like `x[key]`
