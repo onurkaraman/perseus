@@ -1,3 +1,4 @@
+# http://docs.python.org/library/stdtypes.html#dict
 class Dict extends Mapping
   constructor: (iterable) ->
     @value = {}
@@ -84,25 +85,31 @@ class Dict extends Mapping
   #** Unimplemented **
   __sizeof__: ->
   
+  # http://docs.python.org/library/stdtypes.html#dict.clear
   clear: ->
     @value = {} #just reset the dictionary
     return
 
-  # Returns a shallow copy of this
+  # http://docs.python.org/library/stdtypes.html#dict.copy
   copy: ->
     copy = new Dict(@)
     return copy
 
-  # Gets the value of the `key` if key exists. Otherwise return default `d`
+  # http://docs.python.org/library/stdtypes.html#dict.fromkeys
+  @fromkeys: ->
+
+  # http://docs.python.org/library/stdtypes.html#dict.get
   get: (key, d) ->
     if key of @value
       return @__getitem__(key)
     else
       return d
 
+  # http://docs.python.org/library/stdtypes.html#dict.has_key
   has_key: (key) ->
     return new Bool key of @value
 
+  # http://docs.python.org/library/stdtypes.html#dict.items
   items: ->
     items = new List()
     for key of @value
@@ -111,23 +118,24 @@ class Dict extends Mapping
       items.append tuple
     return items
 
+  # http://docs.python.org/library/stdtypes.html#dict.iteritems
   iteritems: ->
     return new DictionaryItemIterator(@)
 
+  # http://docs.python.org/library/stdtypes.html#dict.iterkeys
   iterkeys: ->
     return new DictionaryKeyIterator(@)
 
+  # http://docs.python.org/library/stdtypes.html#dict.itervalues
   itervalues: ->
     return new DictionaryValueIterator(@)
 
-  # Returns a list of keys of this
+  # http://docs.python.org/library/stdtypes.html#dict.keys
   keys: ->
     keys = new List Object.keys(@value)
     return keys
 
-  # Returns the popped value at key if key exists. 
-  # Else returns `d` if default `d` exists
-  # Else raises `KeyError`
+  # http://docs.python.org/library/stdtypes.html#dict.pop
   pop: (key, d) ->
     keys = @keys()
     if keys.__contains__(key)
@@ -139,7 +147,7 @@ class Dict extends Mapping
     else
       raise new KeyError "#{key}"
 
-  # Pops random item from this and returns a 2-tuple
+  # http://docs.python.org/library/stdtypes.html#dict.popitem
   popitem: ->
     if @__len__().value == 0
       raise new KeyError "popitem(): dictionary is empty"
@@ -148,15 +156,17 @@ class Dict extends Mapping
     randomValue = @__getitem__ randomKey
     return new Tuple [randomKey, randomValue]
 
+  # http://docs.python.org/library/stdtypes.html#dict.setdefault
   setdefault: (key, d) ->
     if key not in @keys().value
       @__setitem__ key, d
     return @value[key]
 
   # **Unimplemented**
+  # http://docs.python.org/library/stdtypes.html#dict.update
   update: ->
   
-  # Returns a list of values of this
+  # http://docs.python.org/library/stdtypes.html#dict.values
   values: ->
     keys = @keys()
     values = new List()
@@ -166,10 +176,13 @@ class Dict extends Mapping
     return values
 
   # **Unimplemented**
+  # http://docs.python.org/library/stdtypes.html#dict.viewitems
   viewitems: ->
 
   # **Unimplemented**
+  # http://docs.python.org/library/stdtypes.html#dict.viewkeys 
   viewkeys: ->
 
   # **Unimplemented**
+  # http://docs.python.org/library/stdtypes.html#dict.viewvalues
   viewvalues: ->
