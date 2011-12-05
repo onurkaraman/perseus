@@ -1,15 +1,21 @@
-# **To-do** Implement tuple support for classinfo.
+# [Python](http://docs.python.org/library/functions.html#abs)
 abs = (operand) ->
   operand.__abs__()
 
+# [Python](http://docs.python.org/library/functions.html#cmp)
 cmp = (operand1, operand2) ->
   operand1.__cmp__(operand2)
   
+# [Python](http://docs.python.org/library/functions.html#float)
 float = (operand) ->
   new Num(window.Number(operand.value))
   
+# [Python](http://docs.python.org/library/functions.html#issubclass)
+#
+# **To-do**
+# 
+# - Need to add tuple support for `classinfo`.
 issubclass = (classArg, classinfo) ->
-  # [Relevant](http://docs.python.org/library/functions.html#issubclass)
   # The classes are equal.
   if classArg is classinfo
     true
@@ -26,24 +32,29 @@ issubclass = (classArg, classinfo) ->
       .reduce (a, b) ->
         a or b
 
+# [Python](http://docs.python.org/library/functions.html#len)
 len = (operand) ->
   operand.__len__()
 
+# [Python](http://docs.python.org/library/functions.html#pow)
 pow = (operand1, operand2) ->
   operand1.__pow__(operand2)
 
+# [Python](http://docs.python.org/library/functions.html#print)
 print = (object) ->
   console.log(object)
 
+# [Python](http://docs.python.org/library/functions.html#repr)
 repr = (operand) ->
   operand.__repr__()
   
+# [Python](http://docs.python.org/library/functions.html#str)
 str = (operand) ->
   if operand?
     operand.__str__()
   else
-    # [Relevant](http://docs.python.org/library/functions.html#str)
     ''
-
+    
+# [Python](http://docs.python.org/library/functions.html#type)
 type = (object) ->
   object.constructor
