@@ -4,7 +4,7 @@ PythonScript is a WIP **in-browser Python-to-JavaScript compiler**.
 
 The goal is to have standalone cross-browser pretty-printed JavaScript output.  In the far future, additional support for translation to [Node.js][] modules will be implemented as well.
 
-You can look over the code on [github](http://github.com/onurkaraman/pythonscript), or the annotated source [here](http://onurkaraman.github.com//pythonscript/docs/bool.html).
+You can look over the code on [github](http://github.com/onurkaraman/pythonscript), or the annotated source [here](http://onurkaraman.github.com/pythonscript/docs/bool.html).
 
 ## Why use it?
 
