@@ -31,4 +31,4 @@ src/builtin/*.js
 
 # Compiler #
 ############
-perseus.js
+#perseus.js
