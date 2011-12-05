@@ -1,15 +1,18 @@
 # http://docs.python.org/library/stdtypes.html#string-methods
+#
+# Str class contains methods for Python's built-in str type
 class Str extends Sequence
   constructor: (@value = '') ->
   
-  # **Consideration** Overriding Sequence's inherited __add__ smells of bad
-  # design.
+  # Returns the concatenation of `this` and `operand`
+  # **Consideration** Overriding Sequence's inherited __add__ smells of bad design.
   __add__: (operand) ->
     if issubinstance operand, @
       new (type(@)) @value + operand.value
     else
       super operand
   
+  # States whether `this` contains `operand` 
   __contains__: (operand) ->
     if issubinstance operand, @
       new Bool @value.indexOf(operand) > -1
@@ -58,9 +61,13 @@ class Str extends Sequence
     new Int count
   
   # http://docs.python.org/library/stdtypes.html#str.decode
+  #
+  # **Unimplemented**
   decode: ->
   
   # http://docs.python.org/library/stdtypes.html#str.encode
+  #
+  # **Unimplemented**
   encode: ->
   
   # http://docs.python.org/library/stdtypes.html#str.endswith
@@ -84,7 +91,9 @@ class Str extends Sequence
       return new Int -1
 
   # http://docs.python.org/library/stdtypes.html#str.format
-  format: -> return
+  #
+  # **Unimplemented**
+  format: ->
   
   # http://docs.python.org/library/stdtypes.html#str.index
   index: (sub, start = 0, end = @__len__().value) ->
@@ -187,7 +196,9 @@ class Str extends Sequence
       return new Bool containsUpper
 
   # http://docs.python.org/library/stdtypes.html#str.join
-  join: (iterable) -> return
+  #
+  # **Unimplemented**
+  join: (iterable) ->
 
   # http://docs.python.org/library/stdtypes.html#str.ljust
   ljust: (width, fillchar = ' ') ->
@@ -202,7 +213,9 @@ class Str extends Sequence
     return new Str(@value.toLowerCase())
 
   # http://docs.python.org/library/stdtypes.html#str.lstrip
-  lstrip: (chars) -> return
+  #
+  # **Unimplemented**
+  lstrip: (chars) ->
 
   # http://docs.python.org/library/stdtypes.html#str.partition
   partition: (sep) ->
@@ -253,23 +266,33 @@ class Str extends Sequence
     return new Tuple(partitions)
 
   # http://docs.python.org/library/stdtypes.html#str.rsplit
-  rsplit: -> return
+  #
+  # **Unimplemented**
+  rsplit: ->
 
   # http://docs.python.org/library/stdtypes.html#str.rstrip
-  rstrip: -> return
+  #
+  # **Unimplemented**
+  rstrip: ->
 
   # http://docs.python.org/library/stdtypes.html#str.split
-  split: -> return
+  #
+  # **Unimplemented**
+  split: ->
 
   # http://docs.python.org/library/stdtypes.html#str.splitlines
-  splitlines: -> return
+  #
+  # **Unimplemented**
+  splitlines: ->
 
   # http://docs.python.org/library/stdtypes.html#str.startswith
   startswith: (prefix, start = 0, end = @__len__().value) ->
     return new Bool @value.slice(start, end).indexOf(prefix) == 0
 
   # http://docs.python.org/library/stdtypes.html#str.strip
-  strip: -> return
+  #
+  # **Unimplemented**
+  strip: ->
 
   # http://docs.python.org/library/stdtypes.html#str.swapcase
   swapcase: ->
@@ -293,11 +316,14 @@ class Str extends Sequence
   ###
   **Fix-me**: Account for punctuation as described in:
   http://docs.python.org/library/stdtypes.html#str.title
+  **Unimplemented**
   ###
-  title: -> return
+  title: ->
 
   # http://docs.python.org/library/stdtypes.html#str.translate
-  translate: -> return
+  #
+  # **Unimplemented**
+  translate: ->
 
   # http://docs.python.org/library/stdtypes.html#str.upper
   upper: ->
