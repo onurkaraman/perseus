@@ -4,7 +4,7 @@ PythonScript is a WIP **in-browser Python-to-JavaScript compiler**.
 
 The goal is to have standalone cross-browser pretty-printed JavaScript output.  In the far future, additional support for translation to [Node.js][] modules will be implemented as well.
 
-You can look over the code on [github](http://github.com/onurkaraman/pythonscript), or the annotated source [here](http://github.com/onurkaraman/pythonscript/docs).
+You can look over the code on [github](http://github.com/onurkaraman/pythonscript), or the annotated source [here](http://onurkaraman.github.com/pythonscript/docs/bool.html).
 
 ## Why use it?
 
@@ -34,11 +34,11 @@ Work-in-progress is no exaggeration.  While we have the basic functionality down
 - **Translate the AST parser into JavaScript**
 
   We're using the Python standard library [ast](http://docs.python.org/library/ast.html) module right now, but in order for PythonScript to completely work in the browser, we need to convert this to JavaScript.
-  We should be able to do this using PythonScript itself, but as a fallback we could generate a Python parser in JavaScript using [Jison]().
+  We should be able to do this using PythonScript itself, but as a fallback we could generate a Python parser in JavaScript using [Jison][].
 
 - **Finish AST node translations**
 
-  A brief skim through (src/nodes) will show that there are still a few that haven't been implemented yet, which includes classes, variable/keyword arguments, and import statements.
+  A brief skim through `src/nodes` will show that there are still a few that haven't been implemented yet, which includes classes, variable/keyword arguments, and import statements.
 
 - **Translate AST node translator into JavaScript**
 
