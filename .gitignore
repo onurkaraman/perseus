@@ -9,10 +9,6 @@
 */node_modules/
 node_modules/
 
-# Generated parser #
-####################
-src/parser.js
-
 # Eclipse #
 ###########
 .project
@@ -21,6 +17,22 @@ src/parser.js
 
 # Test File #
 #############
-src/test.py
+test/input.py
 src/test.js
 src/result.txt
+
+# Compiled Coffeescript #
+#########################
+src/builtin/*.js
+
+# Compiled Python #
+###################
+*.pyc
+
+# Docs #
+########
+docs/
+
+# Compiler #
+############
+pythonScript.js

@@ -1,0 +1,202 @@
+<!DOCTYPE html>  <html> <head>   <title>stmt.py</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="bool.html">                 bool.coffee               </a>                                           <a class="source" href="dict.html">                 dict.coffee               </a>                                           <a class="source" href="dictionary-itemiterator.html">                 dictionary-itemiterator.coffee               </a>                                           <a class="source" href="dictionary-keyiterator.html">                 dictionary-keyiterator.coffee               </a>                                           <a class="source" href="dictionary-valueiterator.html">                 dictionary-valueiterator.coffee               </a>                                           <a class="source" href="exceptions.html">                 exceptions.coffee               </a>                                           <a class="source" href="float.html">                 float.coffee               </a>                                           <a class="source" href="functions.html">                 functions.coffee               </a>                                           <a class="source" href="helper.html">                 helper.coffee               </a>                                           <a class="source" href="integer.html">                 integer.coffee               </a>                                           <a class="source" href="iterable.html">                 iterable.coffee               </a>                                           <a class="source" href="iterator.html">                 iterator.coffee               </a>                                           <a class="source" href="list.html">                 list.coffee               </a>                                           <a class="source" href="listiterator.html">                 listiterator.coffee               </a>                                           <a class="source" href="listreverseiterator.html">                 listreverseiterator.coffee               </a>                                           <a class="source" href="mapping.html">                 mapping.coffee               </a>                                           <a class="source" href="number.html">                 number.coffee               </a>                                           <a class="source" href="object.html">                 object.coffee               </a>                                           <a class="source" href="primitive.html">                 primitive.coffee               </a>                                           <a class="source" href="sequence.html">                 sequence.coffee               </a>                                           <a class="source" href="set.html">                 set.coffee               </a>                                           <a class="source" href="setiterator.html">                 setiterator.coffee               </a>                                           <a class="source" href="string.html">                 string.coffee               </a>                                           <a class="source" href="__init__.html">                 __init__.py               </a>                                           <a class="source" href="alias.html">                 alias.py               </a>                                           <a class="source" href="arguments.html">                 arguments.py               </a>                                           <a class="source" href="base.html">                 base.py               </a>                                           <a class="source" href="boolop.html">                 boolop.py               </a>                                           <a class="source" href="cmpop.html">                 cmpop.py               </a>                                           <a class="source" href="comprehension.html">                 comprehension.py               </a>                                           <a class="source" href="excepthandler.html">                 excepthandler.py               </a>                                           <a class="source" href="expr.html">                 expr.py               </a>                                           <a class="source" href="expr_context.html">                 expr_context.py               </a>                                           <a class="source" href="helper.html">                 helper.py               </a>                                           <a class="source" href="keyword.html">                 keyword.py               </a>                                           <a class="source" href="mod.html">                 mod.py               </a>                                           <a class="source" href="operator.html">                 operator.py               </a>                                           <a class="source" href="slice.html">                 slice.py               </a>                                           <a class="source" href="stmt.html">                 stmt.py               </a>                                           <a class="source" href="typing.html">                 typing.py               </a>                                           <a class="source" href="unaryop.html">                 unaryop.py               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               stmt.py             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">import</span> <span class="nn">helper</span>
+
+<span class="k">class</span> <span class="nc">FunctionDef</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            var %(name)s = function(%(args)s) {</span>
+<span class="sd">                %(body)s</span>
+<span class="sd">            }</span>
+<span class="sd">            &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>
+        <span class="p">)</span>
+        </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p><strong>To-do</strong> Add inheritance features</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">ClassDef</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bases</span> <span class="o">==</span> <span class="p">[]):</span>
+            <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                var %(name)s;</span>
+<span class="sd">                </span>
+<span class="sd">                %(name)s = (function(){</span>
+<span class="sd">                    %(body)s</span>
+<span class="sd">                </span>
+<span class="sd">                    return %(name)s;</span>
+<span class="sd">                })();</span>
+<span class="sd">                &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>
+            <span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Return</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;return </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+    
+<span class="k">class</span> <span class="nc">Delete</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;delete &#39;</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p><strong>To-do</strong> need to handle global var assignments eventually.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Assign</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s">&#39;var </span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">]</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p><strong>To-do</strong> Append 'i' to ops, e.g. <strong>add</strong> => <strong>iadd</strong></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">AugAssign</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">= </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p><strong>Consideration</strong> What is nl - newline?</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Print</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;console.log((</span><span class="si">%s</span><span class="s">).value)&#39;</span> <span class="o">%</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expr</span> <span class="k">for</span> <span class="n">expr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p><strong>To-do</strong> Stabilize. Obviously having inlined variable names could result in variable name conflicts</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">For</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span> <span class="o">==</span> <span class="p">[]):</span>
+            <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                var _i, _len, _ref, %(target)s;</span>
+<span class="sd">                _ref = %(iter)s</span>
+<span class="sd">                </span>
+<span class="sd">                for (_i = 0; _len = _ref.__len__(); _i &lt; _len; _i++) {</span>
+<span class="sd">                    %(target)s = _ref[_i];</span>
+<span class="sd">                    %(body)s</span>
+<span class="sd">                }</span>
+<span class="sd">                &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                var _i, _len, _ref, %(target)s;</span>
+<span class="sd">                _ref = %(iter)s</span>
+<span class="sd">                </span>
+<span class="sd">                if (_ref.__len__() &gt; 0) {</span>
+<span class="sd">                    for (_i = 0; _len = _ref.__len__(); _i &lt; _len; _i++) {</span>
+<span class="sd">                        %(target)s = _ref[_i];</span>
+<span class="sd">                        %(body)s</span>
+<span class="sd">                        if (_i &gt;= _len - 1) {</span>
+<span class="sd">                            %(orelse)s</span>
+<span class="sd">                        }</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">                else {</span>
+<span class="sd">                    %(orelse)s</span>
+<span class="sd">                }</span>
+<span class="sd">                &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>          
+            <span class="p">)</span>
+        
+<span class="k">class</span> <span class="nc">While</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            if(%(test)s){&#39;,</span>
+<span class="sd">                while(true){&#39;,</span>
+<span class="sd">                    %(body)s&#39;,</span>
+<span class="sd">                    if(!%(test)s){&#39;,</span>
+<span class="sd">                        %(orelse)s&#39;,</span>
+<span class="sd">                        break;&#39;,</span>
+<span class="sd">                    }&#39;,</span>
+<span class="sd">                }&#39;</span>
+<span class="sd">            }&#39;,</span>
+<span class="sd">            else{&#39;,</span>
+<span class="sd">                %(orelse)s&#39;,</span>
+<span class="sd">            }&#39;</span>
+<span class="sd">            &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>
+        <span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">If</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">compiled</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            if (%(test)s) {</span>
+<span class="sd">                %(body)s</span>
+<span class="sd">            }</span>
+<span class="sd">            &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>
+        <span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p><strong>Consideration</strong> abstract list.isEmpty() ?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">compiled</span> <span class="o">=</span> <span class="n">compiled</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                else {</span>
+<span class="sd">                    %(orelse)s</span>
+<span class="sd">                }</span>
+<span class="sd">                &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">compiled</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p><strong>Unimplemented</strong></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">With</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p><strong>To-do</strong> Incorporate self.inst, trace.  Throw PS version of exceptions</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Raise</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">exceptionType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">return</span> <span class="s">&#39;throw Error(&quot;</span><span class="si">%s</span><span class="s">&quot;)&#39;</span> <span class="o">%</span> <span class="n">exceptionType</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p><strong>Unimplemented</strong>
+<strong>To-do</strong>: Use Block abstraction and compile recursively.  We can then
+eliminate the compileCatchStatements() inner method.
+Use new helper.format() calls</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">TryExcept</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compileCatchStatements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">catchStatements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+            <span class="n">body</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+            <span class="n">exceptionType</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">type</span>
+            <span class="k">if</span> <span class="n">exceptionType</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">catch</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">cleanBlockString</span><span class="p">(</span>
+                    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                    if (e.message === &#39;%s&#39;) {</span>
+<span class="sd">                        %s</span>
+<span class="sd">                    }</span>
+<span class="sd">                    &#39;&#39;&#39;</span>                     
+                <span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">exceptionType</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">catch</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">body</span>
+            <span class="n">catchStatements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">catch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">catchStatements</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tryBody</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">catchBody</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compileCatchStatements</span><span class="p">()</span>
+        <span class="n">elseBody</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orelse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">cleanBlockString</span><span class="p">(</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            try {</span>
+<span class="sd">                %(body)s</span>
+<span class="sd">            }</span>
+<span class="sd">            catch(e) {</span>
+<span class="sd">                var caughtException = true;</span>
+<span class="sd">            }</span>
+<span class="sd">            if (!caughtException) {</span>
+<span class="sd">                %s</span>
+<span class="sd">            }</span>
+<span class="sd">            &#39;&#39;&#39;</span>                     
+        <span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">tryBody</span><span class="p">,</span> <span class="n">catchBody</span><span class="p">,</span> <span class="n">elseBody</span><span class="p">)</span>
+        
+<span class="k">class</span> <span class="nc">TryFinally</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            try {</span>
+<span class="sd">                %(body)s</span>
+<span class="sd">            }</span>
+<span class="sd">            finally {</span>
+<span class="sd">                %(finalbody)s</span>
+<span class="sd">            }</span>
+<span class="sd">            &#39;&#39;&#39;</span><span class="p">,</span> <span class="bp">self</span>
+        <span class="p">)</span>
+        </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p><strong>Unimplemented</strong></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Assert</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p><strong>Unimplemented</strong></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Import</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p><strong>Unimplemented</strong></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">ImportFrom</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p><strong>Unimplemented</strong></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Exec</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p><strong>Unimplemented</strong></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nc">Global</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+<span class="k">class</span> <span class="nc">Expr</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+    
+<span class="k">class</span> <span class="nc">Pass</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;return void(0)&#39;</span>
+    
+<span class="k">class</span> <span class="nc">Break</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;break&#39;</span>
+
+<span class="k">class</span> <span class="nc">Continue</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;continue&#39;</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
