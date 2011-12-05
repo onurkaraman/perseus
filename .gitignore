@@ -29,10 +29,6 @@ src/builtin/*.js
 ###################
 *.pyc
 
-# Docs #
-########
-docs/
-
 # Compiler #
 ############
 pythonScript.js
