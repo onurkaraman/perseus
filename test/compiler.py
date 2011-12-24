@@ -10,4 +10,9 @@ class Perseus:
         ASTRootNode = ast.parse(code)
         return node.mod.Module(ASTRootNode, None).compile()
 
-print(Perseus.compile(open('input.py').read()))
+if len(sys.argv) < 2:
+	inputFile = 'input.py'
+else:
+	inputFile = sys.argv[1]
+
+print(Perseus.compile(open(inputFile).read()))

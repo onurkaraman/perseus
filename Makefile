@@ -9,7 +9,7 @@ clean:
 	rm -f perseus.js
 	rm -f src/builtin/*.js
 
-.PHONY: doc subset intSubset strSubset listSubset dictSetSubset iteratorSubset
+.PHONY: doc subset setset test
 doc:
 	rm -rf docs/
 	docco src/node/*.py src/builtin/*.coffee 
@@ -19,3 +19,6 @@ subset:
 
 setset:
 	coffee -cpbj $(BASE) $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dictionary-valueiterator.coffee $(BUILTIN)/dict.coffee > $(PERSEUS)
+
+test:
+	cd test; python tester.py
