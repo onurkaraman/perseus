@@ -42,10 +42,10 @@ class Dict extends Mapping
 
   # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
-    if @__contains__(key)
+    if @__contains__(key).value
       return @value[key.__hash__().value]
     else
-      raise new KeyError("#{key}")
+      raise new KeyError("#{key.__str__().value}")
 
   __gt__: (otherDict) ->
     return new Bool(not @__le__(otherDict).value)
@@ -159,7 +159,7 @@ class Dict extends Mapping
     else if d?
       return d
     else
-      raise new KeyError("#{key}")
+      raise new KeyError("#{key.__str__().value}")
 
   # http://docs.python.org/library/stdtypes.html#dict.popitem
   popitem: ->
