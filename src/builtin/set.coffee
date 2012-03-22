@@ -8,7 +8,7 @@ class Set extends Iterable
 
   __and__: (otherSet) ->
     intersect = new Set()
-    intersect.__or__(item) for item of @value.value when otherSet.__contains__(item).value
+    intersect.__ior__(item) for item of @value.keys().value when otherSet.__contains__(item).value
     return intersect
 
   __cmp__: (otherSet) ->
