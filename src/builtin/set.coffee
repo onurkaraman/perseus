@@ -3,7 +3,7 @@ class Set extends Iterable
   constructor: (iterable) ->
     @value = new Dict() # set just is a wrapped version of our own Dict class
     if iterable?
-      for item in iterable # Handles empty constructor call too
+      for item in iterable.value # Temporary assumption: iterable is List of pythonic objects
         @value.__setitem__(item, new Bool(true))
 
   __and__: (otherSet) ->
@@ -17,12 +17,12 @@ class Set extends Iterable
   __contains__: (item) ->
     return @value.__contains__(item)
 
-  # Checks to see if this is equivalent to set
+  # Checks to see if this is equivalent to otherSet
   __eq__: (otherSet) ->
     xorSet = @__xor__(otherSet)
     return len(xorSet).__eq__(new Int(0))
 
-  # Checks to see if this is a superset of set
+  # Checks to see if this is a superset of otherSet
   __ge__: (otherSet) ->
     for item in otherSet.value.keys().value
       if not @__contains__(item).value
@@ -32,7 +32,7 @@ class Set extends Iterable
   # **Unimplemented**
   __getattribute__: ->
 
-  # Checks to see if this is a proper superset of set
+  # Checks to see if this is a proper superset of otherSet
   __gt__: (otherSet) ->
     if @__eq__(otherSet).value
       return new Bool(false)
@@ -44,7 +44,7 @@ class Set extends Iterable
   __iter__: ->
     return new SetIterator(@)
 
-  # Checks to see if this is a subset of set
+  # Checks to see if this is a subset of otherSet
   __le__: (otherSet) ->
     for item in @value.keys().value
       if not otherSet.__contains__(item).value
@@ -55,26 +55,26 @@ class Set extends Iterable
   __len__: ->
     return @value.__len__()
 
-  # Checks to see if this is a proper subset of set, meaning this is a subset and not equal to set
+  # Checks to see if this is a proper subset of otherSet, meaning this is a subset and not equal to otherSet
   __lt__: (otherSet) ->
     if @__eq__(otherSet).value
       return new Bool(false)
     return @__le__(otherSet)
 
-  # Checks to see if this is not equivalent to set
-  __ne__: (set) ->
-    return new Bool(not @__eq__(set).value)
+  # Checks to see if this is not equivalent to otherSet
+  __ne__: (otherSet) ->
+    return new Bool(not @__eq__(otherSet).value)
 
-  # Returns a new Set containing items from this or set
-  __or__: (set) ->
-    union = []
-    union.push(item) for item in @value.keys()
-    union.push(item) for item in set.value.keys()
+  # Returns a new Set containing items from this or otherSet
+  __or__: (otherSet) ->
+    union = new List()
+    union.append(item) for item in @value.keys().value
+    union.append(item) for item in otherSet.value.keys().value
     return new Set(union)
 
   # Same as __and__ since intersection is symmetric
-  __rand__: (set) ->
-    return @__and__(set)
+  __rand__: (otherSet) ->
+    return @__and__(otherSet)
   
   # **Unimplemented**
   __reduce__: ->
@@ -83,32 +83,32 @@ class Set extends Iterable
   __repr__: ->
   
   # Same as __or__ since union is symmetric  
-  __ror__: (set) ->
-    return @__or__(set)
+  __ror__: (otherSet) ->
+    return @__or__(otherSet)
 
-  # Subtract this from set
-  __rsub__: (set) ->
-    return set.__sub__(@)
+  # Subtract this from otherSet
+  __rsub__: (otherSet) ->
+    return otherSet.__sub__(@)
   
   # Same as __xor__ since xor is symmetric  
-  __rxor__: (set) ->
-    return @__xor__(set)
+  __rxor__: (otherSet) ->
+    return @__xor__(otherSet)
 
   # **Unimplemented**
   __sizeof__: ->
   
-  # Subtract new set containing this - set
-  __sub__: (set) ->
+  # Returns new set containing this - otherSet
+  __sub__: (otherSet) ->
     difference = @copy()
-    for item in set.value.keys()
+    for item in otherSet.value.keys().value
       if @__contains__(item).value
         difference.value.pop(item)
     return difference
 
-  # Returns new Set containing items in this or set, but not both
-  __xor__: (set) ->
-    diff1 = @__sub__(set)
-    diff2 = set.__sub__(@)
+  # Returns new Set containing items in this or otherSet, but not both
+  __xor__: (otherSet) ->
+    diff1 = @__sub__(otherSet)
+    diff2 = otherSet.__sub__(@)
     xor = diff1.__or__(diff2)
     return xor
   
@@ -123,7 +123,7 @@ class Set extends Iterable
   
   # http://docs.python.org/library/stdtypes.html#set.copy
   copy: ->
-    keys = @keys()
+    keys = @value.keys()
     return new Set(keys)
   
   # http://docs.python.org/library/stdtypes.html#set.difference
@@ -159,16 +159,17 @@ class Set extends Iterable
     return
 
   # http://docs.python.org/library/stdtypes.html#set.isdisjoint
-  isdisjoint: (set) ->
-    return @__and__(set).__len__() == 0
+  isdisjoint: (otherSet) ->
+    intersect = @__and__(otherSet)
+    return len(intersect).__eq__(new Int(0))
   
   # http://docs.python.org/library/stdtypes.html#set.issubset
-  issubset: (set) ->
-    return @__le__(set)
+  issubset: (otherSet) ->
+    return @__le__(otherSet)
   
   # http://docs.python.org/library/stdtypes.html#set.issuperset
-  issuperset: (set) ->
-    return @__ge__(set)
+  issuperset: (otherSet) ->
+    return @__ge__(otherSet)
 
   # http://docs.python.org/library/stdtypes.html#set.pop
   pop: ->
@@ -181,19 +182,19 @@ class Set extends Iterable
 
   # http://docs.python.org/library/stdtypes.html#set.remove
   remove: (elem) ->
-    if elem not in @value.value
-      raise new KeyError("#{elem}")
-    else
+    if @value.__contains__(elem).value
       @value.pop(elem)
+    else
+      raise new KeyError("#{elem}")
     return
 
   # http://docs.python.org/library/stdtypes.html#set.symmetric_difference
-  symmetric_difference: (other) ->
-    return @__xor__(other)
+  symmetric_difference: (otherSet) ->
+    return @__xor__(otherSet)
 
   # http://docs.python.org/library/stdtypes.html#set.symmetric_difference_update
-  symmetric_difference_update: (other) ->
-    @__ixor__(other)
+  symmetric_difference_update: (otherSet) ->
+    @__ixor__(otherSet)
     return
 
   # http://docs.python.org/library/stdtypes.html#set.union
