@@ -14,7 +14,7 @@ class Primitive extends Obj
     
   __le__: (operand) ->
     if issubinstance operand, @
-      new Bool <= operand.value
+      new Bool @value <= operand.value
     else
       super operand
   

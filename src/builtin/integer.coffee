@@ -11,8 +11,14 @@ class Int extends Num
       new Int @__floordiv__ operand
     else
       super operand
+
+  # http://effbot.org/zone/python-hash.htm
+  __hash__: ->
+    if @value == -1
+      return new Int(-2)
+    return @
     
-  __invert__: ->  
+  __invert__: ->
     new Int ~@value
   
   __lshift__: (operand) ->
