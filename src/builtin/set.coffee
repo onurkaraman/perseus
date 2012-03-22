@@ -4,47 +4,39 @@ class Set extends Iterable
     @value = new Dict() # set just is a wrapped version of our own Dict class
     if iterable?
       for item in iterable # Handles empty constructor call too
-        @value.__setitem__(item, true)
+        @value.__setitem__(item, new Bool(true))
 
-  __and__: (other) ->
-    intersect = []
-    intersect.push(item) for item in @value.value when other.__contains__(item)
-    return new Set(intersect)
+  __and__: (otherSet) ->
+    intersect = new Set()
+    intersect.__or__(item) for item of @value.value when otherSet.__contains__(item).value
+    return intersect
 
-  __cmp__: (set) ->
-    (new TypeError "cannot compare sets using cmp()").raise()
+  __cmp__: (otherSet) ->
+    raise new TypeError("cannot compare sets using cmp()")
 
-  __contains__: (other) ->
-    return @value.__contains__(other)
+  __contains__: (item) ->
+    return @value.__contains__(item)
 
   # Checks to see if this is equivalent to set
-  __eq__: (set) ->
-    for item in set.value.keys()
-      if not @__contains__(item)
-        return false
-    for item in @value.keys()
-      if not set.__contains__(item)
-        return false
-    return true
+  __eq__: (otherSet) ->
+    xorSet = @__xor__(otherSet)
+    return len(xorSet).__eq__(new Int(0))
 
   # Checks to see if this is a superset of set
-  __ge__: (set) ->
-    for item in set.value.keys()
-      if not @__contains__(item)
-        return false
-    return true
+  __ge__: (otherSet) ->
+    for item in otherSet.value.keys().value
+      if not @__contains__(item).value
+        return new Bool(false)
+    return new Bool(true)
   
   # **Unimplemented**
   __getattribute__: ->
 
   # Checks to see if this is a proper superset of set
-  __gt__: (set) ->
-    if @__eq__(set)
-      return false
-    for item in set.value.keys()
-      if not @__contains__(item)
-        return false
-    return true
+  __gt__: (otherSet) ->
+    if @__eq__(otherSet).value
+      return new Bool(false)
+    return @__ge__(otherSet)
   
   # **Unimplemented**
   __init__: ->
@@ -53,28 +45,25 @@ class Set extends Iterable
     return new SetIterator(@)
 
   # Checks to see if this is a subset of set
-  __le__: (set) ->
-    for item in @value.keys()
-      if not set.__contains__(item)
-        return false
-    return true
+  __le__: (otherSet) ->
+    for item in @value.keys().value
+      if not otherSet.__contains__(item).value
+        return new Bool(false)
+    return new Bool(true)
 
   # Gets the len of this set
   __len__: ->
     return @value.__len__()
 
   # Checks to see if this is a proper subset of set, meaning this is a subset and not equal to set
-  __lt__: (set) ->
-    if @__eq__(set)
-      return false
-    for item in @value.keys()
-      if not set.__contains__(item)
-        return false
-    return true
+  __lt__: (otherSet) ->
+    if @__eq__(otherSet).value
+      return new Bool(false)
+    return @__le__(otherSet)
 
   # Checks to see if this is not equivalent to set
   __ne__: (set) ->
-    return not @__eq__(set)
+    return new Bool(not @__eq__(set).value)
 
   # Returns a new Set containing items from this or set
   __or__: (set) ->
@@ -112,7 +101,7 @@ class Set extends Iterable
   __sub__: (set) ->
     difference = @copy()
     for item in set.value.keys()
-      if @__contains__(item)
+      if @__contains__(item).value
         difference.value.pop(item)
     return difference
 
@@ -125,7 +114,7 @@ class Set extends Iterable
   
   # http://docs.python.org/library/stdtypes.html#set.add
   add: (element) ->
-    @value.__setitem__(element, true)
+    @value.__setitem__(element, new Bool(true))
     return
     
   # http://docs.python.org/library/stdtypes.html#set.clear
@@ -152,7 +141,7 @@ class Set extends Iterable
 
   # http://docs.python.org/library/stdtypes.html#set.discard
   discard: (elem) ->
-    if @value.__contains__(elem)
+    if @__contains__(elem).value
       @value.pop(elem)
     return
 
@@ -183,8 +172,8 @@ class Set extends Iterable
 
   # http://docs.python.org/library/stdtypes.html#set.pop
   pop: ->
-    if @value.__len__ == 0
-      (new KeyError "pop from an empty set").raise()
+    if len(@).value == 0
+      raise new KeyError("pop from an empty set")
     else
       randomItem = @value.popitem() # dict.popitem() pops a random item
       randomKey = randomItem.__getitem__(0)
@@ -193,7 +182,7 @@ class Set extends Iterable
   # http://docs.python.org/library/stdtypes.html#set.remove
   remove: (elem) ->
     if elem not in @value.value
-      (new KeyError "#{elem}").raise()
+      raise new KeyError("#{elem}")
     else
       @value.pop(elem)
     return
