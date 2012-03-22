@@ -10,6 +10,17 @@ cmp = (operand1, operand2) ->
 float = (operand) ->
   new Num(window.Number(operand.value))
   
+# [Python](http://docs.python.org/library/functions.html#hash)
+hash = (operand) ->
+  if operand.__hash__?
+      return operand.__hash__()
+  else
+    raise new TypeError("unhashable type: '#{operand.__class__.__name__}'")
+  ###
+    TODO: Implement __hash__() for all hashable types
+          Build global table mapping __hash__ integers to their objects
+  ###
+
 # [Python](http://docs.python.org/library/functions.html#issubclass)
 #
 # **To-do**

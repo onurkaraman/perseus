@@ -4,22 +4,16 @@ class Dict extends Mapping
     @value = {}
     if iterable?
       for key, value of iterable # TODO: Coffeescript uses in when using array, of when using object
-        if not key.__hash__?
-            raise new TypeError("unhashable type: '{#key.__class__.__name__}'")
         @__setitem__(key, value)
 
   # Checks if the key exists in this
   __contains__: (key) ->
-    return new Bool(key.__hash__().value of @value)
+    return new Bool(hash(key).value of @value)
 
   # Removes the key,value pair from this
   __delitem__: (key) ->
-    delete @value[key.__hash__().value]
+    delete @value[hash(key).value]
     return
-    ###
-      TODO: Implement __hash__() for all hashable types
-            Build global table mapping __hash__ integers to their objects
-    ###
 
   # http://docs.python.org/release/2.3.5/ref/comparisons.html
   __eq__: (otherDict) ->
@@ -43,7 +37,7 @@ class Dict extends Mapping
   # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
     if @__contains__(key).value
-      return @value[key.__hash__().value]
+      return @value[hash(key).value]
     else
       raise new KeyError("#{key.__str__().value}")
 
@@ -89,7 +83,7 @@ class Dict extends Mapping
 
   # Sets a value to the key in this: like `x[key] = value`
   __setitem__: (key, value) ->
-    @value[key.__hash__().value] = value
+    @value[hash(key).value] = value
     return
   
   #** Unimplemented **
