@@ -13,7 +13,7 @@ float = (operand) ->
 # [Python](http://docs.python.org/library/functions.html#hash)
 hash = (operand) ->
   if operand.__hash__?
-      return operand.__hash__()
+    operand.__hash__()
   else
     raise new TypeError("unhashable type: '#{operand.__class__.__name__}'")
   ###

@@ -39,7 +39,7 @@ class Dict extends Mapping
     if @__contains__(key).value
       return @value[hash(key).value]
     else
-      raise new KeyError("#{key.__str__().value}")
+      raise new KeyError("#{str(key).value}")
 
   __gt__: (otherDict) ->
     return new Bool(not @__le__(otherDict).value)
@@ -58,8 +58,8 @@ class Dict extends Mapping
 
   # First checks length of dictionary, then compares sorted keys and their associated values
   __lt__: (otherDict) ->
-    length = @__len__()
-    otherLength = otherDict.__len__()
+    length = len(@)
+    otherLength = len(otherDict)
     if length.__ne__(otherLength).value
       return length.__lt__(otherLength)
     else
@@ -153,11 +153,11 @@ class Dict extends Mapping
     else if d?
       return d
     else
-      raise new KeyError("#{key.__str__().value}")
+      raise new KeyError("#{str(key).value}")
 
   # http://docs.python.org/library/stdtypes.html#dict.popitem
   popitem: ->
-    if @__len__().value == 0
+    if len(@).value == 0
       raise new KeyError("popitem(): dictionary is empty")
     keys = @keys()
     randomKey = keys.__getitem__(new Int(0))
