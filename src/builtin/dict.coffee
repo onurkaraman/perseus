@@ -4,44 +4,51 @@ class Dict extends Mapping
     @value = {}
     if iterable?
       for key, value of iterable # TODO: Coffeescript uses in when using array, of when using object
-        @value[key] = value
+        if not key.__hash__?
+            raise new TypeError("unhashable type: '{#key.__class__.__name__}'")
+        @__setitem__(key, value)
 
   # Checks if the key exists in this
   __contains__: (key) ->
-    return new Bool key of @value
+    return new Bool(key of @value)
 
   # Removes the key,value pair from this
   __delitem__: (key) ->
-    delete @value[key]
+    delete @value[key.__hash__()]
     return
+    ###
+      TODO: Implement __hash__() for all hashable types
+            Build global table mapping __hash__ integers to their objects
+    ###
 
   # http://docs.python.org/release/2.3.5/ref/comparisons.html
-  __eq__: (dict) ->
-    keys = Object.keys(@value)
-    otherKeys = Object.keys(dict.value)
-    set = new Set(keys)
-    otherSet = new Set(otherKeys)
-    if set.__ne__(otherSet) #if keys are different, not equal
-      return new Bool false
-    for key in keys
+  __eq__: (otherDict) ->
+    keys = @keys()
+    otherKeys = otherDict.keys()
+    if keys.__ne__(otherKeys).value #if keys are different, not equal
+      return new Bool(false)
+    for key in keys.value
       val = @__getitem__(key)
-      otherVal = dict.__getitem__(key)
-      if val != otherVal #if values differ, not equal. Unsure if this should be __ne__
-        return new Bool false
-    return new Bool true
+      otherVal = otherDict.__getitem__(key)
+      if val.__ne__(otherVal).value
+        return new Bool(false)
+    return new Bool(true)
     
-  __ge__: (dict) ->
-    return new Bool @__gt__(dict) or @__eq__(dict)
+  __ge__: (otherDict) ->
+    return new Bool(@__gt__(otherDict).value or @__eq__(otherDict).value)
 
   # **Unimplemented**
   __getattribute__: (attr) ->
 
   # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
-    return @value[key]
+    if @__contains__(key)
+      return @value[key.__hash__()]
+    else
+      raise new KeyError("#{key}")
 
-  __gt__: (dict) ->
-    return new Bool not @__le__(dict)
+  __gt__: (otherDict) ->
+    return new Bool(not @__le__(otherDict).value)
 
   # **Unimplemented**
   __init__: ->
@@ -49,39 +56,40 @@ class Dict extends Mapping
   __iter__: ->
     return new DictionaryKeyIterator(@)
 
-  __le__: (dict) ->
-    return new Bool @__lt__(dict) or @__eq__(dict)
+  __le__: (otherDict) ->
+    return new Bool(@__lt__(otherDict).value or @__eq__(otherDict).value)
 
   __len__: ->
-    return new Int Object.keys(Object(@value)).length
+    return @keys().__len__()
 
   # First checks length of dictionary, then compares sorted keys and their associated values
-  __lt__: (dict) ->
-    if @__len__().value < dict.__len__().value
-      return new Bool true
-    else if @__len__().value > dict.__len__().value
-      return new Bool false
+  __lt__: (otherDict) ->
+    length = @__len__()
+    otherLength = otherDict.__len__()
+    if length.__ne__(otherLength).value
+      return length.__lt__(otherLength)
     else
       keys = Object.keys(@value).sort()
       otherKeys = Object.keys(dict.value).sort()
       for key,i in keys
-        if key >= otherKeys[i]
-          return new Bool false
-        val = @__getitem__ key
-        otherVal = @__getitem__ otherKeys[i]
-        if val >= otherVal
-          return new Bool false
-      return new Bool true
+        otherKey = otherKeys.__getitem__(i)
+        if key.__ge__(otherKey).value
+          return new Bool(false)
+        val = @__getitem__(key)
+        otherVal = @__getitem__(otherKey)
+        if val.__ge__(otherVal).value
+          return new Bool(false)
+      return new Bool(true)
 
-  __ne__: (dict) ->
-    return new Bool not @__eq__ dict
+  __ne__: (otherDict) ->
+    return new Bool(not @__eq__(otherDict).value)
 
   # **Unimplemented**
   __repr__: ->
 
   # Sets a value to the key in this: like `x[key] = value`
   __setitem__: (key, value) ->
-    @value[key] = value
+    @value[key.__hash__()] = value
     return
   
   #** Unimplemented **
@@ -102,22 +110,22 @@ class Dict extends Mapping
 
   # http://docs.python.org/library/stdtypes.html#dict.get
   get: (key, d) ->
-    if key of @value
+    if @__contains__(key).value
       return @__getitem__(key)
     else
       return d
 
   # http://docs.python.org/library/stdtypes.html#dict.has_key
   has_key: (key) ->
-    return new Bool key of @value
+    return @__contains__(key)
 
   # http://docs.python.org/library/stdtypes.html#dict.items
   items: ->
     items = new List()
     for key of @value
-      val = @__getitem__ key
-      tuple = new Tuple [key, val]
-      items.append tuple
+      val = @__getitem__(key)
+      tuple = new Tuple([key, val])
+      items.append(tuple)
     return items
 
   # http://docs.python.org/library/stdtypes.html#dict.iteritems
@@ -134,35 +142,35 @@ class Dict extends Mapping
 
   # http://docs.python.org/library/stdtypes.html#dict.keys
   keys: ->
-    keys = new List Object.keys(@value)
+    keys = new List(Object.keys(@value))
     return keys
 
   # http://docs.python.org/library/stdtypes.html#dict.pop
   pop: (key, d) ->
     keys = @keys()
-    if keys.__contains__(key)
-      val = @value[key]
-      delete @value[key]
+    if keys.__contains__(key).value
+      val = @__getitem__(key)
+      @__delitem__(key)
       return val
     else if d?
       return d
     else
-      raise new KeyError "#{key}"
+      raise new KeyError("#{key}")
 
   # http://docs.python.org/library/stdtypes.html#dict.popitem
   popitem: ->
     if @__len__().value == 0
-      raise new KeyError "popitem(): dictionary is empty"
+      raise new KeyError("popitem(): dictionary is empty")
     keys = @keys()
-    randomKey = keys.__getitem__ 0
-    randomValue = @__getitem__ randomKey
-    return new Tuple [randomKey, randomValue]
+    randomKey = keys.__getitem__(new Int(0))
+    randomValue = @__getitem__(randomKey)
+    return new Tuple([randomKey, randomValue])
 
   # http://docs.python.org/library/stdtypes.html#dict.setdefault
   setdefault: (key, d) ->
-    if key not in @keys().value
-      @__setitem__ key, d
-    return @value[key]
+    if not @__contains__(key).value
+      @__setitem__(key, d)
+    return @__getitem__(key)
 
   # **Unimplemented**
   # http://docs.python.org/library/stdtypes.html#dict.update
