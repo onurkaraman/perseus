@@ -10,11 +10,11 @@ class Dict extends Mapping
 
   # Checks if the key exists in this
   __contains__: (key) ->
-    return new Bool(key of @value)
+    return new Bool(key.__hash__().value of @value)
 
   # Removes the key,value pair from this
   __delitem__: (key) ->
-    delete @value[key.__hash__()]
+    delete @value[key.__hash__().value]
     return
     ###
       TODO: Implement __hash__() for all hashable types
@@ -43,7 +43,7 @@ class Dict extends Mapping
   # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
     if @__contains__(key)
-      return @value[key.__hash__()]
+      return @value[key.__hash__().value]
     else
       raise new KeyError("#{key}")
 
@@ -89,7 +89,7 @@ class Dict extends Mapping
 
   # Sets a value to the key in this: like `x[key] = value`
   __setitem__: (key, value) ->
-    @value[key.__hash__()] = value
+    @value[key.__hash__().value] = value
     return
   
   #** Unimplemented **
