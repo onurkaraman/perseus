@@ -64,7 +64,7 @@ class Dict extends Mapping
       return length.__lt__(otherLength)
     else
       keys = Object.keys(@value).sort()
-      otherKeys = Object.keys(dict.value).sort()
+      otherKeys = Object.keys(otherDict.value).sort()
       for key,i in keys
         otherKey = otherKeys.__getitem__(i)
         if key.__ge__(otherKey).value
