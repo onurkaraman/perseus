@@ -142,6 +142,10 @@ class Dict extends Mapping
 
   # http://docs.python.org/library/stdtypes.html#dict.keys
   keys: ->
+    ###
+      TODO: Perform lookup on global hash-to-object-mapping table
+        to get actual key objects instead of just their hashes
+    ###
     keys = new List(Object.keys(@value))
     return keys
 
