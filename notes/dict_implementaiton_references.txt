@@ -1,0 +1,3 @@
+http://www.shutupandship.com/2012/02/how-hash-collisions-are-resolved-in.html
+http://hg.python.org/cpython/file/52f68c95e025/Include/dictobject.h
+http://hg.python.org/cpython/file/52f68c95e025/Objects/dictobject.c
