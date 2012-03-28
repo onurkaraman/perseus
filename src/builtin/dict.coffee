@@ -1,19 +1,31 @@
 # http://docs.python.org/library/stdtypes.html#dict
 class Dict extends Mapping
   constructor: (iterable) ->
-    @value = {}
+    @value = {} # map from integer hashes to collision list
     if iterable?
       for key, value of iterable # TODO: Coffeescript uses in when using array, of when using object
         @__setitem__(key, value)
 
   # Checks if the key exists in this
   __contains__: (key) ->
-    return new Bool(hash(key).value of @value)
+    keyHash = hash(key).value
+    if @value[keyHash]?
+      collisionList = @value[keyHash]
+      for entry in collisionList
+        if key.__eq__(entry.key).value
+          return new Bool(true)
+    return new Bool(false)
 
   # Removes the key,value pair from this
   __delitem__: (key) ->
-    delete @value[hash(key).value]
-    return
+    if @__contains__(key).value
+      keyHash = hash(key).value
+      collisionList = @value[keyHash]
+      for entry, index in collisionList
+        if key.__eq__(entry.key).value
+            collisionList.splice(index, 1)
+            return
+    raise new KeyError("#{str(key).value}")
 
   # http://docs.python.org/release/2.3.5/ref/comparisons.html
   __eq__: (otherDict) ->
@@ -37,7 +49,11 @@ class Dict extends Mapping
   # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
     if @__contains__(key).value
-      return @value[hash(key).value]
+      keyHash = hash(key).value
+      collisionList = @value[keyHash]
+      for entry in collisionList
+        if key.__eq__(entry.key).value
+          return entry.value
     else
       raise new KeyError("#{str(key).value}")
 
@@ -63,8 +79,10 @@ class Dict extends Mapping
     if length.__ne__(otherLength).value
       return length.__lt__(otherLength)
     else
-      keys = Object.keys(@value).sort()
-      otherKeys = Object.keys(otherDict.value).sort()
+      # keys = Object.keys(@value).sort()
+      # otherKeys = Object.keys(otherDict.value).sort()
+      keys = @keys().value.sort()
+      otherKeys = otherDict.keys().value.sort()
       for key,i in keys
         otherKey = otherKeys.__getitem__(i)
         if key.__ge__(otherKey).value
@@ -83,7 +101,19 @@ class Dict extends Mapping
 
   # Sets a value to the key in this: like `x[key] = value`
   __setitem__: (key, value) ->
-    @value[hash(key).value] = value
+    keyHash = hash(key).value
+    entryObject = {key: key, value: value}
+    if @__contains__(key).value
+      collisionList = @value[keyHash]
+      for entry in collisionList
+        if key.__eq__(entry.key).value
+          entry.value = value
+          return
+    if @value[keyHash]?
+      # unshift prepends entryObject. Curious to see if we get temporal locality benefits during lookup
+      @value[keyHash].unshift(entryObject)
+    else
+      @value[keyHash] = [entryObject]
     return
   
   #** Unimplemented **
@@ -116,7 +146,7 @@ class Dict extends Mapping
   # http://docs.python.org/library/stdtypes.html#dict.items
   items: ->
     items = new List()
-    for key of @value
+    for key in @keys().value
       val = @__getitem__(key)
       tuple = new Tuple([key, val])
       items.append(tuple)
@@ -136,11 +166,10 @@ class Dict extends Mapping
 
   # http://docs.python.org/library/stdtypes.html#dict.keys
   keys: ->
-    ###
-      TODO: Perform lookup on global hash-to-object-mapping table
-        to get actual key objects instead of just their hashes
-    ###
-    keys = new List(Object.keys(@value))
+    keys = new List()
+    for keyHash, collisionList of @value
+      for entry in collisionList
+        keys.append(entry.key)
     return keys
 
   # http://docs.python.org/library/stdtypes.html#dict.pop
