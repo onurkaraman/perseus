@@ -15,10 +15,9 @@ hash = (operand) ->
   if operand.__hash__?
     operand.__hash__()
   else
-    raise new TypeError("unhashable type: '#{operand.__class__.__name__}'")
+    raise new TypeError("unhashable type: '#{operand.__class__().__name__()}'") #TODO: change __class__ and __name__ to be attributes, not functions
   ###
     TODO: Implement __hash__() for all hashable types
-          Build global table mapping __hash__ integers to their objects
   ###
 
 # [Python](http://docs.python.org/library/functions.html#issubclass)
@@ -46,6 +45,18 @@ issubclass = (classArg, classinfo) ->
 # [Python](http://docs.python.org/library/functions.html#len)
 len = (operand) ->
   operand.__len__()
+
+# [Python](http://docs.python.org/library/functions.html#ord)
+# TODO: Handle unicode
+ord = (operand) ->
+  # if issubclass(operand, String)
+  if type(operand) == type(new Str())
+    if len(operand).value is 1
+      new Int(operand.value.charCodeAt(0))
+    else
+      raise TypeError("ord() expected a character, but string of length #{len(operand).value} found")
+  else
+    raise TypeError("ord() expected string of length 1, but #{operand.__class__().__name__()} found")
 
 # [Python](http://docs.python.org/library/functions.html#pow)
 pow = (operand1, operand2) ->

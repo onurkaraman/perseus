@@ -19,6 +19,20 @@ class Str extends Sequence
     else
       super operand
 
+  # Implementation found at http://effbot.org/zone/python-hash.htm
+  # TODO: Hash value returned still differs from Python string's hash.
+  __hash__: ->
+    if len(@).value is 0
+      return new Int(0)
+    firstChar = new Str(@value[0])
+    val = ord(firstChar).value << 7
+    for char in @value
+      val = ((1000003 * val) & 0xFFFFFFFF) ^ ord(new Str(char)).value
+    val = val ^ len(@).value
+    if val is -1
+      return new Int(-2)
+    return new Int(val)
+
   # http://docs.python.org/library/stdtypes.html#str.capitalize  
   capitalize: ->
     if @__len__().value is 0
