@@ -2,7 +2,7 @@
 # listreverseiterator type.
 class ListReverseIterator extends Iterator
   constructor: (list) ->
-    @iterable = list.copy()
+    @iterable = list
     @index = len(list).value - 1
 
   # http://docs.python.org/library/stdtypes.html#iterator.next
@@ -10,4 +10,4 @@ class ListReverseIterator extends Iterator
     if @index < 0
       raise new StopIteration "StopIteration"
     else
-      return @iterable.__getitem__(@index--)
+      return @iterable.__getitem__(new Int(@index--))

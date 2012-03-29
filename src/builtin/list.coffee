@@ -5,6 +5,16 @@ class List extends Sequence
     else
       @value = []
   
+  __getitem__: (index) ->
+    exceededNegativeRange = index.__abs__().__gt__(len(@)).value
+    exceededPositiveRange = index.__ge__(len(@)).value
+    if exceededNegativeRange or exceededPositiveRange
+      raise new IndexError "list index out of range"
+    if index.value > -1
+      @value[index.value]
+    else
+      @value[len(@).value + index.value]
+
   append: (element) ->
     @value.push element
     return
