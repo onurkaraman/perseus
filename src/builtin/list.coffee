@@ -85,6 +85,12 @@ class List extends Sequence
   __ne__: (otherList) ->
     return new Bool(not @__eq__(otherList).value)
 
+  # **Unimplemented**
+  __repr__: ->
+
+  __reversed__: ->
+    return new ListReverseIterator(@)
+
   append: (element) ->
     @value.push element
     return
