@@ -15,7 +15,7 @@ doc:
 	docco src/node/*.py src/builtin/*.coffee 
 
 subset:
-	coffee -cpbj $(BASE) $(BUILTIN)/number.coffee $(BUILTIN)/float.coffee $(BUILTIN)/integer.coffee $(BUILTIN)/bool.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/string.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dictionary-valueiterator.coffee $(BUILTIN)/dict.coffee > $(PERSEUS)
+	coffee -cpbj $(BASE) $(BUILTIN)/number.coffee $(BUILTIN)/float.coffee $(BUILTIN)/integer.coffee $(BUILTIN)/bool.coffee $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/string.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/listiterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dictionary-valueiterator.coffee $(BUILTIN)/dict.coffee > $(PERSEUS)
 
 setset:
 	coffee -cpbj $(BASE) $(BUILTIN)/iterable.coffee $(BUILTIN)/sequence.coffee $(BUILTIN)/list.coffee $(BUILTIN)/mapping.coffee $(BUILTIN)/set.coffee $(BUILTIN)/iterator.coffee $(BUILTIN)/dictionary-keyiterator.coffee $(BUILTIN)/dictionary-valueiterator.coffee $(BUILTIN)/dict.coffee > $(PERSEUS)

@@ -50,18 +50,37 @@ class List extends Sequence
   # **Unimplemented**
   __getslice__: (leftIndex, rightIndex) ->
 
-  # http://www.linuxtopia.org/online_books/programming_books/python_programming/python_ch14s04.html
+  # REFERENCE: list_richcompare in http://hg.python.org/cpython/file/387dcd8d7dec/Objects/listobject.c
   __gt__: (otherList) ->
     minLength = Math.min(len(@).value, len(otherList).value)
     for index in [0...minLength]
       element = @__getitem__(new Int(index))
       otherElement = otherList.__getitem__(new Int(index))
-      if (type(element) != type(otherElement))
+      if (type(element) != type(otherElement)) #should really be issubclass(broken)
         nameIsGreater = element.__class__().__name__() > otherElement.__class__().__name__() # if types don't match, compare type names
         return new Bool(nameIsGreater)
       else if element.__ne__(otherElement).value
         return element.__gt__(otherElement)
     return len(@).__gt__(len(otherList))
+
+  __le__: (otherList) ->
+    return new Bool(not @__gt__(otherList).value)
+
+  # REFERENCE: list_richcompare in http://hg.python.org/cpython/file/387dcd8d7dec/Objects/listobject.c
+  __lt__: (otherList) ->
+    minLength = Math.min(len(@).value, len(otherList).value)
+    for index in [0...minLength]
+      element = @__getitem__(new Int(index))
+      otherElement = otherList.__getitem__(new Int(index))
+      if (type(element) != type(otherElement)) #should really be issubclass(broken)
+        nameIsLess = element.__class__().__name__() < otherElement.__class__().__name__() # if types don't match, compare type names
+        return new Bool(nameIsLess)
+      else if element.__ne__(otherElement).value
+        return element.__lt__(otherElement)
+    return len(@).__lt__(len(otherList))
+
+  __iter__: ->
+    return new ListIterator(@)
 
   __ne__: (otherList) ->
     return new Bool(not @__eq__(otherList).value)
