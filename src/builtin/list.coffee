@@ -91,6 +91,23 @@ class List extends Sequence
   __reversed__: ->
     return new ListReverseIterator(@)
 
+  __setitem__: (index, element) ->
+    exceededNegativeRange = index.__abs__().__gt__(len(@)).value
+    exceededPositiveRange = index.__ge__(len(@)).value
+    if exceededNegativeRange or exceededPositiveRange
+      raise new IndexError "list assignment index out of range"
+    if index.value > -1
+      @value[index.value] = element
+    else
+      @value[len(@).value + index.value] = element
+    return
+
+  # **Unimplemented**
+  __setslice__: (leftIndex, rightIndex) ->
+
+  # **Unimplemented**
+  __sizeof__: ->
+
   append: (element) ->
     @value.push element
     return
