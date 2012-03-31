@@ -59,9 +59,9 @@ class List extends Sequence
       if (type(element) != type(otherElement))
         nameIsGreater = element.__class__().__name__() > otherElement.__class__().__name__() # if types don't match, compare type names
         return new Bool(nameIsGreater)
-      else if element.__le__(otherElement).value
-        return new Bool(false)
-    return new Bool(true)
+      else if element.__ne__(otherElement).value
+        return element.__gt__(otherElement)
+    return len(@).__gt__(len(otherList))
 
   __ne__: (otherList) ->
     return new Bool(not @__eq__(otherList).value)
@@ -92,7 +92,7 @@ class List extends Sequence
       removed
     
   sort: ->
-    @value = 
+    @value =
       @value
       .sort (a, b) ->
         if a.__lt__ b
