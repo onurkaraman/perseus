@@ -43,8 +43,11 @@ class Dict extends Mapping
   __ge__: (otherDict) ->
     return new Bool(@__gt__(otherDict).value or @__eq__(otherDict).value)
 
-  # **Unimplemented**
   __getattribute__: (attr) ->
+    if @__proto__[attr.value]?
+      return @__proto__[attr.value]
+    else
+      raise new AttributeError("'dict' object has no attribute '#{str(attr).value}'")
 
   # Gets the item from this: like `x[key]`
   __getitem__: (key) ->
