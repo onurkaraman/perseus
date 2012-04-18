@@ -16,10 +16,4 @@ class ExtSlice(Base):
     
 class Index(Base):
     def compile(self):
-        sequence = self.parent.value
-        index = int(self.value.compile())
-        if index < 0:
-            negativeIndex = "%s.length + %s" % (sequence, index)
-            return '%s[%s]' % (sequence, negativeIndex)
-        else:
-            return '%s[%s]' % (sequence, index)
+        return '__getitem__(%s)' % self.value

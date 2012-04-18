@@ -7,13 +7,14 @@ import subprocess
 
 TEST_PATH = './tests/'
 
-def outputResults(testFileName, pythonOutput, jsOutput):
+def outputResults(testFileName, pythonOutput, jsInput, jsOutput):
 	if pythonOutput == jsOutput:
 		print 'PASS: %s' % testFileName
 	else:
 		formattedPyOutput = '\n\t\t'.join(pythonOutput.splitlines())
 		formattedJsOutput = '\n\t\t'.join(jsOutput.splitlines())
 		print 'FAIL: %s\n\tExpected:\n\t\t%s\n\tActual:\n\t\t%s' % (testFileName, formattedPyOutput, formattedJsOutput)
+        print 'SOURCE: \n%s\n' % jsInput
 
 def runTest(pyTestFileName):
 	pyTestFilePath = TEST_PATH + pyTestFileName
@@ -28,9 +29,9 @@ def runTest(pyTestFileName):
 		jsTestFile.close()
 
 		jsOutput = subprocess.check_output(['node', jsTestFileName])
-		outputResults(pyTestFileName, pythonOutput, jsOutput)
+		outputResults(pyTestFileName, pythonOutput, jsTest, jsOutput)
 	except Exception as exception:
-		outputResults(pyTestFileName, pythonOutput, str(exception))
+		outputResults(pyTestFileName, pythonOutput, jsTest, str(exception))
 	finally:
 		if os.path.exists(jsTestFileName):
 			os.remove(jsTestFileName)

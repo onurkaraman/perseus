@@ -37,16 +37,6 @@ class List extends Sequence
   __ge__: (otherList) ->
     return new Bool(not @__lt__(otherList).value)
 
-  __getitem__: (index) ->
-    exceededNegativeRange = index.__abs__().__gt__(len(@)).value
-    exceededPositiveRange = index.__ge__(len(@)).value
-    if exceededNegativeRange or exceededPositiveRange
-      raise new IndexError "list index out of range"
-    if index.value > -1
-      @value[index.value]
-    else
-      @value[len(@).value + index.value]
-
   # **Unimplemented**
   __getslice__: (leftIndex, rightIndex) ->
 

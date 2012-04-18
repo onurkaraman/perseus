@@ -8,6 +8,16 @@ class Sequence extends Primitive
   # **To-do** Implement the Bool class
   __contains__: (operand)->
     new Bool operand.value in @value
+
+  __getitem__: (index) ->
+    exceededNegativeRange = index.__abs__().__gt__(len(@)).value
+    exceededPositiveRange = index.__ge__(len(@)).value
+    if exceededNegativeRange or exceededPositiveRange
+      raise new IndexError @__class__().__name__() + " index out of range"
+    if index.value > -1
+      @value[index.value]
+    else
+      @value[len(@).value + index.value]
     
   __len__: ->
     new Int @value.length

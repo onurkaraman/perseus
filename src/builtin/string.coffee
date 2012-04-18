@@ -19,6 +19,9 @@ class Str extends Sequence
     else
       super operand
 
+  __getitem__: (index) ->
+    new Str(super index)
+
   # Implementation found at http://effbot.org/zone/python-hash.htm
   # TODO: Hash value returned still differs from Python string's hash.
   __hash__: ->
