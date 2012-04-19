@@ -1,7 +1,10 @@
 class List extends Sequence
   constructor: (elements) ->
     if elements?
-      @value = elements
+      if (type elements) is List
+        @value = elements.__getslice__(new Int(0), len(elements)).value
+      else
+        @value = elements
     else
       @value = []
   
@@ -37,8 +40,16 @@ class List extends Sequence
   __ge__: (otherList) ->
     return new Bool(not @__lt__(otherList).value)
 
-  # **Unimplemented**
   __getslice__: (leftIndex, rightIndex) ->
+    if leftIndex.value < 0
+      leftIndex = new Int(0)
+    else if leftIndex.value > len(@).value
+      leftIndex = len(@)
+    if rightIndex.value < leftIndex.value
+      rightIndex = leftIndex
+    else if rightIndex.value > len(@).value
+      rightIndex = len(@)
+    return new List(@value.slice(leftIndex.value, rightIndex.value))
 
   # REFERENCE: list_richcompare in http://hg.python.org/cpython/file/387dcd8d7dec/Objects/listobject.c
   __gt__: (otherList) ->
