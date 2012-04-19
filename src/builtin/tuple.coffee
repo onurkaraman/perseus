@@ -1,10 +1,11 @@
 class Tuple extends Sequence
-  constructor: (elements...) ->
+  constructor: (elements) ->
     @value = new List(elements)
 
   __add__: (otherTuple) ->
     otherList = new List(otherTuple.value)
-    concatList = (new List(@value)).extend(otherList)
+    concatList = new List(@value)
+    concatList.extend(otherList)
     return new Tuple(concatList)
 
   __contains__: (operand) ->
