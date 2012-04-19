@@ -58,7 +58,7 @@ class Tuple extends Sequence
   __mul__: (scalar) ->
     result = new Tuple()
     for i in [1..scalar.value]
-      result.__add__(@)
+      result = result.__add__(@)
     return result
 
   __ne__: (otherTuple) ->
